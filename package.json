@@ -9,7 +9,8 @@
   "dependencies": {
     "@nutui/nutui": "^2.3.6",
     "axios": "^0.23.0",
-    "vue": "^3.2.16"
+    "vue": "^3.2.16",
+    "vue-router": "^4.0.12"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^1.9.3",
