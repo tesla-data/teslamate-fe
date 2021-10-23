@@ -7,6 +7,8 @@
     "serve": "vite preview"
   },
   "dependencies": {
+    "@nutui/nutui": "^2.3.6",
+    "axios": "^0.23.0",
     "vue": "^3.2.16"
   },
   "devDependencies": {
