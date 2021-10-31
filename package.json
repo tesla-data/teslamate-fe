@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build && cp src/CNAME dist/",
     "serve": "vite preview",
     "predeploy": "npm run build",
     "deploy": "gh-pages -f -d dist"
