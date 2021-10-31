@@ -9,7 +9,7 @@
     <battery style="margin-right: 8px;" :percent="state.battery_level" />
     <div>
       <span>{{state.battery_level}}%</span>
-      <span v-if="state.battery_level - state.usable_battery_level > 0">(❄️{{state.battery_level - state.usable_battery_level}}%)</span>
+      <span v-if="state.battery_level - state.usable_battery_level > 0">(<span style="font-size: 15px;">❄️</span>{{state.battery_level - state.usable_battery_level}}%)</span>
       <span style="margin-left: 10px;">{{km(state.ideal_battery_range_km)}}|{{km(state.ideal_battery_range_km * 100 / state.usable_battery_level)}}</span>
     </div>
   </div>
