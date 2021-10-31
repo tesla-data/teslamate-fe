@@ -1,10 +1,13 @@
 <template>
 <div v-if="currentVehicle" class="vehice-state">
   <h4>{{currentVehicle.name}}</h4>
-  <div v-if="state">
-    <span>{{state.battery_level}}%</span>
-    <span v-if="state.battery_level - state.usable_battery_level > 0">({{state.battery_level - state.usable_battery_level}}%)</span>
-    <span style="margin-left: 10px;">{{km(state.ideal_battery_range_km)}}|{{km(state.ideal_battery_range_km * 100 / state.usable_battery_level)}}</span>
+  <div v-if="state" style="display: flex; align-items: center;">
+    <battery style="margin-right: 8px;" :percent="state.battery_level" />
+    <div>
+      <span>{{state.battery_level}}%</span>
+      <span v-if="state.battery_level - state.usable_battery_level > 0">(❄️{{state.battery_level - state.usable_battery_level}}%)</span>
+      <span style="margin-left: 10px;">{{km(state.ideal_battery_range_km)}}|{{km(state.ideal_battery_range_km * 100 / state.usable_battery_level)}}</span>
+    </div>
   </div>
 </div>
 <cell-group v-if="currentVehicle">
@@ -23,6 +26,7 @@
 import { ref, watch } from 'vue'
 import { Cell, CellGroup } from '@nutui/nutui'
 
+import Battery from '../components/Battery.vue'
 import vehicle from '../api/vehicles'
 import { currentVehicle } from '../api/vehicles'
 import { km } from '../filters'
@@ -37,6 +41,10 @@ watch(currentVehicle, async ({ id: carId }) => {
 </script>
 
 <style lang="scss">
+h4 {
+  margin: 0;
+}
+
 .home-footer {
   text-align: center;
 
