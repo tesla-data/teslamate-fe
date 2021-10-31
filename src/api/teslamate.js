@@ -7,6 +7,11 @@ export const urlBase = ref(localStorage.getItem(urlBaseKey) || '')
 const apikeyKey = 'teslamate_apikey'
 export const apikey = ref(localStorage.getItem(apikeyKey) || '')
 
+export function updateSettings() {
+  localStorage.setItem(urlBaseKey, urlBase.value)
+  localStorage.setItem(apikeyKey, apikey.value)
+}
+
 async function query(queries) {
   const url = urlBase.value + '/api/tsdb/query'
   const payload = { queries: queries.map(({ refId, rawSql }) => ({ refId, datasourceId: 1, rawSql, format: 'table' })) }

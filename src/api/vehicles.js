@@ -3,6 +3,7 @@ import teslamate from './teslamate'
 
 export const vehicles = ref([])
 export const currentVehicle = ref()
+export const currentVehicleState = ref(null)
 
 teslamate.getVehicles().then(vehicles => {
   if (vehicles.length > 0) {

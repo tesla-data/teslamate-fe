@@ -1,0 +1,19 @@
+<template>
+<navbar @on-click-back="back" title="设置" />
+<cell-group title="TeslaMate设置">
+  <nut-input label="URL" v-model="urlBase" />
+  <nut-input label="ApiKey" v-model="apikey" />
+</cell-group>
+<div style="text-align: center;">
+  <nut-button type="primary" @click="updateSettings">保存</nut-button>
+</div>
+</template>
+
+<script setup>
+import { urlBase, apikey, updateSettings } from '../api/teslamate'
+import { Navbar, CellGroup, Input as NutInput, Button as NutButton } from '@nutui/nutui'
+
+function back() {
+  window.history.back()
+}
+</script>
