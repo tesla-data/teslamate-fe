@@ -117,7 +117,7 @@ export default {
             start_position.usable_battery_level IS NULL OR end_position.usable_battery_level IS NULL	OR
             (end_position.battery_level - end_position.usable_battery_level) = 0 
           ) as is_sufficiently_precise,
-          NULLIF(GREATEST(start_[[preferred_range]]_range_km - end_[[preferred_range]]_range_km, 0), 0) as range_diff,
+          NULLIF(GREATEST(start_ideal_range_km - end_ideal_range_km, 0), 0) as range_diff,
           car.efficiency as car_efficiency,
           outside_temp_avg,
           distance / NULLIF(duration_min, 0) * 60 AS avg_speed,
