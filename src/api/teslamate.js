@@ -161,7 +161,7 @@ export default {
           CASE WHEN is_sufficiently_precise THEN distance / range_diff
                ELSE NULL
           END AS efficiency
-      FROM data;`
+      FROM data LIMIT 50;`
     }])
   }
 }

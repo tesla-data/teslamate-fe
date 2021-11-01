@@ -20,5 +20,5 @@ import { Navbar, CellGroup, Cell } from '@nutui/nutui'
 import api from '../api/vehicles'
 
 const drives = ref()
-api.getDrives().then(res => drives.value.value = res)
+api.getDrives().then(res => drives.value = res)
 </script>
