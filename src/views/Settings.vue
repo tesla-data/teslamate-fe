@@ -1,5 +1,5 @@
 <template>
-<navbar @on-click-back="back" title="设置" />
+<navbar @on-click-back="$router.go(-1)" title="设置" />
 <div class="page" style="margin-top: -40px;">
   <cell-group title="TeslaMate设置">
     <nut-input label="URL" v-model="urlBase" />
@@ -14,8 +14,4 @@
 <script setup>
 import { urlBase, apikey, updateSettings } from '../api/teslamate'
 import { Navbar, CellGroup, Input as NutInput, Button as NutButton } from '@nutui/nutui'
-
-function back() {
-  window.history.back()
-}
 </script>

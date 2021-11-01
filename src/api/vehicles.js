@@ -13,6 +13,10 @@ teslamate.getVehicles().then(vehicles => {
 
 export default {
   async getState() {
-    return await teslamate.getVehicleState(currentVehicle.value.id)
+    return currentVehicle.value && await teslamate.getVehicleState(currentVehicle.value.id)
+  },
+
+  async getStats() {
+    return currentVehicle.value && await teslamate.getVehicleStats(currentVehicle.value.id)
   }
 }

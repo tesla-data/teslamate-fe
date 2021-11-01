@@ -17,8 +17,10 @@
   </div>
   <cell-group v-if="currentVehicle">
     <cell v-if="currentVehicleState" title="温度" :sub-title="currentVehicleState.is_climate_on && `空调设置${currentVehicleState.driver_temp_setting}℃`" :desc="`外部:${currentVehicleState.outside_temp}℃ 内部:${currentVehicleState.inside_temp}℃`" />
-    <cell title="电池与充电" icon="order" is-link />
+    <cell title="续航" icon="find" is-link />
+    <cell title="充电" icon="order" is-link />
     <cell title="行程" icon="footprint" is-link />
+    <cell title="统计" icon="horizontal" to="stats" is-link />
   </cell-group>
   <div v-if="currentVehicle" class="home-footer">
     <p>Model {{currentVehicle.model}} {{currentVehicle.trim_badging}}</p>
@@ -29,7 +31,7 @@
 </template>
 
 <script setup>
-import { ref, watch, onMounted } from 'vue'
+import { watch, onMounted } from 'vue'
 import { RouterLink } from 'vue-router'
 import { Cell, CellGroup } from '@nutui/nutui'
 
@@ -38,12 +40,7 @@ import vehicle from '../api/vehicles'
 import { currentVehicle, currentVehicleState } from '../api/vehicles'
 import { km } from '../filters'
 
-onMounted(async () => {
-  if (currentVehicle.value) {
-    currentVehicleState.value = await vehicle.getState()
-  }
-})
-
+vehicle.getState().then(state => currentVehicleState.value = state)
 watch(currentVehicle, async ({ id: carId }) => {
   if (carId) {
     currentVehicleState.value = await vehicle.getState()
