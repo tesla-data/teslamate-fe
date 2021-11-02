@@ -5,14 +5,24 @@
     <div style="flex-grow: 1;" />
     <router-link to="settings" style="color: #333;"><nut-icon size="18" name="setting" /></router-link>
   </div>
-  <div v-if="currentVehicle" class="vehice-state">
+  <div v-if="currentVehicle" class="vehice-state" @click="updateVehicleState">
     <div v-if="currentVehicleState" style="display: flex; align-items: center;">
       <battery style="margin-right: 8px;" :percent="currentVehicleState.battery_level" />
       <div>
         <span>{{currentVehicleState.battery_level}}%</span>
         <span v-if="currentVehicleState.battery_level - currentVehicleState.usable_battery_level > 0">(<span style="font-size: 15px;">❄️</span>{{currentVehicleState.battery_level - currentVehicleState.usable_battery_level}}%)</span>
-        <span style="margin-left: 10px;">{{km(currentVehicleState.ideal_battery_range_km)}}|{{km(currentVehicleState.ideal_battery_range_km * 100 / currentVehicleState.usable_battery_level)}}</span>
+        <span style="margin-left: 10px;">{{km(currentVehicleState.ideal_battery_range_km)}} | {{km(currentVehicleState.ideal_battery_range_km * 100 / currentVehicleState.usable_battery_level)}}</span>
       </div>
+    </div>
+    <div v-if="currentVehicleState && currentVehicleState.charge">
+      ⚡ +{{currentVehicleState.charge.charge_energy_added.toFixed(1)}}Kwh {{currentVehicleState.charge.charger_power}}Kw
+      <span v-if="currentVehicleState.charge.charger_actual_current">
+        {{currentVehicleState.charge.charger_voltage}}V
+        {{currentVehicleState.charge.charger_actual_current}}/{{currentVehicleState.charge.charger_pilot_current}}A
+      </span>
+    </div>
+    <div v-if="currentVehicleState && !currentVehicleState.update.end_date">
+      正在更新{{currentVehicleState.update.version}}
     </div>
   </div>
   <cell-group v-if="currentVehicle">
@@ -25,6 +35,7 @@
   <div v-if="currentVehicle" class="home-footer">
     <p>Model {{currentVehicle.model}} {{currentVehicle.trim_badging}}</p>
     <p>{{currentVehicle.vin}}</p>
+    <p v-if="currentVehicleState">{{currentVehicleState.update.version}}</p>
     <p v-if="currentVehicleState">{{km(currentVehicleState.odometer)}}</p>
   </div>
 </div>
@@ -40,12 +51,13 @@ import vehicle from '../api/vehicles'
 import { currentVehicle, currentVehicleState } from '../api/vehicles'
 import { km } from '../filters'
 
+async function updateVehicleState () {
+  currentVehicleState.value = await vehicle.getState()
+}
+
+updateVehicleState()
 vehicle.getState().then(state => currentVehicleState.value = state)
-watch(currentVehicle, async ({ id: carId }) => {
-  if (carId) {
-    currentVehicleState.value = await vehicle.getState()
-  }
-})
+watch(currentVehicle, updateVehicleState)
 </script>
 
 <style lang="scss">
