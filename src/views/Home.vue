@@ -11,7 +11,7 @@
       <div>
         <span>{{currentVehicleState.battery_level}}%</span>
         <span v-if="currentVehicleState.battery_level - currentVehicleState.usable_battery_level > 0">(<span style="font-size: 15px;">❄️</span>{{currentVehicleState.battery_level - currentVehicleState.usable_battery_level}}%)</span>
-        <span style="margin-left: 10px;">{{km(currentVehicleState.ideal_battery_range_km)}} | {{km(currentVehicleState.ideal_battery_range_km * 100 / currentVehicleState.usable_battery_level)}}</span>
+        <span style="margin-left: 10px;">{{currentVehicleState.ideal_battery_range_km.toFixed(0)}}/{{km(currentVehicleState.ideal_battery_range_km * 100 / currentVehicleState.usable_battery_level)}}</span>
       </div>
     </div>
     <div v-if="currentVehicleState && currentVehicleState.charge">
@@ -26,7 +26,7 @@
     </div>
   </div>
   <cell-group v-if="currentVehicle">
-    <cell v-if="currentVehicleState" title="温度" :sub-title="currentVehicleState.is_climate_on && `空调设置${currentVehicleState.driver_temp_setting}℃`" :desc="`外部:${currentVehicleState.outside_temp}℃ 内部:${currentVehicleState.inside_temp}℃`" />
+    <cell v-if="currentVehicleState" title="温度" :sub-title="currentVehicleState.is_climate_on && `空调设置${currentVehicleState.driver_temp_setting}℃` || ''" :desc="`外部:${currentVehicleState.outside_temp}℃ 内部:${currentVehicleState.inside_temp}℃`" />
     <cell title="续航" icon="find" is-link />
     <cell title="充电" icon="order" is-link />
     <cell title="行程" icon="footprint" to="/drives" is-link />
