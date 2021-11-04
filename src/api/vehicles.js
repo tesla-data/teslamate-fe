@@ -16,6 +16,10 @@ export default {
     return currentVehicle.value && await teslamate.getVehicleState(currentVehicle.value.id)
   },
 
+  async getStateHistory() {
+    return currentVehicle.value && await teslamate.getVehicleStateHistory(currentVehicle.value.id)
+  },
+
   async getStats() {
     return currentVehicle.value && await teslamate.getVehicleStats(currentVehicle.value.id)
   },
