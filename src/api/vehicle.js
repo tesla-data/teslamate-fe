@@ -26,5 +26,9 @@ export default {
 
   async getDrives() {
     return currentVehicle.value && await teslamate.getVehicleDrives(currentVehicle.value.id)
+  },
+
+  async getProjectedRange() {
+    return currentVehicle.value && await teslamate.getVehicleProjectedRange(currentVehicle.value.id)
   }
 }

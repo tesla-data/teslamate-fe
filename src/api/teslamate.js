@@ -259,5 +259,54 @@ export default {
           END AS efficiency
       FROM data LIMIT 50;`
     }])
+  },
+
+  getVehicleProjectedRange(carId) {
+    return query([{
+      refId: 'projected_range',
+      rawSql:`
+        SELECT
+          $__timeGroup(date, '6h') AS time,
+          convert_km((sum(ideal_battery_range_km) / nullif(sum(coalesce(usable_battery_level,battery_level)),0) * 100)::numeric, 'km') AS "projected_range"
+        FROM
+          (
+            select battery_level, usable_battery_level, date,
+              rated_battery_range_km, ideal_battery_range_km, outside_temp
+            from positions
+            where
+              car_id = ${carId} and $__timeFilter(date) and ideal_battery_range_km is not null
+            union all
+            select battery_level, coalesce(usable_battery_level,battery_level) as usable_battery_level, date,
+              rated_battery_range_km, ideal_battery_range_km, outside_temp
+            from charges c
+            join
+              charging_processes p ON p.id = c.charging_process_id 
+            where
+              $__timeFilter(date) and p.car_id = ${carId}
+            ) as data
+        
+        GROUP BY
+          1
+        having convert_km((sum(ideal_battery_range_km) / nullif(sum(coalesce(usable_battery_level,battery_level)),0) * 100)::numeric, 'km') is not null
+        ORDER BY
+          1,2  DESC
+      `
+    }, {
+      refId: 'mileage',
+      rawSql: `
+        SELECT
+          $__timeGroup(date, '6h') AS time,
+          convert_km(avg(odometer)::numeric, 'km') AS "mileage"
+        FROM
+          positions
+        WHERE
+          $__timeFilter(date) and
+          car_id = ${carId}  and ideal_battery_range_km is not null
+        GROUP BY
+          1
+        ORDER BY
+          1,2  DESC;      
+      `
+    }], Date.now() - 86400 * 1000 * 365, Date.now())
   }
 }
