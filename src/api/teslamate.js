@@ -125,12 +125,12 @@ export default {
       refId: 'range_battery',
       rawSql: `
         (
-          SELECT $__timeGroup(date, '5s'), avg(battery_level) as "battery level", convert_km(avg(ideal_battery_range_km), 'km') as "range"
+          SELECT $__timeGroup(date, '5s'), avg(battery_level) as "battery_level", convert_km(avg(ideal_battery_range_km), 'km') as "range"
           FROM positions
           WHERE date BETWEEN ($__timeFrom()::timestamp - interval '1 day') AND ($__timeTo()::timestamp + interval '1 day') AND car_id = ${carId}
           GROUP BY 1
         ) UNION ALL (
-          SELECT $__timeGroup(date, '5s'), avg(battery_level) as "battery level", convert_km(avg(ideal_battery_range_km), 'km') as "range"
+          SELECT $__timeGroup(date, '5s'), avg(battery_level) as "battery_level", convert_km(avg(ideal_battery_range_km), 'km') as "range"
           FROM charges c
           LEFT JOIN charging_processes p ON c.charging_process_id = p.id
           WHERE date BETWEEN ($__timeFrom()::timestamp - interval '1 day') AND ($__timeTo()::timestamp + interval '1 day') AND p.car_id = ${carId}
