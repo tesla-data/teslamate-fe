@@ -118,7 +118,9 @@ watch(stateChart, () => {
 
     series: [convertStateHistory(props.history[0])]
   })
+})
 
+watch(rangeChart, () => {
   rangeChart.value.chart = Highcharts.chart(rangeChart.value, {
     title: {
       text: null
@@ -147,8 +149,4 @@ watch(stateChart, () => {
     series: convertRangeHistory(props.history[1])
   })
 })
-
-// api.getStateHistory().then(([stateHistory, rangeHistory]) => {
-
-// })
 </script>
