@@ -1,4 +1,5 @@
 <template>
+<br/>
 <div ref="stateChart" style="height: 80px;" />
 <div ref="rangeChart" style="height: 150px;" />
 </template>
