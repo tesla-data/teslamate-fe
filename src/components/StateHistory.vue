@@ -18,7 +18,7 @@ const stateChart = ref(null)
 const rangeChart = ref(null)
 
 api.getStateHistory().then(([stateHistory, rangeHistory]) => {
-  Highcharts.setOptions({ time: { timezoneOffset: new Date().getTimezoneOffset() } })
+  Highcharts.setOptions({ time: { timezoneOffset: new Date().getTimezoneOffset() }, credits: { enabled: false } })
 
   const stateDesc = [
     { state: '在线', color: '#86cede' },
