@@ -5,17 +5,19 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, defineProps } from 'vue'
 
 import Highcharts from 'highcharts'
 import xrange from 'highcharts/modules/xrange'
 xrange(Highcharts)
 
 import { duration } from '../filters'
-import api from '../api/vehicles'
+import api from '../api/vehicle'
 
 const stateChart = ref(null)
 const rangeChart = ref(null)
+const props = defineProps({ history: { type: Array, required: true } })
+console.log(props.history)
 
 api.getStateHistory().then(([stateHistory, rangeHistory]) => {
   Highcharts.setOptions({ time: { timezoneOffset: new Date().getTimezoneOffset() }, credits: { enabled: false } })

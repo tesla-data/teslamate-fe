@@ -18,7 +18,7 @@
 import { ref } from 'vue'
 import { Navbar, CellGroup, Cell } from '@nutui/nutui'
 
-import api from '../api/vehicles'
+import api from '../api/vehicle'
 
 const drives = ref()
 api.getDrives().then(res => drives.value = res)
