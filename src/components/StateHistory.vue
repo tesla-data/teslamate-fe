@@ -71,6 +71,11 @@ watch(() => props.history, ([stateHistory, rangeHistory]) => {
   convertRangeHistory(rangeHistory).forEach((series, i) => {
     rangeChart.value.chart.series[i].setData(series.data)
   })
+
+  const min = Date.now() - 86400 * 1000
+  const max = Date.now()
+  stateChart.value.chart.xAxis[0].setExtremes(min, max)
+  rangeChart.value.chart.xAxis[0].setExtremes(min, max)
 })
 
 watch(stateChart, () => {
@@ -85,7 +90,8 @@ watch(stateChart, () => {
 
     xAxis: {
       type: 'datetime',
-      min: Date.now() - 86400 * 1000
+      min: Date.now() - 86400 * 1000,
+      max: Date.now()
     },
 
     tooltip: {
@@ -112,7 +118,8 @@ watch(stateChart, () => {
 
     plotOptions: {
       series: {
-        borderRadius: 0
+        borderRadius: 0,
+        animation: false
       }
     },
 
@@ -144,6 +151,12 @@ watch(rangeChart, () => {
 
     legend: {
         enabled: false
+    },
+
+    plotOptions: {
+      series: {
+        animation: false
+      }
     },
 
     series: convertRangeHistory(props.history[1])
