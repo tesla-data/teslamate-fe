@@ -20,7 +20,8 @@ html, body {
 .navbar {
   position: fixed!important;;
   top: 0;
-  width: 100%;
+  left: 0;
+  right: 0;
   z-index: 999;
 
   + .page {
