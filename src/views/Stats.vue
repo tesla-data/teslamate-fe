@@ -1,6 +1,6 @@
 <template>
-<navbar @on-click-back="$router.go(-1)" title="统计" />
-<div class="page" style="margin-top: -40px;">
+<navbar @on-click-back="$router.go(-1)" title="统计" class="navbar" />
+<div class="page">
   <cell-group title="统计结果">
     <cell
       v-for="s of stats" :title="s.display"

@@ -1,6 +1,6 @@
 <template>
-<navbar @on-click-back="$router.go(-1)" title="设置" />
-<div class="page" style="margin-top: -40px;">
+<navbar @on-click-back="$router.go(-1)" title="设置" class="navbar" />
+<div class="page">
   <cell-group title="TeslaMate设置">
     <nut-input label="URL" v-model="urlBase" />
     <nut-input label="ApiKey" v-model="apikey" />

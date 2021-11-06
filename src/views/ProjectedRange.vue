@@ -1,6 +1,6 @@
 <template>
-<navbar @on-click-back="$router.go(-1)" title="满电续航" />
-<div class="page" style="margin-top: -10px;">
+<navbar @on-click-back="$router.go(-1)" title="满电续航" class="navbar" />
+<div class="page" style="margin-top: 40px;">
   <div ref="projectedRangeChart" style="height: 350px;" />
 </div>
 </template>

@@ -6,7 +6,7 @@ import { RouterView } from 'vue-router'
   <router-view />
 </template>
 
-<style>
+<style lang="scss">
 html, body {
   margin: 0;
   padding: 0;
@@ -15,5 +15,16 @@ html, body {
 
 .page {
   padding: 10px;
+}
+
+.navbar {
+  position: fixed!important;;
+  top: 0;
+  width: 100%;
+  z-index: 999;
+
+  + .page {
+    padding-top: 50px;
+  }
 }
 </style>

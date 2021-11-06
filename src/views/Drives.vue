@@ -1,6 +1,6 @@
 <template>
-<navbar @on-click-back="$router.go(-1)" title="行程" />
-<div class="page" style="margin-top: -40px;">
+<navbar @on-click-back="$router.go(-1)" title="行程" class="navbar" />
+<div class="page">
   <!-- {{drives[0]}} -->
 
   <cell-group title="行程">
