@@ -78,7 +78,8 @@ watch(() => props.history, ([stateHistory, rangeHistory]) => {
   rangeChart.value.chart.xAxis[0].setExtremes(min, max)
 })
 
-watch(stateChart, () => {
+watch(stateChart, async () => {
+  await new Promise(resolve => setTimeout(resolve, 100))
   stateChart.value.chart = Highcharts.chart(stateChart.value, {
     chart: {
       type: 'xrange'
@@ -127,7 +128,8 @@ watch(stateChart, () => {
   })
 })
 
-watch(rangeChart, () => {
+watch(rangeChart, async () => {
+  await new Promise(resolve => setTimeout(resolve, 100))
   rangeChart.value.chart = Highcharts.chart(rangeChart.value, {
     title: {
       text: null
