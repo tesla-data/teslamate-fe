@@ -59,7 +59,6 @@ import { km } from '../filters'
 
 async function updateVehicleState () {
   currentVehicleState.value = await vehicle.getState()
-  console.log(currentVehicleState.value)
   currentVehicleStateHistory.value = await vehicle.getStateHistory()
 }
 
