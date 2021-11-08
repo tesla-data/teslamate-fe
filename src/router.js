@@ -5,6 +5,7 @@ import Settings from './views/Settings.vue'
 import ProjectedRange from './views/ProjectedRange.vue'
 import Drives from './views/Drives.vue'
 import Stats from './views/Stats.vue'
+import Updates from './views/Updates.vue'
 
 const routes = [
   {
@@ -31,6 +32,11 @@ const routes = [
     path: '/drives',
     name: 'Drives',
     component: Drives
+  },
+  {
+    path: '/updates',
+    name: 'Updates',
+    component: Updates
   }
 ]
 
