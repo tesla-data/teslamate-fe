@@ -7,7 +7,7 @@
 
 <script setup>
 import { ref } from 'vue'
-import { Navbar, CellGroup, Cell } from '@nutui/nutui'
+import { Navbar } from '@nutui/nutui'
 
 import Highcharts from 'highcharts'
 Highcharts.setOptions({ time: { timezoneOffset: new Date().getTimezoneOffset() }, credits: { enabled: false } })
@@ -35,7 +35,7 @@ api.getProjectedRange().then(([projectedRange, mileage]) => {
       lineWidth: 1,
       connectNulls: true,
       tooltip: { valueDecimals: 0, valueSuffix: 'km' },
-      data: projectedRange.map(({ projected_range }, i) => [Math.round(mileage[i].mileage), projected_range])
+      data: projectedRange.map(({ projected_range }, i) => i < mileage.length && [Math.round(mileage[i].mileage), projected_range]).filter(v => !!v)
     }]
   })
 
