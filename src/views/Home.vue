@@ -9,6 +9,7 @@
     <div v-if="currentVehicleState" style="display: flex; align-items: center;">
       <battery style="margin-right: 8px;" :percent="currentVehicleState.battery_level" />
       <div>
+        <span v-if="currentVehicleState.battery_heater" style="color: red;">⌇</span>
         <span>{{currentVehicleState.battery_level}}%</span>
         <span v-if="currentVehicleState.battery_level - currentVehicleState.usable_battery_level > 0">(<span style="font-size: 15px;">❄️</span>{{currentVehicleState.battery_level - currentVehicleState.usable_battery_level}}%)</span>
         <span style="margin-left: 10px;">{{currentVehicleState.ideal_battery_range_km.toFixed(0)}}/{{km(currentVehicleState.ideal_battery_range_km * 100 / currentVehicleState.usable_battery_level)}}</span>
@@ -58,6 +59,7 @@ import { km } from '../filters'
 
 async function updateVehicleState () {
   currentVehicleState.value = await vehicle.getState()
+  console.log(currentVehicleState.value)
   currentVehicleStateHistory.value = await vehicle.getStateHistory()
 }
 
