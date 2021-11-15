@@ -35,5 +35,9 @@ export default {
 
   async getUpdates() {
     return currentVehicle.value && await teslamate.getVehicleUpdates(currentVehicle.value.id)
+  },
+
+  async getCharges() {
+    return currentVehicle.value && await teslamate.getVehicleCharges(currentVehicle.value.id)
   }
 }
