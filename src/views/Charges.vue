@@ -2,7 +2,7 @@
 <navbar @on-click-back="$router.go(-1)" title="充电" class="navbar" />
 <div class="page">
   <cell-group title="统计结果">
-    {{charges && charges[0]}}
+    <!-- {{charges && charges[0]}} -->
     <cell
       v-for="(c, i) of charges" :title="c.address"
       :desc="`充入${c.charge_energy_added}kwh`"
