@@ -141,7 +141,7 @@ export default {
     }], from, to)
   },
 
-  async getVehicleStats(carId, period = 'day', timezone = 'Asia/Shanghai', length_unit = 'km', temp_unit = 'C') {
+  async getVehicleStats(carId, period = 'month', timezone = 'Asia/Shanghai', length_unit = 'km', temp_unit = 'C') {
     return await query([{
       refId: 'stats',
       rawSql: `WITH data AS (
