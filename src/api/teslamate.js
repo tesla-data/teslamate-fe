@@ -250,10 +250,10 @@ export default {
           power_max,
           reduced_range as has_reduced_range,
           range_diff * car_efficiency as "consumption_kWh",
-          CASE WHEN is_sufficiently_precise THEN range_diff * car_efficiency / distance * 1000 * CASE WHEN '${length_unit}' = 'km' THEN 1
-                                                                                                      WHEN '${length_unit}' = 'mi' THEN 1.60934
-                                                                                                 END
-          END AS consumption_kWh_${length_unit},
+          range_diff * car_efficiency / distance * 1000 * CASE WHEN '${length_unit}' = 'km' THEN 1
+                                                            WHEN '${length_unit}' = 'mi' THEN 1.60934
+                                                          END
+          AS consumption_kWh_${length_unit},
           CASE WHEN is_sufficiently_precise THEN distance / range_diff
                ELSE NULL
           END AS efficiency
