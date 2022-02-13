@@ -35,7 +35,7 @@
     <cell title="充电" icon="order" to="/charges" is-link />
     <cell title="行程" icon="footprint" to="/drives" is-link />
     <cell title="统计" icon="horizontal" to="/stats" is-link />
-    <cell title="软件升级" icon="top" to="/updates" is-link />
+    <cell title="软件版本" icon="top" to="/updates" is-link />
   </cell-group>
   <div v-if="currentVehicle" class="home-footer">
     <p>Model {{currentVehicle.model}} {{currentVehicle.trim_badging}}</p>

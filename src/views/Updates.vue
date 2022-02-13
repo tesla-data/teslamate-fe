@@ -1,5 +1,5 @@
 <template>
-<navbar @on-click-back="$router.go(-1)" title="软件升级" class="navbar" />
+<navbar @on-click-back="$router.go(-1)" title="软件版本" class="navbar" />
 <div class="page">
   <cell-group title="统计结果">
     <cell
