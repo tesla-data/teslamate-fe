@@ -1,7 +1,7 @@
 <template>
 <navbar @on-click-back="$router.go(-1)" title="统计" class="navbar" />
 <div class="page">
-  <cell-group :title="st.year" v-for="st of stats">
+  <cell-group :title="`${st.year} 行驶了${st.stats.reduce((m, s) => m + s.sum_distance_km, 0)}km`" v-for="st of stats">
     <cell
       v-for="s of st.stats" :title="s.display"
       :desc="`${(s.sum_duration_h / 60).toFixed(0)}分钟 | ${s.sum_distance_km}km`"
