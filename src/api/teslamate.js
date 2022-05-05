@@ -53,7 +53,7 @@ export default {
         refId: 'charge',
         rawSql: `
           WITH charging_process AS (
-            SELECT id, end_date
+            SELECT id AS cid, end_date
             FROM charging_processes
             WHERE car_id = ${carId}
             ORDER BY start_date DESC
@@ -61,7 +61,7 @@ export default {
           )
           SELECT *
           FROM charges, charging_process
-          WHERE charging_process.id = charging_process_id
+          WHERE charging_process.cid = charging_process_id
           ORDER BY date DESC
           LIMIT 1;
         `
