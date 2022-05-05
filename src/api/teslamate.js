@@ -17,10 +17,18 @@ async function query(queries, from, to) {
   if (from) from = from.toString()
   if (to) to = to.toString()
 
-  const url = urlBase.value + '/api/tsdb/query'
+  const url = urlBase.value + '/api/ds/query'
   const payload = { from, to, queries: queries.map(({ refId, rawSql }) => ({ refId, datasourceId: 1, rawSql, format: 'table' })) }
   const { data: { results } } = await axios.post(url, payload, { headers: { Authorization: `Bearer ${apikey.value}` } })
-  const ret = queries.map(({ refId }) => results[refId].tables[0].rows.map(r => r.reduce((m, v, i) => { m[results[refId].tables[0].columns[i].text] = v; return m }, {})))
+
+  const ret = queries.map(({ refId }) => {
+    if (results[refId].tables) {
+      return results[refId].tables[0].rows.map(r => r.reduce((m, v, i) => { m[results[refId].tables[0].columns[i].text] = v; return m }, {}));
+    } else {
+      return results[refId].frames[0].data.values[0].map((_, i) => results[refId].frames[0].schema.fields.reduce((m, v, fi) => { m[v.name] = results[refId].frames[0].data.values[fi][i]; return m }, {}));
+    }
+  })
+
   return ret.length === 1 ? ret[0] : ret
 }
 
