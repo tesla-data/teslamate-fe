@@ -1,7 +1,6 @@
 <template>
 <navbar @on-click-back="$router.go(-1)" title="软件版本" class="navbar" />
 <div class="page">
-  <div style="position: absolute; top: 76px; right: 15px;"><a style="font-size: 13px; color: #666;" href="#/teslafi">Teslafi版本统计</a></div>
   <cell-group title="统计结果">
     <cell
       v-for="(u, i) of updates" :title="u.version"
