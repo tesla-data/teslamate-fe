@@ -60,8 +60,8 @@ import { currentVehicle, currentVehicleState, currentVehicleStateHistory } from 
 import { km } from '../filters'
 
 async function updateVehicleState () {
-  currentVehicleState.value = await vehicle.getState()
   currentVehicleStateHistory.value = await vehicle.getStateHistory()
+  currentVehicleState.value = await vehicle.getState()
 }
 
 updateVehicleState()

@@ -50,8 +50,10 @@ export default {
       {
         refId: 'vs1',
         rawSql: `
-          (SELECT ${fields} FROM positions WHERE car_id = ${carId} AND usable_battery_level IS NOT NULL ORDER BY date DESC LIMIT 1) UNION
-          SELECT ${fields} FROM charges c JOIN charging_processes p ON p.id = c.charging_process_id WHERE p.car_id = ${carId} AND usable_battery_level IS NOT NULL ORDER BY date DESC LIMIT 1
+          SELECT ${fields} FROM (
+            (SELECT ${fields} FROM positions WHERE car_id = ${carId} AND usable_battery_level IS NOT NULL ORDER BY date DESC LIMIT 1) UNION
+            (SELECT ${fields} FROM charges c JOIN charging_processes p ON p.id = c.charging_process_id WHERE p.car_id = ${carId} AND usable_battery_level IS NOT NULL ORDER BY date DESC LIMIT 1)
+          ) AS data ORDER BY date DESC LIMIT 1;
         `
       }, {
         refId: 'vs2',
