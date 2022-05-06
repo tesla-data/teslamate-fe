@@ -7,6 +7,7 @@ import Charges from './views/Charges.vue'
 import Drives from './views/Drives.vue'
 import Stats from './views/Stats.vue'
 import Updates from './views/Updates.vue'
+import Teslafi from './views/Teslafi.vue'
 
 const routes = [
   {
@@ -43,6 +44,11 @@ const routes = [
     path: '/updates',
     name: 'Updates',
     component: Updates
+  },
+  {
+    path: '/teslafi',
+    name: 'Teslafi',
+    component: Teslafi
   }
 ]
 
