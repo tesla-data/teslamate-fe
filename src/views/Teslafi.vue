@@ -36,10 +36,16 @@ function getVersionParts(v) {
 <style scoped lang="scss">
 table {
   text-align: center;
-
+  border-collapse: collapse;
+  border-spacing:0px;
+  
   td, th {
     border-bottom: 1px solid #ccc;
     padding: 10px 5px;
+
+    a {
+      color: #07a;
+    }
   }
 }
 </style>
