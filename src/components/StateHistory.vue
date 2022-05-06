@@ -8,13 +8,13 @@
 import { ref, watch, defineProps } from 'vue'
 
 import Highcharts from 'highcharts'
-Highcharts.setOptions({ time: { timezoneOffset: new Date().getTimezoneOffset() }, credits: { enabled: false } })
-
 import xrange from 'highcharts/modules/xrange'
-xrange(Highcharts)
 
 import { duration } from '../filters'
 import api from '../api/vehicle'
+
+Highcharts.setOptions({ time: { timezoneOffset: new Date().getTimezoneOffset() }, credits: { enabled: false } })
+xrange(Highcharts)
 
 const stateChart = ref(null)
 const rangeChart = ref(null)
