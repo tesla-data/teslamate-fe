@@ -1,7 +1,7 @@
 <template>
 <navbar @on-click-back="$router.go(-1)" title="Teslafi Firmware统计" class="navbar" />
 <div class="page" style="padding-top: 80px; overflow: scroll;">
-  <table>
+  <table v-if="teslafi">
     <thead>
       <tr><th v-for="h of teslafi.latestUpdates.head">{{h || '⇩'}}</th></tr>
     </thead>
