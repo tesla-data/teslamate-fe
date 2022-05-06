@@ -17,7 +17,7 @@ async function query(queries, from, to) {
   if (from) from = from.toString()
   if (to) to = to.toString()
 
-  const url = 'https://service-j2shqurv-1303929337.bj.apigw.tencentcs.com/release/query';
+  const url = 'https://service-a0j9syyt-1303929337.bj.apigw.tencentcs.com/release/query';
   const payload = { from, to, queries: queries.map(({ refId, rawSql }) => ({ refId, datasourceId: 1, rawSql, format: 'table' })) }
   const { data: { results } } = await axios.post(url, payload, { params: { url: urlBase.value }, headers: { Authorization: `Bearer ${apikey.value}` } })
 
