@@ -59,9 +59,9 @@ import vehicle from '../api/vehicle'
 import { currentVehicle, currentVehicleState, currentVehicleStateHistory } from '../api/vehicle'
 import { km } from '../filters'
 
-async function updateVehicleState () {
-  currentVehicleStateHistory.value = await vehicle.getStateHistory()
-  currentVehicleState.value = await vehicle.getState()
+function updateVehicleState () {
+  vehicle.getState().then(v => currentVehicleState.value = v)
+  vehicle.getStateHistory().then(v => currentVehicleStateHistory.value = v)
 }
 
 updateVehicleState()
