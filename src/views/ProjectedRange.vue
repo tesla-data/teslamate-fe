@@ -8,13 +8,14 @@
 <script setup>
 import { ref } from 'vue'
 import { Navbar } from '@nutui/nutui'
-
 import Highcharts from 'highcharts'
+
+import api from '../api/vehicle'
+
 Highcharts.setOptions({ time: { timezoneOffset: new Date().getTimezoneOffset() }, credits: { enabled: false } })
 
 const projectedRangeChart = ref(null)
 
-import api from '../api/vehicle'
 api.getProjectedRange().then(([projectedRange, mileage]) => {
   Highcharts.chart(projectedRangeChart.value, {
     title: {
