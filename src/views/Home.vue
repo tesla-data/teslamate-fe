@@ -40,7 +40,7 @@
   </cell-group>
   <div v-if="currentVehicle" class="home-footer">
     <p>Model {{currentVehicle.model}} {{currentVehicle.trim_badging}}</p>
-    <p>{{currentVehicle.vin}}</p>
+    <p>{{hideFullVin ? currentVehicle.vin.replace(/.{6}$/, '******') : currentVehicle.vin}}</p>
     <p v-if="currentVehicleState">{{currentVehicleState.update.version}}</p>
     <p v-if="currentVehicleState">{{km(currentVehicleState.odometer)}}</p>
   </div>
@@ -52,6 +52,7 @@ import { watch } from 'vue'
 import { useRouter, RouterLink } from 'vue-router'
 import { Cell, CellGroup } from '@nutui/nutui'
 
+import { hideFullVin } from '../settings'
 import Battery from '../components/Battery.vue'
 import StateHistory from '../components/StateHistory.vue'
 
