@@ -7,7 +7,7 @@ export const currentVehicleState = ref(null)
 export const currentVehicleStateHistory = ref([])
 
 teslamate.getVehicles().then(vehicles => {
-  if (vehicles.length > 0) {
+  if (vehicles && vehicles.length > 0) {
     currentVehicle.value = vehicles[0]
   }
 })

@@ -48,16 +48,20 @@
 </template>
 
 <script setup>
-import { watch, ref } from 'vue'
-import { RouterLink } from 'vue-router'
+import { watch } from 'vue'
+import { useRouter, RouterLink } from 'vue-router'
 import { Cell, CellGroup } from '@nutui/nutui'
 
 import Battery from '../components/Battery.vue'
 import StateHistory from '../components/StateHistory.vue'
 
 import vehicle from '../api/vehicle'
+import { urlBase } from '../api/teslamate'
 import { currentVehicle, currentVehicleState, currentVehicleStateHistory } from '../api/vehicle'
 import { km } from '../filters'
+
+const router = useRouter()
+if (!urlBase.value) router.push('/settings')
 
 function updateVehicleState () {
   vehicle.getState().then(v => currentVehicleState.value = v)
