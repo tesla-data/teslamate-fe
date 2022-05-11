@@ -14,23 +14,25 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onActivated } from 'vue'
 import { Navbar, CellGroup, Cell } from '@nutui/nutui'
 
 import api from '../api/vehicle'
 
 const stats = ref()
-api.getStats().then(res => stats.value = res.reduce((arr, s) => {
-  const year = s.display.split(' ')[0]
-  if (arr.length > 0 && arr[arr.length - 1].year === year) {
-    arr[arr.length - 1].stats.push(s)
-  } else {
-    arr.push({
-      year,
-      stats: [s]
-    })
-  }
+onActivated(() => {
+  api.getStats().then(res => stats.value = res.reduce((arr, s) => {
+    const year = s.display.split(' ')[0]
+    if (arr.length > 0 && arr[arr.length - 1].year === year) {
+      arr[arr.length - 1].stats.push(s)
+    } else {
+      arr.push({
+        year,
+        stats: [s]
+      })
+    }
 
-  return arr
-}, []))
+    return arr
+  }, []))
+})
 </script>

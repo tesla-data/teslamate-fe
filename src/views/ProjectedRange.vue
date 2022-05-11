@@ -6,7 +6,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onActivated } from 'vue'
 import { Navbar } from '@nutui/nutui'
 import Highcharts from 'highcharts'
 
@@ -15,30 +15,31 @@ import api from '../api/vehicle'
 Highcharts.setOptions({ time: { timezoneOffset: new Date().getTimezoneOffset() }, credits: { enabled: false } })
 
 const projectedRangeChart = ref(null)
+onActivated(() => {
+  api.getProjectedRange().then(([projectedRange, mileage]) => {
+    Highcharts.chart(projectedRangeChart.value, {
+      title: {
+        text: null
+      },
 
-api.getProjectedRange().then(([projectedRange, mileage]) => {
-  Highcharts.chart(projectedRangeChart.value, {
-    title: {
-      text: null
-    },
+      yAxis: [
+        { title: { text: null }, alignTicks: false }
+      ],
 
-    yAxis: [
-      { title: { text: null }, alignTicks: false }
-    ],
+      legend: {
+        enabled: false
+      },
 
-    legend: {
-      enabled: false
-    },
+      series: [{
+        name: '续航',
+        type: 'line',
+        lineWidth: 1,
+        connectNulls: true,
+        tooltip: { valueDecimals: 0, valueSuffix: 'km' },
+        data: projectedRange.map(({ projected_range }, i) => i < mileage.length && [Math.round(mileage[i].mileage), projected_range]).filter(v => !!v)
+      }]
+    })
 
-    series: [{
-      name: '续航',
-      type: 'line',
-      lineWidth: 1,
-      connectNulls: true,
-      tooltip: { valueDecimals: 0, valueSuffix: 'km' },
-      data: projectedRange.map(({ projected_range }, i) => i < mileage.length && [Math.round(mileage[i].mileage), projected_range]).filter(v => !!v)
-    }]
-  })
-
+  }) // Highcharts
 })
 </script>

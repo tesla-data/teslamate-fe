@@ -21,12 +21,14 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onActivated } from 'vue'
 import { Navbar } from '@nutui/nutui'
 import { getTeslafi } from '../api/teslamate'
 
 const teslafi = ref()
-getTeslafi().then(res => teslafi.value = res)
+onActivated(() => {
+  getTeslafi().then(res => teslafi.value = res)
+})
 
 function getVersionParts(v) {
   return v.trim().split(/\s+/)

@@ -12,12 +12,14 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onActivated } from 'vue'
 import { Navbar, CellGroup, Cell } from '@nutui/nutui'
 import { days } from '../filters'
 
 import api from '../api/vehicle'
 
 const updates = ref()
-api.getUpdates().then(res => updates.value = res)
+onActivated(() => {
+  api.getUpdates().then(res => updates.value = res)
+})
 </script>
