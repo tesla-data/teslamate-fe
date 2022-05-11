@@ -17,10 +17,10 @@
 import { ref } from 'vue'
 import { Navbar, CellGroup, Cell } from '@nutui/nutui'
 
-import api from '../api/vehicle'
+import { getDrives } from '../api/drive'
 
 const drivesGroups = ref()
-api.getDrives().then(res => {
+getDrives().then(res => {
   drivesGroups.value = res.reduce((arr, drive) => {
     const date = new Date(drive.start_date_ts).toLocaleDateString()
     if (arr.length > 0 && arr[arr.length - 1].date === date) {
