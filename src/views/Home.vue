@@ -66,6 +66,8 @@ if (!urlBase.value) router.push('/settings')
 
 const loading = ref(false)
 async function updateVehicleState () {
+  if (loading.value) return
+  
   loading.value = true
   try {
     await Promise.all([
