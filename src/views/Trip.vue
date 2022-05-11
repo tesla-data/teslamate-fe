@@ -1,8 +1,8 @@
 <template>
-<navbar @on-click-back="$router.go(-1)" :title="`${params.display}行程`" class="navbar" />
+<navbar @on-click-back="$router.go(-1)" :title="`${route.query.display}行程`" class="navbar" />
 <div class="page">
 <br/>
-{{params}}
+{{route.query}}
 </div>
 </template>
 
