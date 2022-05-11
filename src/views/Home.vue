@@ -59,11 +59,13 @@ import StateHistory from '../components/StateHistory.vue'
 import { currentVehicle } from '../settings'
 import vehicle from '../api/vehicle'
 import { urlBase } from '../api/teslamate'
-import { currentVehicleState, currentVehicleStateHistory } from '../api/vehicle'
 import { km } from '../filters'
 
 const router = useRouter()
 if (!urlBase.value) router.push('/settings')
+
+const currentVehicleState = ref(null)
+const currentVehicleStateHistory = ref([])
 
 const loading = ref(false)
 async function updateVehicleState () {

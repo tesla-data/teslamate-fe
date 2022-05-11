@@ -4,8 +4,6 @@ import teslamate from './teslamate'
 import { currentVehicle } from '../settings'
 
 export const vehicles = ref([])
-export const currentVehicleState = ref(null)
-export const currentVehicleStateHistory = ref([])
 
 export async function getVehicles() {
   const vehicles = await teslamate.getVehicles()
