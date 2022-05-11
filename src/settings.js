@@ -20,7 +20,7 @@ class Setting {
         this.ref.value = value === 'true'
         break
       case Object:
-        this.ref.value = JSON.parse(value || this.defaultValue)
+        this.ref.value = JSON.parse(value || 'null') || this.defaultValue
         break
       case Number:
         this.ref.value = Number(value || this.defaultValue)
@@ -42,3 +42,4 @@ class Setting {
 }
 
 export const hideFullVin = new Setting('hideFullVin', Boolean, false).ref
+export const currentVehicle = new Setting('currentVehicle', Object, {}).ref

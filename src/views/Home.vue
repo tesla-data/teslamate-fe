@@ -56,9 +56,10 @@ import { hideFullVin } from '../settings'
 import Battery from '../components/Battery.vue'
 import StateHistory from '../components/StateHistory.vue'
 
+import { currentVehicle } from '../settings'
 import vehicle from '../api/vehicle'
 import { urlBase } from '../api/teslamate'
-import { currentVehicle, currentVehicleState, currentVehicleStateHistory } from '../api/vehicle'
+import { currentVehicleState, currentVehicleStateHistory } from '../api/vehicle'
 import { km } from '../filters'
 
 const router = useRouter()
@@ -67,7 +68,7 @@ if (!urlBase.value) router.push('/settings')
 const loading = ref(false)
 async function updateVehicleState () {
   if (loading.value) return
-  
+
   loading.value = true
   try {
     await Promise.all([
