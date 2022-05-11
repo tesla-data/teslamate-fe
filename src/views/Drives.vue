@@ -23,11 +23,11 @@ let drives = []
 const drivesGroups = ref([])
 
 onActivated(() => {
-  const from = drives[0] && (drives[0].start_date_ts + 1000) || new Date().setHours(0, 0, 0, 0) - 2 * 86400 * 1000
+  const from = drives[0] && (drives[0].start_date_ts + 1000) || new Date().setHours(0, 0, 0, 0) - 30 * 86400 * 1000
   const to = Date.now()
   getDrives(from, to).then(res => {
     if (res.length === 0) return
-    
+
     drives = [...res, ...drives]
     drivesGroups.value = drives.reduce((arr, drive) => {
       const date = new Date(drive.start_date_ts).toLocaleDateString()
