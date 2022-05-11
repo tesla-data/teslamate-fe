@@ -4,6 +4,7 @@
   <cell-group v-for="dg of drivesGroups" :title="`${dg.date} 行驶了${dg.drives.reduce((m, d) => m + d.distance_km, 0).toFixed(0)}km`">
     <cell
       v-for="d of dg.drives" :title="d.start_address"
+      :to="{ name: 'Drive', query: { drive_id: d.drive_id }, params: d }"
       :desc="`${d.duration_min}分钟 | ${d.distance_km.toFixed(0)}km`"
       :sub-title="`温度${d.outside_temp_c}℃ 能耗${d.consumption_kwh_km && d.consumption_kwh_km.toFixed(0)}Wh/km ${d.efficiency ? '' : '(*)'}`"
       is-link
