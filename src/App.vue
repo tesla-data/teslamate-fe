@@ -4,7 +4,7 @@ import { RouterView } from 'vue-router'
 
 <template>
 <router-view v-slot="{ Component }">
-  <keep-alive :exclude="['Drive']">
+  <keep-alive :exclude="['Drive', 'Trip']">
     <component :is="Component" />
   </keep-alive>
 </router-view>
