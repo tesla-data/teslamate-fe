@@ -1,5 +1,5 @@
 <template>
-<navbar @on-click-back="$router.go(-1)" title="行程汇总" class="navbar" />
+<navbar @on-click-back="$router.go(-1)" :title="`${params.display}行程`" class="navbar" />
 <div class="page">
 <br/>
 {{params}}

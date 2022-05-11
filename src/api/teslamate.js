@@ -181,7 +181,7 @@ export default {
           EXTRACT(EPOCH FROM date_trunc('${period}', local_period))*1000 AS date_from,
           EXTRACT(EPOCH FROM date_trunc('${period}', local_period + ('1 ' || '${period}')::INTERVAL))*1000 AS date_to,
           CASE '${period}'
-            WHEN 'month' THEN to_char(local_period, 'YYYY Month')
+            WHEN 'month' THEN to_char(local_period, 'YYYY Mon')
             WHEN 'year' THEN to_char(local_period, 'YYYY')
             WHEN 'week' THEN 'week ' || to_char(local_period, 'WW') || ' starting ' || to_char(local_period, 'YYYY-MM-DD')
             ELSE to_char(local_period, 'YYYY-MM-DD')
