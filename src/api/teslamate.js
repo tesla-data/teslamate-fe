@@ -19,7 +19,7 @@ export function updateSettings() {
   localStorage.setItem(apikeyKey, apikey.value)
 }
 
-async function query(queries, from, to) {
+export async function query(queries, from, to) {
   if (!urlBase.value || !apikey.value) return
   if (from) from = from.toString()
   if (to) to = to.toString()
