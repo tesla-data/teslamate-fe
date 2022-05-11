@@ -52,7 +52,7 @@ WITH data AS (
 )
 `
 
-export async function getDrives(from = new Date().setHours(0, 0, 0, 0) - 86400 * 1000 * 30, to = Date.now(), carId = currentVehicle.value.id, length_unit = 'km', temp_unit = 'C') {
+export async function getDrives(from, to, carId = currentVehicle.value.id, length_unit = 'km', temp_unit = 'C') {
   return await query([{
     refId: 'drives',
     rawSql: `

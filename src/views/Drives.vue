@@ -14,25 +14,35 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onActivated } from 'vue'
 import { Navbar, CellGroup, Cell } from '@nutui/nutui'
 
 import { getDrives } from '../api/drive'
 
-const drivesGroups = ref()
-getDrives().then(res => {
-  drivesGroups.value = res.reduce((arr, drive) => {
-    const date = new Date(drive.start_date_ts).toLocaleDateString()
-    if (arr.length > 0 && arr[arr.length - 1].date === date) {
-      arr[arr.length - 1].drives.push(drive)
-    } else {
-      arr.push({
-        date,
-        drives: [drive]
-      })
-    }
+let drives = []
+const drivesGroups = ref([])
 
-    return arr
-  }, [])
+onActivated(() => {
+  const from = drives[0] && (drives[0].start_date_ts + 1000) || new Date().setHours(0, 0, 0, 0) - 2 * 86400 * 1000
+  const to = Date.now()
+  getDrives(from, to).then(res => {
+    if (res.length === 0) return
+    
+    drives = [...res, ...drives]
+    drivesGroups.value = drives.reduce((arr, drive) => {
+      const date = new Date(drive.start_date_ts).toLocaleDateString()
+      if (arr.length > 0 && arr[arr.length - 1].date === date) {
+        arr[arr.length - 1].drives.push(drive)
+      } else {
+        arr.push({
+          date,
+          drives: [drive]
+        })
+      }
+
+      return arr
+    }, [])
+  })
 })
+
 </script>
