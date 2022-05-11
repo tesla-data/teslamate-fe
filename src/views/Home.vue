@@ -1,7 +1,7 @@
 <template>
 <div class="page">
   <div style="display: flex;">
-    <h4 v-if="currentVehicle">{{currentVehicle.name}}</h4>
+    <h4 v-if="currentVehicle">{{currentVehicle.name}} <nut-icon v-if="loading" size="11" name="loading" /></h4>
     <div style="flex-grow: 1;" />
     <router-link to="settings" style="color: #333;"><nut-icon size="18" name="setting" /></router-link>
   </div>
@@ -48,7 +48,7 @@
 </template>
 
 <script setup>
-import { watch } from 'vue'
+import { ref, watch } from 'vue'
 import { useRouter, RouterLink } from 'vue-router'
 import { Cell, CellGroup } from '@nutui/nutui'
 
@@ -64,9 +64,17 @@ import { km } from '../filters'
 const router = useRouter()
 if (!urlBase.value) router.push('/settings')
 
-function updateVehicleState () {
-  vehicle.getState().then(v => currentVehicleState.value = v)
-  vehicle.getStateHistory().then(v => currentVehicleStateHistory.value = v)
+const loading = ref(false)
+async function updateVehicleState () {
+  loading.value = true
+  try {
+    await Promise.all([
+      vehicle.getState().then(v => currentVehicleState.value = v),
+      vehicle.getStateHistory().then(v => currentVehicleStateHistory.value = v)
+    ])
+  } finally {
+    loading.value = false
+  }
 }
 
 updateVehicleState()
