@@ -16,7 +16,7 @@ Highcharts.setOptions({ time: { timezoneOffset: new Date().getTimezoneOffset() }
 
 const projectedRangeChart = ref(null)
 onActivated(() => {
-  api.getProjectedRange().then(([projectedRange, mileage]) => {
+  api.getProjectedRange().then((projectedRange) => {
     Highcharts.chart(projectedRangeChart.value, {
       title: {
         text: null
@@ -36,7 +36,7 @@ onActivated(() => {
         lineWidth: 1,
         connectNulls: true,
         tooltip: { valueDecimals: 0, valueSuffix: 'km' },
-        data: projectedRange.map(({ projected_range }, i) => i < mileage.length && [Math.round(mileage[i].mileage), projected_range]).filter(v => !!v)
+        data: projectedRange.map(({ projected_range, mileage }) => [Math.round(mileage), projected_range])
       }]
     })
 

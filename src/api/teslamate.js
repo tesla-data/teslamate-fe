@@ -2,6 +2,7 @@ import { ref } from 'vue'
 import axios from 'axios'
 
 const apiUrl = 'https://service-a0j9syyt-1303929337.bj.apigw.tencentcs.com/release'
+// const apiUrl = 'http://localhost:9000'
 
 const urlBaseKey = 'teslamate_api_urlbase'
 export const urlBase = ref(localStorage.getItem(urlBaseKey) || '')
@@ -17,6 +18,12 @@ export async function getTeslafi() {
 export function updateSettings() {
   localStorage.setItem(urlBaseKey, urlBase.value)
   localStorage.setItem(apikeyKey, apikey.value)
+}
+
+export async function requestApi(path, params) {
+  if (!urlBase.value || !apikey.value) return
+  const { data } = await axios.get(apiUrl + path, { params: { url: urlBase.value, ...params }, headers: { Authorization: `Bearer ${apikey.value}` } })
+  return data
 }
 
 export async function query(queries, from, to) {
@@ -205,45 +212,15 @@ export default {
       rawSql:`
         SELECT
           $__timeGroup(date, '6h') AS time,
-          convert_km((sum(ideal_battery_range_km) / nullif(sum(coalesce(usable_battery_level,battery_level)),0) * 100)::numeric, 'km') AS "projected_range"
-        FROM
-          (
-            select battery_level, usable_battery_level, date,
-              rated_battery_range_km, ideal_battery_range_km, outside_temp
-            from positions
-            where
-              car_id = ${carId} and $__timeFilter(date) and ideal_battery_range_km is not null
-            union all
-            select battery_level, coalesce(usable_battery_level,battery_level) as usable_battery_level, date,
-              rated_battery_range_km, ideal_battery_range_km, outside_temp
-            from charges c
-            join
-              charging_processes p ON p.id = c.charging_process_id 
-            where
-              $__timeFilter(date) and p.car_id = ${carId}
-            ) as data
-        
+          convert_km((sum(ideal_battery_range_km) / nullif(sum(coalesce(usable_battery_level,battery_level)),0) * 100)::numeric, 'km') AS "projected_range",
+          convert_km(avg(odometer)::numeric, 'km') AS "mileage"
+        FROM positions
+        WHERE car_id = ${carId} and $__timeFilter(date) and ideal_battery_range_km is not null
         GROUP BY
           1
         having convert_km((sum(ideal_battery_range_km) / nullif(sum(coalesce(usable_battery_level,battery_level)),0) * 100)::numeric, 'km') is not null
         ORDER BY
           1,2  DESC
-      `
-    }, {
-      refId: 'mileage',
-      rawSql: `
-        SELECT
-          $__timeGroup(date, '6h') AS time,
-          convert_km(avg(odometer)::numeric, 'km') AS "mileage"
-        FROM
-          positions
-        WHERE
-          $__timeFilter(date) and
-          car_id = ${carId}  and ideal_battery_range_km is not null
-        GROUP BY
-          1
-        ORDER BY
-          1,2  DESC;      
       `
     }], Date.now() - 86400 * 1000 * 365, Date.now())
   },

@@ -1,5 +1,6 @@
 import { ref } from 'vue'
 import teslamate from './teslamate'
+import { requestApi } from './teslamate'
 
 import { currentVehicle } from '../settings'
 
@@ -36,14 +37,17 @@ export default {
   },
 
   async getProjectedRange() {
-    return currentVehicle.value && await teslamate.getVehicleProjectedRange(currentVehicle.value.id)
+    return requestApi('/projected_range', { car_id: currentVehicle.value.id })
+    // return currentVehicle.value && await teslamate.getVehicleProjectedRange(currentVehicle.value.id)
   },
 
   async getUpdates() {
-    return currentVehicle.value && await teslamate.getVehicleUpdates(currentVehicle.value.id)
+    return requestApi('/updates', { car_id: currentVehicle.value.id })
+    // return currentVehicle.value && await teslamate.getVehicleUpdates(currentVehicle.value.id)
   },
 
   async getCharges() {
-    return currentVehicle.value && await teslamate.getVehicleCharges(currentVehicle.value.id)
+    return requestApi('/charges', { car_id: currentVehicle.value.id })
+    // return currentVehicle.value && await teslamate.getVehicleCharges(currentVehicle.value.id)
   }
 }
