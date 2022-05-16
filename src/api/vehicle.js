@@ -46,8 +46,8 @@ export default {
     // return currentVehicle.value && await teslamate.getVehicleUpdates(currentVehicle.value.id)
   },
 
-  async getCharges() {
-    return requestApi('/charges', { car_id: currentVehicle.value.id })
+  async getCharges(from, to) {
+    return requestApi('/charges', { car_id: currentVehicle.value.id, from, to })
     // return currentVehicle.value && await teslamate.getVehicleCharges(currentVehicle.value.id)
   }
 }
