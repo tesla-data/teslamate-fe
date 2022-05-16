@@ -16,10 +16,8 @@ import { duration } from '../filters'
 defineProps({ title: String, charges: Object })
 
 function sum(charges, mode) {
-  if (charges.value) charges = charges.value
-  const fcc = mode ? charges.filter(c => c.mode === mode) : charges
-  console.log(mode, charges, fcc)
-  const total = fcc.reduce((m, c) => m + c.charge_energy_added, 0)
+  if (mode) charges = charges.filter(c => c.mode === mode)
+  const total = charges.reduce((m, c) => m + c.charge_energy_added, 0)
   return total && total.toFixed(1)
 }
 

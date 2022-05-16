@@ -1,22 +1,15 @@
 <template>
 <navbar @on-click-back="$router.go(-1)" title="行程" class="navbar" />
 <div class="page">
-  <cell-group v-for="dg of drivesGroups" :title="`${dg.date} 行驶了${dg.drives.reduce((m, d) => m + d.distance_km, 0).toFixed(0)}km`">
-    <cell
-      v-for="d of dg.drives" :title="d.start_address"
-      :to="{ name: 'Drive', query: { drive_id: d.drive_id }, params: d }"
-      :desc="`${d.duration_min}分钟 | ${d.distance_km.toFixed(0)}km`"
-      :sub-title="`温度${d.outside_temp_c}℃ 能耗${d.consumption_kwh_km && d.consumption_kwh_km.toFixed(0)}Wh/km ${d.efficiency ? '' : '(*)'}`"
-      is-link
-    />
-  </cell-group>
+  <drive-cell-group v-for="dg of drivesGroups" :title="dg.date.replace(/20/, '')" :drives="dg.drives"/>
 </div>
 </template>
 
 <script setup>
 import { ref, onActivated } from 'vue'
-import { Navbar, CellGroup, Cell } from '@nutui/nutui'
+import { Navbar } from '@nutui/nutui'
 
+import DriveCellGroup from '../components/DriveCellGroup.vue'
 import { getDrives } from '../api/drive'
 
 let drives = []
