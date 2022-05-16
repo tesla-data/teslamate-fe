@@ -4,6 +4,7 @@ import Home from './views/Home.vue'
 import Settings from './views/Settings.vue'
 import ProjectedRange from './views/ProjectedRange.vue'
 import Charges from './views/Charges.vue'
+import Charge from './views/Charge.vue'
 import Drives from './views/Drives.vue'
 import Drive from './views/Drive.vue'
 import Stats from './views/Stats.vue'
@@ -31,6 +32,11 @@ const routes = [
     path: '/charges',
     name: 'Charges',
     component: Charges
+  },
+  {
+    path: '/charge',
+    name: 'Charge',
+    component: Charge
   },
   {
     path: '/stats',
