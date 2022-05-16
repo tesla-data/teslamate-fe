@@ -1,5 +1,5 @@
 <template>
-<cell-group v-if="charges" :title="`${title || ''} 充电${charges.length}次 ${sum(charges)}度`" :desc="`${sumDc(charges, 'dc')} ${sumAc(charges, 'ac')}`">
+<cell-group v-if="charges" :title="`${title || ''} 充电${charges.length}次 ${sum(charges)}度`" :desc="`${sumDc(charges, 'dc')}${sumDcTime(charges)} ${sumAc(charges, 'ac')}`">
   <cell
     v-for="(c, i) of charges" :title="c.address"
     :desc="`充入${c.charge_energy_added}kwh`"
@@ -24,6 +24,12 @@ function sum(charges, mode) {
 function sumDc(charges) {
   const dc = sum(charges, 'dc')
   return dc ? `快充${dc}度` : ''
+}
+
+function sumDcTime(charges) {
+  charges = charges.filter(c => c.mode === 'dc')
+  const time = charges.reduce((m, c) => m + c.duration_min, 0) * 60 * 1000
+  return time ? `用时${duration(time)}` : ''
 }
 
 function sumAc(charges) {
