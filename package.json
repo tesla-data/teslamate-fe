@@ -9,7 +9,7 @@
     "deploy": "gh-pages -f -d dist"
   },
   "dependencies": {
-    "@nutui/nutui": "^3.1.9",
+    "@nutui/nutui": "^3.1.20",
     "axios": "^0.23.0",
     "highcharts": "^9.3.0",
     "lodash": "^4.17.21",

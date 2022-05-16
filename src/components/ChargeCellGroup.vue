@@ -1,5 +1,5 @@
 <template>
-<cell-group v-if="charges" :title="`${title || ''} 充电${charges.length}次 ${sum(charges)}度 ${sumDc(charges, 'dc')} ${sumAc(charges, 'ac')}`">
+<cell-group v-if="charges" :title="`${title || ''} 充电${charges.length}次 ${sum(charges)}度`" :desc="`${sumDc(charges, 'dc')} ${sumAc(charges, 'ac')}`">
   <cell
     v-for="(c, i) of charges" :title="c.address"
     :desc="`充入${c.charge_energy_added}kwh`"

@@ -1,5 +1,5 @@
 <template>
-<cell-group v-if="drives" :title="`${title || ''} ${sumComsuption(drives)}度电${sumDistance(drives)}km 均速${avgSpeed(drives)}Km/h 能耗${avgComsumption(drives)}Wh/km`">
+<cell-group v-if="drives" :title="`${title || ''} 行驶${sumDistance(drives)}Km 消耗${sumComsuption(drives)}度电`" :desc="`用时${sumTime(drives)} 均速${avgSpeed(drives)}Km/h 能耗${avgComsumption(drives)}Wh/km`">
   <cell
     v-for="d of drives" :title="d.start_address"
     :to="{ name: 'Drive', query: { drive_id: d.drive_id }, params: d }"
@@ -13,17 +13,23 @@
 <script setup>
 import { defineProps } from 'vue'
 import { CellGroup, Cell } from '@nutui/nutui'
+import { duration } from '../filters'
 
 defineProps({ drives: Object, title: String })
 
 function sumComsuption(drives) {
   const total = drives.reduce((m, d) => m + d.consumption_kWh, 0)
-  return total && total.toFixed(0)
+  return total && total.toFixed(1)
 }
 
 function sumDistance(drives) {
   const total = drives.reduce((m, d) => m + d.distance_km, 0)
-  return total && total.toFixed(0)
+  return total && total.toFixed(1)
+}
+
+function sumTime(drives) {
+  const total = drives.reduce((m, d) => m + d.duration_min, 0) * 60 * 1000
+  return total && duration(total)
 }
 
 function avgComsumption(drives) {

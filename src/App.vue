@@ -18,7 +18,12 @@ html, body {
 }
 
 .page {
-  padding: 10px;
+  padding: 0 10px;
+}
+
+.navbar {
+  padding-top: 26px!important;
+  padding-bottom: 26px!important;
 }
 
 .navbar {
