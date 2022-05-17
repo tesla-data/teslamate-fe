@@ -2,7 +2,7 @@
   <line-chart title="电量&续航" :height="150" :data="data"
     :yAxis="[{ max: 100, min: 0 }, { min: 0 }]"
     :fields="[['battery_level'], ['range']]"
-    :series-options="[{ stickyTracking: false, tooltip: { valueSuffix: '%' } }]"
+    :series-options="[{ stickyTracking: false, tooltip: { valueDecimals: 0, valueSuffix: '%' } }]"
     :fields-name="{ battery_level: '电量', range: '里程' }"
     :extremes="extremes"
   />
