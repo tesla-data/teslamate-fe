@@ -36,18 +36,21 @@ import RangeSocChart from '../components/RangeSocChart.vue'
 
 const route = useRoute()
 
+let lastLeave = 0
 const tripStats = ref({})
 const positions = ref()
 
 onActivated(() => {
+  const now = Date.now()
   const { from, to } = route.query
   if (from && to ) {
-    stats(from, to).then(res => tripStats.value = res)
-    getPositionsBig(from, to).then(res => positions.value = res)
+    stats(from, to).then(res => { if(now > lastLeave) tripStats.value = res })
+    getPositionsBig(from, to).then(res => { if (now > lastLeave) positions.value = res })
   }
 })
 
 onBeforeRouteLeave(function (to) {
+  lastLeave = Date.now()
   if (to.name === 'Stats') {
     positions.value = []
     tripStats.value = {}
