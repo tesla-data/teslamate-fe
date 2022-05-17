@@ -35,11 +35,13 @@ ORDER BY
 }
 
 export function getPositionsBig(from, to, length_unit = 'km', temp_unit = 'C', alternative_length_unit = 'm') {
+  const dur = (to - from) / 1000 / 86400
+  const tg = dur <= 7 ? 5 : dur <= 14 ? 10 : dur < 35 ? 15 : 30
   return query([{
     refId: 'positions',
     rawSql: `
 SELECT
-	$__timeGroup(date, '5s'),
+	$__timeGroup(date, '${tg}s'),
   ROUND(convert_m(avg(elevation), '${alternative_length_unit}')) AS "Elevation [${alternative_length_unit}]",
   avg(latitude) AS latitude,
   avg(longitude) AS longitude,
