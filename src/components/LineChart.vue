@@ -7,6 +7,7 @@ import { ref, defineProps, watch } from 'vue'
 import { getChart } from './Charts'
 
 const props = defineProps({
+  isTimeSeries: { type: Boolean, default: true },
   title: { type: String, default: '' },
   height: { type: Number, default: 150 },
   data: { type: Array, default: () => [] },
@@ -30,6 +31,7 @@ function getSeries(data) {
     yAxis: i,
     connectNulls: true,
     data: data.map(({ [props.xField]: x, [k]: v }) => [x, v]),
+    tooltip: { valueDecimals: 0 },
     ...props.seriesOptions[i]
   }))).reduce((m, arr) => [...m, ...arr], [])
 }
@@ -37,12 +39,13 @@ function getSeries(data) {
 watch(() => container.value, () => {
   chart = getChart(container.value, {
     title: props.title,
+    xAxis: {
+      type: props.isTimeSeries ? 'datetime' : 'linear',
+      ...props.extremes
+    },
     yAxis: props.fields.map((_, i) => ({ title: { text: null }, alignTicks: true, opposite: props.fields.length > 1 && i >= props.fields.length / 2, ...props.yAxis[i] })),
     series: getSeries(props.data)
   })
-
-  const { min, max } = props.extremes
-  if (min || max) chart.xAxis[0].setExtremes(min, max)
 })
 
 watch(() => [props.data, props.extremes], ([data, { min, max }]) => {

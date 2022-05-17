@@ -40,17 +40,5 @@ export const getChartOptions = ({ title, xAxis, yAxis = [{ title: { text: null }
 })
 
 export function getChart(div, { title, xAxis, yAxis = [{ title: { text: null }, alignTicks: false }], series = [] }) {
-  return Highcharts.chart(div, getChartOptions({ title, yAxis, series }))
-}
-
-export function drawChart(positions, div, title, fields) {
-  Highcharts.chart(div, getChartOptions({ title,
-    series: fields.map(k =>({
-      name: k,
-      type: 'line',
-      lineWidth: 1,
-      connectNulls: true,
-      data: positions.map(({ time, [k]: v }) => [time, v])
-    }))
-  })) // Highcharts
+  return Highcharts.chart(div, getChartOptions({ title, xAxis, yAxis, series }))
 }
