@@ -2,6 +2,7 @@
 <br/>
 <div ref="stateChart" style="height: 80px;" />
 <div ref="rangeChart" style="height: 150px;" />
+<range-soc-chart :data="rangeHistoryRef" is-today />
 </template>
 
 <script setup>
@@ -11,7 +12,7 @@ import Highcharts from 'highcharts'
 import xrange from 'highcharts/modules/xrange'
 
 import { duration } from '../filters'
-import api from '../api/vehicle'
+import RangeSocChart from './RangeSocChart.vue'
 
 Highcharts.setOptions({ time: { timezoneOffset: new Date().getTimezoneOffset() }, credits: { enabled: false } })
 xrange(Highcharts)
@@ -66,7 +67,9 @@ function convertRangeHistory(rangeHistory) {
   }]
 }
 
+const rangeHistoryRef = ref(props.history[1] || [])
 watch(() => props.history, ([stateHistory, rangeHistory]) => {
+  rangeHistoryRef.value = rangeHistory
   stateChart.value.chart.series[0].setData(convertStateHistory(stateHistory).data)
   convertRangeHistory(rangeHistory).forEach((series, i) => {
     rangeChart.value.chart.series[i].setData(series.data)

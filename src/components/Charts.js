@@ -1,10 +1,10 @@
 import Highcharts from 'highcharts'
 Highcharts.setOptions({ time: { timezoneOffset: new Date().getTimezoneOffset() }, credits: { enabled: false } })
 
-export const getChartOptions = ({ title, yAxis = [{ title: { text: null }, alignTicks: false }], series }) => ({
+export const getChartOptions = ({ title, xAxis, yAxis = [{ title: { text: null }, alignTicks: false }], series }) => ({
   title: {
     text: title,
-    align: 'right',
+    align: 'center',
     verticalAlign: 'top',
     floating: true,
     style: { 'font-size': '13px' }
@@ -21,7 +21,8 @@ export const getChartOptions = ({ title, yAxis = [{ title: { text: null }, align
       week: '%m-%d',
       month: '%Y-%m',
       year: '%Y'
-    }
+    },
+    ...xAxis
   },
 
   tooltip: {
@@ -37,6 +38,10 @@ export const getChartOptions = ({ title, yAxis = [{ title: { text: null }, align
 
   series
 })
+
+export function getChart(div, { title, xAxis, yAxis = [{ title: { text: null }, alignTicks: false }], series = [] }) {
+  return Highcharts.chart(div, getChartOptions({ title, yAxis, series }))
+}
 
 export function drawChart(positions, div, title, fields) {
   Highcharts.chart(div, getChartOptions({ title,
