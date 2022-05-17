@@ -2,8 +2,8 @@
 <navbar @on-click-back="$router.go(-1)" :title="`${route.query.display}行程`" class="navbar" />
   <div class="page">
   <cell-group title="">
-    <div ref="driveChart" style="height: 300px" />
-    <div ref="elevationChart" style="height: 150px" />
+    <range-soc-chart :data="positions" />
+    <position-chart title="海拔" :data="positions" :fields="['Elevation [m]']" />
   </cell-group>
   <charge-cell-group :charges="tripStats.charges" />
   <drive-cell-group :drives="tripStats.drives" />
@@ -27,32 +27,27 @@ import { Navbar, CellGroup } from '@nutui/nutui'
 
 import { stats } from '../api/stats'
 import { getPositionsBig } from '../api/position'
-import { drawChart } from '../components/Charts'
 import DriveCellGroup from '../components/DriveCellGroup.vue'
 import ChargeCellGroup from '../components/ChargeCellGroup.vue'
+import PositionChart from '../components/PositionChart.vue'
+import RangeSocChart from '../components/RangeSocChart.vue'
 
-const tripStats = ref({})
 const route = useRoute()
 
-const driveChart = ref()
-const elevationChart = ref()
+const tripStats = ref({})
+const positions = ref()
 
 onActivated(() => {
   const { from, to } = route.query
   if (from && to ) {
     stats(from, to).then(res => tripStats.value = res)
-    getPositionsBig(from, to).then(positions => {
-      drawChart(positions, driveChart.value, '驾驶数据', [
-        'Range [km]',
-        'SOC [%]'
-      ])
-      drawChart(positions, elevationChart.value, '海拔', ['Elevation [m]'])
-    })
+    getPositionsBig(from, to).then(res => positions.value = res)
   }
 })
 
 onBeforeRouteLeave(function (to) {
   if (to.name === 'Stats') {
+    positions.value = []
     tripStats.value = {}
   }
 })

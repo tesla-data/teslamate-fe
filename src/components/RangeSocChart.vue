@@ -39,7 +39,6 @@ function getSeries(data) {
 watch(() => container.value, () => {
   chart = getChart(container.value, {
     title: '电量',
-    xAxis: { min: Date.now() - 86400 * 1000 },
     yAxis: [
       { title: { text: null }, min: 0, max: 100, alignTicks: false },
       { title: { text: null }, min: 0, opposite: true, alignTicks: false }
@@ -51,7 +50,7 @@ watch(() => container.value, () => {
 })
 
 watch(() => props.data, (data) => {
-  getSeries(props.data).forEach((series, i) => chart.series[i].setData(series.data))
+  getSeries(data).forEach((series, i) => chart.series[i].setData(series.data))
   if (props.isToday) updateExtremes(chart)
 })
 </script>
