@@ -24,14 +24,7 @@ html, body {
 .navbar {
   padding-top: 26px!important;
   padding-bottom: 26px!important;
-}
-
-.navbar {
-  position: fixed!important;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 999;
+  z-index: 9999;
 
   + .page {
     padding-top: 50px;

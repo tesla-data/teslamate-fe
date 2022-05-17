@@ -1,5 +1,5 @@
 <template>
-<navbar @on-click-back="$router.go(-1)" title="充电详情" class="navbar" />
+<navbar @on-click-back="$router.go(-1)" fixed title="充电详情" class="navbar" />
 <div class="page">
   <cell-group title="">
     <track-map v-if="position" :points="[[position.latitude, position.longitude]]" />

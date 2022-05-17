@@ -1,5 +1,5 @@
 <template>
-<navbar @on-click-back="$router.go(-1)" title="Teslafi Firmware统计" class="navbar" />
+<navbar @on-click-back="$router.go(-1)" fixed title="Teslafi Firmware统计" class="navbar" />
 <div class="page" style="padding-top: 80px; overflow: scroll;">
   <table v-if="teslafi">
     <thead>

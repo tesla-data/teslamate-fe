@@ -1,5 +1,5 @@
 <template>
-<navbar @on-click-back="$router.go(-1)" title="充电" class="navbar" />
+<navbar @on-click-back="$router.go(-1)" fixed title="充电" class="navbar" />
 <div class="page">
   <charge-cell-group v-for="cg of charges" :title="cg.month" :charges="cg.charges" />
 </div>

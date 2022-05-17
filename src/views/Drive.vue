@@ -1,5 +1,5 @@
 <template>
-<navbar @on-click-back="$router.go(-1)" title="行程详情" class="navbar" />
+<navbar @on-click-back="$router.go(-1)" fixed title="行程详情" class="navbar" />
 <div class="page">
   <cell-group v-if="drive"
     :title="`行驶了${drive.duration_min}分钟 ${drive.distance_km.toFixed(1)}km 能耗${drive.consumption_kwh_km && drive.consumption_kwh_km.toFixed(0)}Wh/km ${drive.efficiency ? '' : '(*)'}`"

@@ -1,5 +1,5 @@
 <template>
-<navbar @on-click-back="$router.go(-1)" title="统计" class="navbar" />
+<navbar @on-click-back="$router.go(-1)" fixed title="统计" class="navbar" />
 <div class="page">
   <cell-group :title="`${st.year} 行驶了${st.stats.reduce((m, s) => m + s.sum_distance_km, 0)}km`" v-for="st of stats">
     <cell

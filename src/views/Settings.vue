@@ -1,5 +1,5 @@
 <template>
-<navbar @on-click-back="$router.go(-1)" title="设置" class="navbar" />
+<navbar @on-click-back="$router.go(-1)" fixed title="设置" class="navbar" />
 <div class="page">
   <cell-group title="设置">
     <cell title="隐藏完整车辆识别码">
