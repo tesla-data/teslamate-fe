@@ -26,6 +26,10 @@ html, body {
   padding-bottom: 26px!important;
   z-index: 9999;
 
+  .nut-navbar__title .title {
+    width: inherit;
+  }
+
   + .page {
     padding-top: 50px;
   }
