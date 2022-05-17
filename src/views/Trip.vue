@@ -6,8 +6,8 @@
     <range-soc-chart :data="positions" />
     <line-chart title="海拔" :height="100" :data="positions" :fields="[['Elevation [m]']]" />
   </cell-group>
-  <charge-cell-group :charges="tripStats.charges" />
-  <drive-cell-group :drives="tripStats.drives" />
+  <charge-cell-group v-if="tripStats.charges && tripStats.charges.length > 0" :charges="tripStats.charges" />
+  <drive-cell-group v-if="tripStats.drives && tripStats.drives.length > 0" :drives="tripStats.drives" />
   <!-- <div v-if="tripStats.charges && tripStats.drives">
     {{tripStats.drives[0]}}<br/>
     {{tripStats.charges[0]}}
@@ -49,9 +49,10 @@ onActivated(() => {
   }
 })
 
+const noKeepAlivePages = ['Stats', 'Drives']
 onBeforeRouteLeave(function (to) {
   lastLeave = Date.now()
-  if (to.name === 'Stats') {
+  if (noKeepAlivePages.indexOf(to.name) >= 0) {
     positions.value = []
     tripStats.value = {}
   }

@@ -1,5 +1,13 @@
 <template>
 <cell-group v-if="drives" :title="`${title || ''} 行驶${sumDistance(drives)}Km 消耗${sumComsuption(drives)}度电`" :desc="`用时${sumTime(drives)} 均速${avgSpeed(drives)}Km/h 能耗${avgComsumption(drives)}Wh/km`">
+  <template v-slot:title>
+    <router-link v-if="dateRange" class="nut-cell-group__title" style="text-decoration: none;"
+      :to="{ name: 'Trip', query: { display: title, from: dateRange.from, to: dateRange.to } }"
+    >
+      {{`${title || ''} 行驶${sumDistance(drives)}Km 消耗${sumComsuption(drives)}度电`}} >
+    </router-link>
+    <div v-else  class="nut-cell-group__title">{{`${title || ''} 行驶${sumDistance(drives)}Km 消耗${sumComsuption(drives)}度电`}}</div>
+  </template>
   <cell
     v-for="d of drives" :title="d.start_address"
     :to="{ name: 'Drive', query: { drive_id: d.drive_id }, params: d }"
@@ -11,11 +19,16 @@
 </template>
 
 <script setup>
-import { defineProps } from 'vue'
+import { defineProps, computed } from 'vue'
 import { CellGroup, Cell } from '@nutui/nutui'
 import { duration } from '../filters'
 
-defineProps({ drives: Object, title: String })
+const props = defineProps({ drives: Object, title: String })
+
+const dateRange = computed(() => {
+  const d = new Date(props.title)
+  return d.getTime() && { from: d.getTime(), to: d.getTime() + 24 * 60 * 60 * 1000 }
+})
 
 function sumComsuption(drives) {
   const total = drives.reduce((m, d) => m + d.consumption_kWh, 0)

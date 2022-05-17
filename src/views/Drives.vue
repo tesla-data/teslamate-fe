@@ -1,7 +1,7 @@
 <template>
 <navbar @on-click-back="$router.go(-1)" title="行程" class="navbar" />
 <div class="page">
-  <drive-cell-group v-for="dg of drivesGroups" :title="dg.date.replace(/20/, '')" :drives="dg.drives"/>
+  <drive-cell-group v-for="dg of drivesGroups" :title="dg.date" :drives="dg.drives"/>
 </div>
 </template>
 
