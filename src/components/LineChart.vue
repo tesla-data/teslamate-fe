@@ -11,8 +11,10 @@ const props = defineProps({
   height: { type: Number, default: 150 },
   data: { type: Array, default: () => [] },
   fields: { type: Array, default: () => [] },
+  fieldsName: { type: Object, default: () => ({}) },
   yAxis: { type: Array, default: () => [] },
-  seriesOptions: { type: Array, default: () => [] }
+  seriesOptions: { type: Array, default: () => [] },
+  extremes: { type: Object, default: () => ({}) }
 })
 
 const container = ref()
@@ -20,7 +22,7 @@ let chart
 
 function getSeries(data) {
   return props.fields.map((fields, i) => fields.map(k =>({
-    name: k,
+    name: props.fieldsName[k] || k,
     type: 'line',
     marker: false,
     lineWidth: 1,
@@ -37,9 +39,13 @@ watch(() => container.value, () => {
     yAxis: props.fields.map((_, i) => ({ title: { text: null }, alignTicks: true, opposite: props.fields.length > 1 && i >= props.fields.length / 2, ...props.yAxis[i] })),
     series: getSeries(props.data)
   })
+
+  const { min, max } = props.extremes
+  if (min || max) chart.xAxis[0].setExtremes(min, max)
 })
 
-watch(() => props.data, (data) => {
+watch(() => [props.data, props.extremes], ([data, { min, max }]) => {
   getSeries(data).forEach((series, i) => chart.series[i].setData(series.data))
+  if (min || max) chart.xAxis[0].setExtremes(min, max)
 })
 </script>
