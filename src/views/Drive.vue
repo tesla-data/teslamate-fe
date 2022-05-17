@@ -8,12 +8,12 @@
     <cell
       :title="drive.start_address"
       :desc="`电量: ${drive['% Start']}% ${drive.start_ideal_range_km.toFixed(0)}km `"
-      :sub-title="`${new Date(drive.start_date_ts).toLocaleString()} 温度${drive.outside_temp_c}℃`"
+      :sub-title="`${new Date(drive.start_date_ts).toLocaleString()}`"
     />
     <cell
       :title="drive.end_address"
       :desc="`电量: ${drive['% End']}% ${drive.end_ideal_range_km.toFixed(0)}km`"
-      :sub-title="`${new Date(drive.end_date_ts).toLocaleString()} 温度${drive.outside_temp_c}℃`"
+      :sub-title="`${new Date(drive.end_date_ts).toLocaleString()}`"
     />
   </cell-group>
   <cell-group title="">
