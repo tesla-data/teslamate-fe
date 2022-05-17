@@ -36,7 +36,5 @@ function drawPolyline() {
   }
 }
 
-onBeforeUnmount(() => {
-  container.value.map.remove()
-})
+onBeforeUnmount(() => container.value.map.remove())
 </script>
