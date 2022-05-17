@@ -3,7 +3,7 @@
   <div class="page">
   <cell-group title="">
     <range-soc-chart :data="positions" />
-    <position-chart title="海拔" :data="positions" :fields="['Elevation [m]']" />
+    <line-chart title="海拔" :height="100" :data="positions" :fields="[['Elevation [m]']]" />
   </cell-group>
   <charge-cell-group :charges="tripStats.charges" />
   <drive-cell-group :drives="tripStats.drives" />
@@ -29,7 +29,7 @@ import { stats } from '../api/stats'
 import { getPositionsBig } from '../api/position'
 import DriveCellGroup from '../components/DriveCellGroup.vue'
 import ChargeCellGroup from '../components/ChargeCellGroup.vue'
-import PositionChart from '../components/PositionChart.vue'
+import LineChart from '../components/LineChart.vue'
 import RangeSocChart from '../components/RangeSocChart.vue'
 
 const route = useRoute()
