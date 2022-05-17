@@ -17,10 +17,21 @@
     />
   </cell-group>
   <cell-group title="">
-    <div ref="driveChart" style="height: 200px" />
-    <div ref="batteryChart" style="height: 150px" />
-    <div ref="elevationChart" style="height: 150px" />
-    <div ref="temperatureChart" style="height: 150px" />
+    <line-chart title="速度&功率" :height="200" :data="positions"
+      :fields="[['Speed [km/h]'], ['Power [kW]']]"
+    />
+    <line-chart title="电量&续航" :height="150" :data="positions"
+      :fields="[['battery_level'], ['range']]"
+      :series-options="[{ stickyTracking: false }]"
+    />
+    <line-chart title="海拔" :height="100" :data="positions" :fields="[['Elevation [m]']]" />
+    <line-chart title="温度" :height="100" :data="positions" :fields="[[
+      'Outside Temperature [°C]',
+      'Inside Temperature [°C]',
+      'Driver Temperature [°C]',
+      'is_climate_on',
+      'fan_status']]"
+    />
   </cell-group>
 </div>
 </template>
@@ -38,32 +49,13 @@ import { Navbar, CellGroup, Cell } from '@nutui/nutui'
 
 import { getPositions } from '../api/position'
 import { getDriveDetail } from '../api/drive'
-import { drawChart } from '../components/Charts'
+import LineChart from '../components/LineChart.vue'
 
 const route = useRoute()
 const drive = ref()
-const driveChart = ref()
-const batteryChart = ref()
-const elevationChart = ref()
-const temperatureChart = ref()
+const positions = ref()
 getDriveDetail(route.query.drive_id).then(async res => {
   const { start_date_ts, end_date_ts } = drive.value = res[0]
-  const positions = await getPositions(start_date_ts, end_date_ts)
-  drawChart(positions, driveChart.value, '驾驶数据', [
-    'Speed [km/h]',
-    'Power [kW]'
-  ])
-  drawChart(positions, batteryChart.value, '电池数据', [
-    'Range [km]',
-    // 'SOC [%]'
-  ])
-  drawChart(positions, elevationChart.value, '海拔', ['Elevation [m]'])
-  drawChart(positions, temperatureChart.value, '温度', [
-    'Outside Temperature [°C]',
-    'Inside Temperature [°C]',
-    'Driver Temperature [°C]',
-    'is_climate_on',
-    'fan_status'
-  ])
+  positions.value = await getPositions(start_date_ts, end_date_ts)
 })
 </script>

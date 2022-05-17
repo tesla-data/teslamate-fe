@@ -11,7 +11,8 @@ const props = defineProps({
   height: { type: Number, default: 150 },
   data: { type: Array, default: () => [] },
   fields: { type: Array, default: () => [] },
-  yAxis: { type: Array, default: () => [] }
+  yAxis: { type: Array, default: () => [] },
+  seriesOptions: { type: Array, default: () => [] }
 })
 
 const container = ref()
@@ -21,10 +22,12 @@ function getSeries(data) {
   return props.fields.map((fields, i) => fields.map(k =>({
     name: k,
     type: 'line',
+    marker: false,
     lineWidth: 1,
     yAxis: i,
     connectNulls: true,
-    data: data.map(({ time, [k]: v }) => [time, v])
+    data: data.map(({ time, [k]: v }) => [time, v]),
+    ...props.seriesOptions[i]
   }))).reduce((m, arr) => [...m, ...arr], [])
 }
 
