@@ -1,7 +1,7 @@
 import { query } from './teslamate'
 import { currentVehicle } from '../settings'
 
-export function getChargeDetail(id, length_unit = 'km', temp_unit = 'C') {
+export function getChargeDetail(id, from, to, length_unit = 'km', temp_unit = 'C') {
   return query([{
     refId: 'charge',
     rawSql: `
@@ -27,5 +27,18 @@ WHERE
 ORDER BY
   date ASC
     `
-  }])
+  }, {
+    refId: 'position',
+    rawSql: `
+SELECT
+  latitude,
+  longitude
+FROM
+  positions
+WHERE
+  car_id = ${currentVehicle.value.id} AND
+  $__timeFilter(date)
+LIMIT 1
+    `
+  }], from, to)
 }

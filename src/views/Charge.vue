@@ -1,7 +1,8 @@
 <template>
 <navbar @on-click-back="$router.go(-1)" title="充电详情" class="navbar" />
 <div class="page">
-  <cell-group title="充电曲线">
+  <cell-group title="">
+    <track-map v-if="position" :points="[[position.latitude, position.longitude]]" />
     <line-chart title="充电曲线" :height="250" :data="chargeDetail"
       :fields="[['SOC [%]', 'Power [kW]', 'Battery heater'], ['Range [km]']]"
       :yAxis="[{ softMax: 100, min: 0 }, { min: 0 }]"
@@ -24,13 +25,18 @@ export default {
 <script setup>
 import { useRoute } from 'vue-router'
 import { ref } from 'vue'
-import { Navbar, CellGroup, Cell } from '@nutui/nutui'
+import { Navbar, CellGroup } from '@nutui/nutui'
 
 import { getChargeDetail } from '../api/charge'
+import TrackMap from '../components/TrackMap.vue'
 import LineChart from '../components/LineChart.vue'
 
 const route = useRoute()
 const chargeDetail = ref()
+const position = ref()
 
-getChargeDetail(route.query.id).then(res => chargeDetail.value = res)
+getChargeDetail(route.query.id, route.query.from, route.query.to).then(([cd, pos]) => {
+  chargeDetail.value = cd
+  position.value = pos[0]
+})
 </script>
