@@ -3,7 +3,7 @@
 </template>
 
 <script setup>
-import { ref, defineProps, watch } from 'vue'
+import { ref, defineProps, watch, onBeforeUnmount } from 'vue'
 import { getChart } from './Charts'
 
 const props = defineProps({
@@ -47,5 +47,9 @@ watch(() => container.value, () => {
 watch(() => [props.data, props.extremes], ([data, { min, max }]) => {
   getSeries(data).forEach((series, i) => chart.series[i].setData(series.data))
   if (min || max) chart.xAxis[0].setExtremes(min, max)
+})
+
+onBeforeUnmount(() => {
+  chart && chart.destroy()
 })
 </script>
