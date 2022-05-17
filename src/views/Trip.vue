@@ -2,6 +2,7 @@
 <navbar @on-click-back="$router.go(-1)" :title="`${route.query.display}行程`" class="navbar" />
   <div class="page">
   <cell-group title="">
+    <track-map v-if="positions && positions.length > 0" :points="positions.map(({ latitude, longitude }) => [latitude, longitude])" />
     <range-soc-chart :data="positions" />
     <line-chart title="海拔" :height="100" :data="positions" :fields="[['Elevation [m]']]" />
   </cell-group>
@@ -29,6 +30,7 @@ import { stats } from '../api/stats'
 import { getPositionsBig } from '../api/position'
 import DriveCellGroup from '../components/DriveCellGroup.vue'
 import ChargeCellGroup from '../components/ChargeCellGroup.vue'
+import TrackMap from '../components/TrackMap.vue'
 import LineChart from '../components/LineChart.vue'
 import RangeSocChart from '../components/RangeSocChart.vue'
 

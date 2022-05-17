@@ -12,6 +12,7 @@
     "@nutui/nutui": "^3.1.20",
     "axios": "^0.23.0",
     "highcharts": "^9.3.0",
+    "leaflet": "^1.8.0",
     "lodash": "^4.17.21",
     "vue": "^3.2.16",
     "vue-router": "^4.0.12"
