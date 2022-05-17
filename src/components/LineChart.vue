@@ -3,13 +3,14 @@
 </template>
 
 <script setup>
-import { ref, defineProps, watch, onBeforeUnmount } from 'vue'
+import { ref, defineProps, watch } from 'vue'
 import { getChart } from './Charts'
 
 const props = defineProps({
   title: { type: String, default: '' },
   height: { type: Number, default: 150 },
   data: { type: Array, default: () => [] },
+  xField: { type: String, default: 'time' },
   fields: { type: Array, default: () => [] },
   fieldsName: { type: Object, default: () => ({}) },
   yAxis: { type: Array, default: () => [] },
@@ -28,7 +29,7 @@ function getSeries(data) {
     lineWidth: 1,
     yAxis: i,
     connectNulls: true,
-    data: data.map(({ time, [k]: v }) => [time, v]),
+    data: data.map(({ [props.xField]: x, [k]: v }) => [x, v]),
     ...props.seriesOptions[i]
   }))).reduce((m, arr) => [...m, ...arr], [])
 }
@@ -47,9 +48,5 @@ watch(() => container.value, () => {
 watch(() => [props.data, props.extremes], ([data, { min, max }]) => {
   getSeries(data).forEach((series, i) => chart.series[i].setData(series.data))
   if (min || max) chart.xAxis[0].setExtremes(min, max)
-})
-
-onBeforeUnmount(() => {
-  chart && chart.destroy()
 })
 </script>
