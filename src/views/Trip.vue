@@ -21,13 +21,13 @@ export default {
 </script>
 
 <script setup>
-import { ref } from 'vue'
-import { useRoute } from 'vue-router'
+import { ref, onActivated } from 'vue'
+import { useRoute, onBeforeRouteLeave } from 'vue-router'
 import { Navbar, CellGroup } from '@nutui/nutui'
 
 import { stats } from '../api/stats'
 import { getPositionsBig } from '../api/position'
-import { drawChart } from '../components/PositionChart'
+import { drawChart } from '../components/Charts'
 import DriveCellGroup from '../components/DriveCellGroup.vue'
 import ChargeCellGroup from '../components/ChargeCellGroup.vue'
 
@@ -36,15 +36,24 @@ const route = useRoute()
 
 const driveChart = ref()
 const elevationChart = ref()
-const { from, to } = route.query
-if (from && to ) {
-  stats(from, to).then(res => tripStats.value = res)
-  getPositionsBig(from, to).then(positions => {
-    drawChart(positions, driveChart.value, '驾驶数据', [
-      'Range [km]',
-      'SOC [%]'
-    ])
-    drawChart(positions, elevationChart.value, '海拔', ['Elevation [m]'])
-  })
-}
+
+onActivated(() => {
+  const { from, to } = route.query
+  if (from && to ) {
+    stats(from, to).then(res => tripStats.value = res)
+    getPositionsBig(from, to).then(positions => {
+      drawChart(positions, driveChart.value, '驾驶数据', [
+        'Range [km]',
+        'SOC [%]'
+      ])
+      drawChart(positions, elevationChart.value, '海拔', ['Elevation [m]'])
+    })
+  }
+})
+
+onBeforeRouteLeave(function (to) {
+  if (to.name === 'Stats') {
+    tripStats.value = {}
+  }
+})
 </script>

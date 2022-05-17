@@ -38,7 +38,7 @@ import { Navbar, CellGroup, Cell } from '@nutui/nutui'
 
 import { getPositions } from '../api/position'
 import { getDriveDetail } from '../api/drive'
-import { drawChart } from '../components/PositionChart'
+import { drawChart } from '../components/Charts'
 
 const route = useRoute()
 const drive = ref()
