@@ -3,7 +3,7 @@
 </template>
 
 <script setup>
-import { ref, defineProps, watch } from 'vue'
+import { ref, defineProps, watch, onBeforeUnmount } from 'vue'
 import { Map, LatLngBounds, TileLayer, Polyline, Marker } from 'leaflet'
 
 const container = ref()
@@ -35,4 +35,8 @@ function drawPolyline() {
     }
   }
 }
+
+onBeforeUnmount(() => {
+  container.value.map.remove()
+})
 </script>
