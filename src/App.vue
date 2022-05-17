@@ -4,7 +4,7 @@ import { RouterView } from 'vue-router'
 
 <template>
 <router-view v-slot="{ Component }">
-  <keep-alive :exclude="['Charge', 'Drive', 'Trip']">
+  <keep-alive :exclude="['Charge', 'Drive']">
     <component :is="Component" />
   </keep-alive>
 </router-view>
@@ -27,7 +27,7 @@ html, body {
 }
 
 .navbar {
-  position: fixed!important;;
+  position: fixed!important;
   top: 0;
   left: 0;
   right: 0;
