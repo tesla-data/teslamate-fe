@@ -2,7 +2,15 @@
 <navbar @on-click-back="$router.go(-1)" title="充电详情" class="navbar" />
 <div class="page">
   <cell-group title="充电曲线">
-    <div ref="chargeDetailChart" style="height: 350px;" />
+    <line-chart title="充电曲线" :height="250" :data="chargeDetail"
+      :fields="[['SOC [%]', 'Power [kW]', 'Battery heater'], ['Range [km]']]"
+      :yAxis="[{ softMax: 100, min: 0 }, { min: 0 }]"
+    />
+    <line-chart v-if="chargeDetail && chargeDetail.find(c => c['Current [A]'])" title="电压电流" :height="150" :data="chargeDetail"
+      :fields="[['Charging Voltage [V]'], ['Current [A]', 'Current (pilot) [A]']]"
+      :yAxis="[{ tickAmount: 4, min: 0 }, { tickAmount: 4, min: 0 }]"
+    />
+    <line-chart title="温度" :height="100" :data="chargeDetail" :fields="[['Outdoor Temperature [°C]']]" />
   </cell-group>
 </div>
 </template>
@@ -17,61 +25,12 @@ export default {
 import { useRoute } from 'vue-router'
 import { ref } from 'vue'
 import { Navbar, CellGroup, Cell } from '@nutui/nutui'
-import Highcharts from 'highcharts'
 
 import { getChargeDetail } from '../api/charge'
-
-Highcharts.setOptions({ time: { timezoneOffset: new Date().getTimezoneOffset() }, credits: { enabled: false } })
+import LineChart from '../components/LineChart.vue'
 
 const route = useRoute()
-const params = route.params
+const chargeDetail = ref()
 
-const chargeDetailChart = ref()
-getChargeDetail(route.query.id).then(res => {
-  if (!res.length) return
-
-  const keys = Object.keys(res[0]).filter(v => v !== 'time')
-  Highcharts.chart(chargeDetailChart.value, {
-    title: {
-      text: null
-    },
-
-    xAxis: {
-      type: 'datetime',
-      dateTimeLabelFormats: {
-        millisecond: '%H:%M:%S.%L',
-        second: '%H:%M:%S',
-        minute: '%H:%M',
-        hour: '%H:%M',
-        day: '%m-%d',
-        week: '%m-%d',
-        month: '%Y-%m',
-        year: '%Y'
-      }
-    },
-
-    tooltip: {
-      shared: true,
-      crosshairs: true
-    },
-
-    yAxis: [
-      { title: { text: null }, alignTicks: false },
-      { title: { text: null }, alignTicks: false, opposite: true }
-    ],
-
-    legend: {
-      enabled: false
-    },
-
-    series: keys.map(k =>({
-      name: k,
-      type: 'line',
-      lineWidth: 1,
-      connectNulls: true,
-      yAxis: k.indexOf('Voltage') >= 0 || k.indexOf('Range') >= 0 ? 1 : 0,
-      data: res.map(({ time, [k]: v }) => [time, v])
-    }))
-  }) // Highcharts
-})
+getChargeDetail(route.query.id).then(res => chargeDetail.value = res)
 </script>
