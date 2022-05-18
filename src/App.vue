@@ -26,7 +26,7 @@ html, body {
 }
 
 .page {
-  padding: 0 10px;
+  padding: 10px;
 }
 
 .navbar {
@@ -39,7 +39,7 @@ html, body {
   }
 
   + .page {
-    padding-top: 50px;
+    padding-top: 45px;
   }
 }
 </style>

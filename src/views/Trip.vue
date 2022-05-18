@@ -1,7 +1,7 @@
 <template>
 <navbar @on-click-back="$router.go(-1)" fixed :title="`${route.query.display}行程`" class="navbar" />
   <div class="page">
-  <cell-group title="">
+  <cell-group>
     <track-map
       v-if="positions.length > 0"
       :track="positions.map(({ latitude, longitude }) => [latitude, longitude])"
