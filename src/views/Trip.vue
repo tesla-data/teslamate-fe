@@ -3,6 +3,7 @@
   <div class="page">
   <cell-group title="">
     <track-map
+      v-if="positions.length > 0"
       :track="positions.map(({ latitude, longitude }) => [latitude, longitude])"
       :charges="positions.length > 0 && positions.length > 0 && tripStats.charges && tripStats.charges.map(({ latitude, longitude, mode }) => [latitude, longitude, mode]) || []"
     />
