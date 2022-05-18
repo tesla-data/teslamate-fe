@@ -17,7 +17,7 @@
     />
   </cell-group>
   <cell-group title="">
-    <track-map v-if="positions" :points="positions.map(({ latitude, longitude }) => [latitude, longitude])" />
+    <track-map v-if="positions" :track="positions.map(({ latitude, longitude }) => [latitude, longitude])" />
     <line-chart title="速度&功率" :height="200" :data="positions"
       :fields="[['Speed [km/h]'], ['Power [kW]']]"
     />

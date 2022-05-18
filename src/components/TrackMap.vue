@@ -7,32 +7,42 @@ import { ref, defineProps, watch, onBeforeUnmount } from 'vue'
 import { Map, LatLngBounds, TileLayer, Polyline, Marker } from 'leaflet'
 
 const container = ref()
-const props = defineProps({ height: { type: Number, default: 300 }, points: { type: Array, default: () => [] } })
+const props = defineProps({ height: { type: Number, default: 300 }, track: { type: Array, default: () => [] }, charges: { type: Array, default: () => [] } })
 
 watch(() => container.value, lmap => {
-  container.value.map = new Map(lmap).addLayer(new TileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'))
+  container.value.map = new Map(lmap, { center: [0, 0], zoom: 0, layers: new TileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png') })
   drawPolyline()
+  drawCharges()
+  setCenterAndZoom()
 })
 
-watch(() => props.points, points => {
-  if (!points || points.length === 0) {
-    container.value.polyline.remove()
-  } else {
-    drawPolyline()
-  }
+watch(() => [props.track, props.charges], ([track, charges]) => {
+  drawPolyline()
+  drawCharges()
+  setCenterAndZoom()
 })
+
+function setCenterAndZoom() {
+  const { track, charges } = props
+  const boundsPoints = [track, charges].find(arr => arr.length >= 2)
+  const center = [track, charges].find(arr => arr.length === 1)
+  if (boundsPoints) {
+    const bounds = new LatLngBounds(boundsPoints)
+    container.value.map.fitBounds(bounds)
+  } else if (center) {
+    container.value.map.setView(center[0], 15)
+  }
+}
 
 function drawPolyline() {
-  const bounds = new LatLngBounds(props.points)
-  if (bounds.isValid) {
-    if (props.points.length > 2) {
-      container.value.polyline = new Polyline(props.points)
-      container.value.map.fitBounds(bounds).addLayer(container.value.polyline)
-    } else {
-      const point = props.points[0]
-      container.value.polyline = new Marker(point)
-      container.value.map.setView(point, 15).addLayer(container.value.polyline)
-    }
+  container.value.map.eachLayer(l => { if (l instanceof Polyline) l.remove() })
+  if (props.track.length > 0) container.value.map.addLayer(new Polyline(props.track))
+}
+
+function drawCharges() {
+  container.value.map.eachLayer(l => { if (l instanceof Marker) l.remove() })
+  for (const c of props.charges) {
+    container.value.map.addLayer(new Marker(c))
   }
 }
 

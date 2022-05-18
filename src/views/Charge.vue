@@ -2,7 +2,7 @@
 <navbar @on-click-back="$router.go(-1)" fixed title="充电详情" class="navbar" />
 <div class="page">
   <cell-group title="">
-    <track-map v-if="position" :points="position" />
+    <track-map v-if="position" :charges="position" />
     <line-chart title="充电曲线" :height="250" :data="chargeDetail"
       :fields="[['SOC [%]', 'Power [kW]', 'Battery heater'], ['Range [km]']]"
       :yAxis="[{ softMax: 100, min: 0 }, { min: 0 }]"

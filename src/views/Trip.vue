@@ -2,7 +2,7 @@
 <navbar @on-click-back="$router.go(-1)" fixed :title="`${route.query.display}行程`" class="navbar" />
   <div class="page">
   <cell-group title="">
-    <track-map v-if="positions" :points="positions.map(({ latitude, longitude }) => [latitude, longitude])" />
+    <track-map v-if="positions" :track="positions.map(({ latitude, longitude }) => [latitude, longitude])" />
     <range-soc-chart :data="positions" />
     <line-chart title="海拔" :height="100" :data="positions" :fields="[['Elevation [m]']]" />
   </cell-group>
