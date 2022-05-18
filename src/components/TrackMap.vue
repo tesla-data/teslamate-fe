@@ -14,13 +14,13 @@ watch(() => container.value, lmap => {
   drawPolyline()
 })
 
-// watch(() => props.points, points => {
-//   if (!points || points.length === 0) {
-//     container.value.polyline.remove()
-//   } else {
-//     drawPolyline()
-//   }
-// })
+watch(() => props.points, points => {
+  if (!points || points.length === 0) {
+    container.value.polyline.remove()
+  } else {
+    drawPolyline()
+  }
+})
 
 function drawPolyline() {
   const bounds = new LatLngBounds(props.points)
