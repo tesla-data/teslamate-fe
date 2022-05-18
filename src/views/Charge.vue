@@ -37,7 +37,7 @@ import DriveCellGroup from '../components/DriveCellGroup.vue'
 
 const route = useRoute()
 const chargeDetail = ref()
-const position = ref(route.query.lat && route.query.lng && [[route.query.lat * 1, route.query.lng * 1]])
+const position = ref(route.query.lat && route.query.lng && [[route.query.lat * 1, route.query.lng * 1, route.query.mode]])
 const drives = ref()
 
 getChargeDetail(route.query.id, route.query.from, route.query.to).then(async ([cd, [{ start_date: nextChargeTs = Date.now() } = {}]]) => {

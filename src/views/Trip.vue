@@ -4,7 +4,7 @@
   <cell-group title="">
     <track-map
       :track="positions.map(({ latitude, longitude }) => [latitude, longitude])"
-      :charges="positions.length > 0 && positions.length > 0 && tripStats.charges && tripStats.charges.map(({ latitude, longitude }) => [latitude, longitude]) || []"
+      :charges="positions.length > 0 && positions.length > 0 && tripStats.charges && tripStats.charges.map(({ latitude, longitude, mode }) => [latitude, longitude, mode]) || []"
     />
     <range-soc-chart :data="positions" />
     <line-chart title="海拔" :height="100" :data="positions" :fields="[['Elevation [m]']]" />

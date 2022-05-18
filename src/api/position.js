@@ -36,7 +36,7 @@ ORDER BY
 
 export function getPositionsBig(from, to, length_unit = 'km', temp_unit = 'C', alternative_length_unit = 'm') {
   const dur = (to - from) / 1000 / 86400
-  const tg = dur <= 7 ? 5 : dur <= 14 ? 10 : dur < 35 ? 15 : 30
+  const tg = dur <= 7 ? 5 : dur <= 14 ? 10 : dur < 35 ? 15 : dur < 180 ? 30 : 60
   return query([{
     refId: 'positions',
     rawSql: `

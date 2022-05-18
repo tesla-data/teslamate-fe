@@ -2,6 +2,14 @@
 <navbar @on-click-back="$router.go(-1)" fixed title="统计" class="navbar" />
 <div class="page">
   <cell-group :title="`${st.year} 行驶了${st.stats.reduce((m, s) => m + s.sum_distance_km, 0)}km`" v-for="st of stats">
+    <template v-slot:title>
+      <router-link class="nut-cell-group__title" style="text-decoration: none;"
+        :to="{ name: 'Trip', query: { display: st.year, from: Date.parse(st.year + '/1/1'), to: Date.parse((st.year * 1 + 1) + '/1/1') } }"
+      >
+        {{`${st.year} 行驶了${st.stats.reduce((m, s) => m + s.sum_distance_km, 0)}km`}} >
+      </router-link>
+    </template>
+
     <cell
       v-for="s of st.stats" :title="s.display"
       :desc="`${(s.sum_duration_h / 60).toFixed(0)}分钟 | ${s.sum_distance_km}km`"
