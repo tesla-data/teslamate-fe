@@ -2,7 +2,10 @@
 <navbar @on-click-back="$router.go(-1)" fixed :title="`${route.query.display}行程`" class="navbar" />
   <div class="page">
   <cell-group title="">
-    <track-map v-if="positions" :track="positions.map(({ latitude, longitude }) => [latitude, longitude])" />
+    <track-map
+      :track="positions.map(({ latitude, longitude }) => [latitude, longitude])"
+      :charges="positions.length > 0 && positions.length > 0 && tripStats.charges && tripStats.charges.map(({ latitude, longitude }) => [latitude, longitude]) || []"
+    />
     <range-soc-chart :data="positions" />
     <line-chart title="海拔" :height="100" :data="positions" :fields="[['Elevation [m]']]" />
   </cell-group>
@@ -38,7 +41,7 @@ const route = useRoute()
 
 let lastLeave = 0
 const tripStats = ref({})
-const positions = ref()
+const positions = ref([])
 
 onActivated(() => {
   const now = Date.now()
