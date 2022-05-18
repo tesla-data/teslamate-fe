@@ -13,6 +13,8 @@
     />
     <line-chart title="温度" :height="100" :data="chargeDetail" :fields="[['Outdoor Temperature [°C]']]" />
   </cell-group>
+  <drive-cell-group title="本次充电后" :drives="drives"/>
+
 </div>
 </template>
 
@@ -28,14 +30,18 @@ import { ref } from 'vue'
 import { Navbar, CellGroup } from '@nutui/nutui'
 
 import { getChargeDetail } from '../api/charge'
+import { getDrives } from '../api/drive'
 import TrackMap from '../components/TrackMap.vue'
 import LineChart from '../components/LineChart.vue'
+import DriveCellGroup from '../components/DriveCellGroup.vue'
 
 const route = useRoute()
 const chargeDetail = ref()
 const position = ref(route.query.lat && route.query.lng && [[route.query.lat * 1, route.query.lng * 1]])
+const drives = ref()
 
-getChargeDetail(route.query.id, route.query.from, route.query.to).then(res => {
-  chargeDetail.value = res
+getChargeDetail(route.query.id, route.query.from, route.query.to).then(async ([cd, [{ start_date: nextChargeTs = Date.now() } = {}]]) => {
+  chargeDetail.value = cd
+  drives.value = await getDrives(route.query.to, nextChargeTs)
 })
 </script>

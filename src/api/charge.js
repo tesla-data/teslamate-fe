@@ -27,5 +27,14 @@ WHERE
 ORDER BY
   date ASC
     `
+  }, {
+    refId: 'next_charge',
+    rawSql: `
+SELECT start_date
+FROM charging_processes
+WHERE start_date > $__timeTo()::timestamp
+ORDER BY start_date ASC
+LIMIT 1
+    `
   }], from, to)
 }
