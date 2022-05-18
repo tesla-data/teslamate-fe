@@ -2,7 +2,7 @@
 <navbar @on-click-back="$router.go(-1)" fixed title="充电详情" class="navbar" />
 <div class="page">
   <cell-group title="">
-    <track-map v-if="position" :points="[[position.latitude, position.longitude]]" />
+    <track-map v-if="position" :points="position" />
     <line-chart title="充电曲线" :height="250" :data="chargeDetail"
       :fields="[['SOC [%]', 'Power [kW]', 'Battery heater'], ['Range [km]']]"
       :yAxis="[{ softMax: 100, min: 0 }, { min: 0 }]"
@@ -33,10 +33,9 @@ import LineChart from '../components/LineChart.vue'
 
 const route = useRoute()
 const chargeDetail = ref()
-const position = ref()
+const position = ref(route.query.lat && route.query.lng && [[route.query.lat * 1, route.query.lng * 1]])
 
-getChargeDetail(route.query.id, route.query.from, route.query.to).then(([cd, pos]) => {
-  chargeDetail.value = cd
-  position.value = pos[0]
+getChargeDetail(route.query.id, route.query.from, route.query.to).then(res => {
+  chargeDetail.value = res
 })
 </script>

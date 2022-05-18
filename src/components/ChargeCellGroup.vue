@@ -2,7 +2,7 @@
 <cell-group v-if="charges" :title="`${title || ''} 充电${charges.length}次 ${sum(charges)}度`" :desc="`${sumDc(charges, 'dc')}${sumDcTime(charges)} ${sumAc(charges, 'ac')}`">
   <cell
     v-for="(c, i) of charges" :title="c.address"
-    :to="{ name: 'Charge', query: { id: c.id, from: c.start_date_ts, to: c.end_date_ts }, params: c }"
+    :to="{ name: 'Charge', query: { id: c.id, lat: c.latitude, lng: c.longitude }, params: c }"
     :desc="`充入${c.charge_energy_added}kwh`"
     :sub-title="`${new Date(c.start_date_ts).toLocaleDateString()} 用时${duration(c.duration_min * 60 * 1000 || 0)} ${c.distance && ('行驶' + Math.round(c.distance) + 'km') || ''}`"
     is-link

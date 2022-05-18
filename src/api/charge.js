@@ -27,18 +27,5 @@ WHERE
 ORDER BY
   date ASC
     `
-  }, {
-    refId: 'position',
-    rawSql: `
-SELECT
-  latitude,
-  longitude
-FROM
-  positions
-WHERE
-  car_id = ${currentVehicle.value.id} AND
-  $__timeFilter(date)
-LIMIT 1
-    `
   }], from, to)
 }
