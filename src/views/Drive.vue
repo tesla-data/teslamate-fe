@@ -18,20 +18,26 @@
   </cell-group>
   <cell-group title="">
     <track-map v-if="positions" :track="positions.map(({ latitude, longitude }) => [latitude, longitude])" />
-    <line-chart title="速度&功率" :height="200" :data="positions"
-      :fields="[['Speed [km/h]'], ['Power [kW]']]"
-    />
-    <line-chart title="电量&续航" :height="150" :data="positions"
-      :fields="[['battery_level'], ['range']]"
-      :series-options="[{ stickyTracking: false }]"
-    />
-    <line-chart title="海拔" :height="100" :data="positions" :fields="[['Elevation [m]']]" />
-    <line-chart title="温度" :height="100" :data="positions" :fields="[[
-      'Outside Temperature [°C]',
-      'Inside Temperature [°C]',
-      'Driver Temperature [°C]',
-      'is_climate_on',
-      'fan_status']]"
+
+    <line-chart title="" :height="660" :data="positions"
+      :yAxis="[
+        { name: '功率', top: 0, opposite: true, top: 10, height: 200 }, { name: '速度', opposite: false, top: 10, height: 200 },
+        { name: 'SOC', opposite: false, top: 230, height: 150 }, { name: '表显续航', opposite: true, top: 230, height: 150 },
+        { name: '海拔', opposite: false, top: 400, height: 100 },
+        { name: '温度', opposite: false, top: 520, height: 100 }
+      ]"
+      :fields="[
+        ['Power [kW]'], ['Speed [km/h]'],
+        ['battery_level'], ['range'],
+        ['Elevation [m]'],
+        [
+          'Outside Temperature [°C]',
+          'Inside Temperature [°C]',
+          'Driver Temperature [°C]',
+          'is_climate_on',
+          'fan_status'
+        ]
+      ]"
     />
   </cell-group>
 </div>

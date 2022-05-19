@@ -25,6 +25,7 @@ let chart
 function getSeries(data) {
   return props.fields.map((fields, i) => fields.map(k =>({
     name: props.fieldsName[k] || k,
+    states: { hover: { enabled: false }, inactive: { enabled: false } },
     type: 'line',
     marker: false,
     lineWidth: 1,
@@ -37,13 +38,28 @@ function getSeries(data) {
 }
 
 watch(() => container.value, () => {
+  const yAxis = props.fields.map((_, i) => ({
+    title: { text: props.yAxis[i] && props.yAxis[i].name, margin: 10, reserveSpace: false },
+    alignTicks: true, opposite: props.fields.length > 1 && i >= props.fields.length / 2, ...props.yAxis[i]
+  }))
+  for (const y of yAxis) {
+    if (!y.labels) {
+      y.labels = {
+        reserveSpace: false,
+        align: y.opposite ? 'right' : 'left',
+        x: y.opposite ? -8 : 0,
+        y: 3
+      }
+    }
+  }
+
   chart = getChart(container.value, {
     title: props.title,
     xAxis: {
       type: props.isTimeSeries ? 'datetime' : 'linear',
       ...props.extremes
     },
-    yAxis: props.fields.map((_, i) => ({ title: { text: null }, alignTicks: true, opposite: props.fields.length > 1 && i >= props.fields.length / 2, ...props.yAxis[i] })),
+    yAxis,
     series: getSeries(props.data)
   })
 })
