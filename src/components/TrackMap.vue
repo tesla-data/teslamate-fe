@@ -4,7 +4,7 @@
 
 <script setup>
 import { ref, defineProps, watch, onBeforeUnmount } from 'vue'
-import { Map, LatLngBounds, TileLayer, Polyline, Marker, Icon, icon } from 'leaflet'
+import { Map, LatLngBounds, TileLayer, Polyline, Marker, Icon } from 'leaflet'
 
 const container = ref()
 const props = defineProps({ height: { type: Number, default: 400 }, track: { type: Array, default: () => [] }, charges: { type: Array, default: () => [] } })
@@ -28,6 +28,7 @@ watch(() => container.value, lmap => {
 })
 
 watch(() => [props.track, props.charges], ([track, charges]) => {
+  delete container.value.map._size
   drawPolyline()
   drawCharges()
   setCenterAndZoom()
