@@ -32,10 +32,10 @@
         ['Elevation [m]'],
         [
           'Outside Temperature [°C]',
-          'Inside Temperature [°C]'//,
-          // 'Driver Temperature [°C]',
-          // 'is_climate_on',
-          // 'fan_status'
+          'Inside Temperature [°C]',
+          'Driver Temperature [°C]',
+          'is_climate_on',
+          'fan_status'
         ],
         ['battery_level'], ['range']
       ]"
