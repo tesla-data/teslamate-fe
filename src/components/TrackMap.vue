@@ -40,7 +40,7 @@ watch(() => props.highlight, (highlight) => {
     delete container.value.highlightLayer
   }
   const point = props.track[props.highlight]
-  if (point) container.value.highlightLayer = new CircleMarker(point, { radius: 3, fill: true, fillOpacity: 1 }).addTo(container.value.map)
+  if (point) container.value.highlightLayer = new CircleMarker(point, { color: 'red', radius: 3, fill: true, fillOpacity: 1 }).addTo(container.value.map)
 })
 
 function setCenterAndZoom() {

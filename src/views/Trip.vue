@@ -4,10 +4,11 @@
   <cell-group>
     <track-map
       v-if="positions.length > 0"
-      :track="positions.map(({ latitude, longitude }) => [latitude, longitude])"
-      :charges="positions.length > 0 && positions.length > 0 && tripStats.charges && tripStats.charges.map(({ latitude, longitude, mode }) => [latitude, longitude, mode]) || []"
+      :highlight="currentPointIndex"
+      :track="track"
+      :charges="charges"
     />
-    <line-chart title="" :height="220" :data="positions"
+    <line-chart title="" :height="220" :data="positions" v-model:current="currentPointIndex"
       :fieldsName="fieldsName"
       :yAxis="[
         { name: '海拔', opposite: false, top: 10, height: 70, opposite: false },
@@ -37,7 +38,7 @@ export default {
 
 <script setup>
 import { ref, onActivated } from 'vue'
-import { useRoute, onBeforeRouteLeave } from 'vue-router'
+import { useRoute, onBeforeRouteLeave, onBeforeRouteUpdate } from 'vue-router'
 import { Navbar, CellGroup } from '@nutui/nutui'
 
 import fieldsName from '../fields'
@@ -51,16 +52,32 @@ import RangeSocChart from '../components/RangeSocChart.vue'
 
 const route = useRoute()
 
-let lastLeave = 0
+let lastLeave = 0, isKeepalive
 const tripStats = ref({})
 const positions = ref([])
+const track = ref([])
+const charges = ref([])
+const currentPointIndex = ref()
 
 onActivated(() => {
   const now = Date.now()
   const { from, to } = route.query
-  if (from && to ) {
-    stats(from, to).then(res => { if(now > lastLeave) tripStats.value = res })
-    getPositionsBig(from, to).then(res => { if (now > lastLeave) positions.value = res })
+  if (from && to && !isKeepalive) {
+    stats(from, to).then(res => {
+      if (now > lastLeave) {
+        tripStats.value = res
+        charges.value = res.charges.map(({ latitude, longitude, mode }) => [latitude, longitude, mode])
+      }
+    })
+
+    getPositionsBig(from, to).then(res => {
+      if (now > lastLeave) {
+        positions.value = res
+        track.value = res.map(({ latitude, longitude }) => [latitude, longitude])
+      }
+    })
+  } else {
+    charges.value = [...charges.value]
   }
 })
 
@@ -70,6 +87,11 @@ onBeforeRouteLeave(function (to) {
   if (noKeepAlivePages.indexOf(to.name) >= 0) {
     positions.value = []
     tripStats.value = {}
+    track.value = []
+    charges.value = []
+    isKeepalive = false
+  } else {
+    isKeepalive = true
   }
 })
 </script>
