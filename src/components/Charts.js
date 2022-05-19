@@ -42,13 +42,14 @@ export const getChartOptions = ({ title, xAxis, yAxis = [{ title: { text: null }
 
         if (se.data[index + i].y === null || se.data[index + i].y === undefined) i = -i
         if (se.data[index + i].y !== null && se.data[index + i].y !== undefined) {
-          const point = se.points[index + i]
+          const point = se.points[index + i - se.points[0].index]
           const { color, colorIndex } = point
           this.points.push({
             key: x, point, series: se, color, colorIndex, x, y: se.data[index + i].y            
           })
         }
       }
+
       return tooltip.defaultFormatter.call(this, tooltip);
     }
   },
