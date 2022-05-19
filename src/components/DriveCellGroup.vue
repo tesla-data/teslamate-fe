@@ -1,5 +1,5 @@
 <template>
-<cell-group v-if="drives" :title="`${title || ''} 行驶${sumDistance(drives)}Km 消耗${sumComsuption(drives)}度电`" :desc="`用时${sumTime(drives)} 均速${avgSpeed(drives)}Km/h 能耗${avgComsumption(drives)}Wh/km`">
+<cell-group v-if="drives && drives.length > 0" :title="`${title || ''} 行驶${sumDistance(drives)}Km 消耗${sumComsuption(drives)}度电`" :desc="`用时${sumTime(drives)} 均速${avgSpeed(drives)}Km/h 能耗${avgComsumption(drives)}Wh/km`">
   <template v-slot:title>
     <router-link v-if="dateRange" class="nut-cell-group__title" style="text-decoration: none;"
       :to="{ name: 'Trip', query: { display: title, from: dateRange.from, to: dateRange.to } }"
