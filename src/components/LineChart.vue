@@ -109,7 +109,7 @@ function formatVal(val, { valueDecimals = 2, valueSuffix = '', valuePrefix = '' 
   return valuePrefix + val.toFixed(valueDecimals) + valueSuffix
 }
 
-const hideTooltip = _.debounce(() => tooltips.value = { tooltips: [] }, 5000)
+const hideTooltip = _.debounce(() => tooltips.value = { tooltips: [] }, 1000)
 
 watch(() => [props.data, props.extremes], ([data, { min, max }]) => {
   getSeries(data).forEach((series, i) => chart.series[i].setData(series.data))
