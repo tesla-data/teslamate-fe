@@ -1,10 +1,6 @@
 import Highcharts from 'highcharts'
 Highcharts.setOptions({ time: { timezoneOffset: new Date().getTimezoneOffset() }, credits: { enabled: false } })
 
-function formatVal(val, { valueDecimals = 2, valueSuffix = '', valuePrefix = '' } = {}) {
-  return valuePrefix + val.toFixed(valueDecimals) + valueSuffix
-}
-
 export const getChartOptions = ({ title, xAxis, yAxis = [{ title: { text: null }, alignTicks: false }], series }) => ({
   title: {
     text: title,
@@ -32,20 +28,28 @@ export const getChartOptions = ({ title, xAxis, yAxis = [{ title: { text: null }
   tooltip: {
     shared: true,
     crosshairs: true,
-    formatter(s) {
+    animation: false,
+    formatter(tooltip) {
       const { x, points: [{ point: { index } }] } = this
-      let tooltip = (s.chart.xAxis[0].options.type === 'datetime' ? new Date(x).toLocaleString() : x) + '<br/>'
-      for (const se of s.chart.series) {
-        let value
-        for (let i = 0; i < 1000; i++) {
-          value = se.data[index + i].y || se.data[index - i].y
+      this.points = []
+      for (const se of tooltip.chart.series) {
+        let i = 0
+        for (; i < 1000; i++) {
+          const value = se.data[index + i].y || se.data[index - i].y
           if (value !== null && value !== undefined) break
           if (se.data[index + i].x - x > 60 * 1000 && x - se.data[index - i].x > 60 * 1000) break
         }
 
-        tooltip += `<span style="color: ${se.color}">${se.name}</span>: ${value && formatVal(value, se.options.tooltip)}<br/>`
+        if (se.data[index + i].y === null || se.data[index + i].y === undefined) i = -i
+        if (se.data[index + i].y !== null && se.data[index + i].y !== undefined) {
+          const point = se.points[index + i]
+          const { color, colorIndex } = point
+          this.points.push({
+            key: x, point, series: se, color, colorIndex, x, y: se.data[index + i].y            
+          })
+        }
       }
-      return tooltip
+      return tooltip.defaultFormatter.call(this, tooltip);
     }
   },
 

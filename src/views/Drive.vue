@@ -19,24 +19,25 @@
   <cell-group title="">
     <track-map v-if="positions" :track="positions.map(({ latitude, longitude }) => [latitude, longitude])" />
 
-    <line-chart title="" :height="660" :data="positions"
+    <line-chart title="" :height="560" :data="positions"
+      :fieldsName="fieldsName"
       :yAxis="[
         { name: '功率', top: 0, opposite: true, top: 10, height: 200 }, { name: '速度', opposite: false, top: 10, height: 200 },
-        { name: 'SOC', opposite: false, top: 230, height: 150 }, { name: '表显续航', opposite: true, top: 230, height: 150 },
-        { name: '海拔', opposite: false, top: 400, height: 100 },
-        { name: '温度', opposite: false, top: 520, height: 100 }
+        { name: '海拔', opposite: false, top: 230, height: 75 },
+        { name: '温度', opposite: false, top: 325, height: 75 },
+        { name: 'SOC', opposite: false, top: 420, height: 100 }, { name: '表显续航', opposite: true, top: 420, height: 100 }
       ]"
       :fields="[
         ['Power [kW]'], ['Speed [km/h]'],
-        ['battery_level'], ['range'],
         ['Elevation [m]'],
         [
           'Outside Temperature [°C]',
-          'Inside Temperature [°C]',
-          'Driver Temperature [°C]',
-          'is_climate_on',
-          'fan_status'
-        ]
+          'Inside Temperature [°C]'//,
+          // 'Driver Temperature [°C]',
+          // 'is_climate_on',
+          // 'fan_status'
+        ],
+        ['battery_level'], ['range']
       ]"
     />
   </cell-group>
@@ -54,6 +55,7 @@ import { useRoute } from 'vue-router'
 import { ref } from 'vue'
 import { Navbar, CellGroup, Cell } from '@nutui/nutui'
 
+import fieldsName from '../fields'
 import { getPositions } from '../api/position'
 import { getDriveDetail } from '../api/drive'
 
