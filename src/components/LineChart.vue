@@ -77,6 +77,10 @@ watch(() => container.value, () => {
       crosshairs: true,
       animation: false,
       style: { opacity: 0 },
+      positioner(_, __, { plotX }) {
+        tooltips.value.display = plotX / container.value.clientWidth > 0.5 ? 'left' : 'right'
+        return { plotX, y: 0 }
+      },
       formatter(tooltip) {
         hideTooltip()
 
@@ -85,7 +89,7 @@ watch(() => container.value, () => {
         const durThreshold = (dataMax - dataMin) / container.value.clientWidth * 5
         tooltips.value = {
           title: tooltip.chart.xAxis[0].options.type === 'datetime' ? new Date(x).toLocaleString() : x,
-          display: tooltip.now.x / container.value.clientWidth > 0.5 ? 'left' : 'right',
+          display: tooltips.value.display,
           tooltips: []
         }
 
@@ -109,7 +113,7 @@ function formatVal(val, { valueDecimals = 2, valueSuffix = '', valuePrefix = '' 
   return valuePrefix + val.toFixed(valueDecimals) + valueSuffix
 }
 
-const hideTooltip = _.debounce(() => tooltips.value = { tooltips: [] }, 1000)
+const hideTooltip = _.debounce(() => tooltips.value = { tooltips: [] }, 2000)
 
 watch(() => [props.data, props.extremes], ([data, { min, max }]) => {
   getSeries(data).forEach((series, i) => chart.series[i].setData(series.data))
