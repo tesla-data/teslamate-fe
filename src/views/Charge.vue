@@ -15,6 +15,7 @@
       ]"
     />
     <line-chart v-if="chargeDetail && chargeDetail.find(c => c['Current [A]'])" title="电压电流" :height="150" :data="chargeDetail"
+      :fieldsName="fieldsName"
       :fields="[['Charging Voltage [V]'], ['Current [A]', 'Current (pilot) [A]']]"
       :yAxis="[{ tickAmount: 4, min: 0 }, { tickAmount: 4, min: 0 }]"
     />
