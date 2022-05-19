@@ -1,9 +1,19 @@
 <template>
-  <div ref="container" :style="{ height: height + 'px' }" />
+  <div style="position: relative;">
+    <div v-if="tooltips.display" :style="{ position: 'absolute', 'z-index': 999, top: '10px', [tooltips.display]: '30px' }">
+      <table style="border: 1px solid #888; background-color: rgba(255, 255, 255, 0.9); font-size: 11px;">
+        <tr><td colspan="2">{{tooltips.title}}</td></tr>
+        <tr v-for="tt of tooltips.tooltips"><td><span :style="{ color: tt.color }">●</span> {{tt.name}}</td><td>{{tt.value}}</td></tr>
+      </table>
+    </div>
+    <div ref="container" :style="{ height: height + 'px' }" />
+  </div>
 </template>
 
 <script setup>
+import _ from 'lodash'
 import { ref, defineProps, watch, onUnmounted } from 'vue'
+
 import { getChart } from './Charts'
 
 const props = defineProps({
@@ -20,6 +30,7 @@ const props = defineProps({
 })
 
 const container = ref()
+const tooltips = ref({ tooltips: [] })
 let chart
 
 function getSeries(data) {
@@ -60,9 +71,42 @@ watch(() => container.value, () => {
       ...props.extremes
     },
     yAxis,
-    series: getSeries(props.data)
+    series: getSeries(props.data),
+    tooltip: {
+      shared: true,
+      crosshairs: true,
+      animation: false,
+      style: { opacity: 0 },
+      formatter(tooltip) {
+        hideTooltip()
+
+        const { x, points: [{ point: { index } }] } = this        
+        tooltips.value = {
+          title: tooltip.chart.xAxis[0].options.type === 'datetime' ? new Date(x).toLocaleString() : x,
+          display: tooltip.now.x / container.value.clientWidth > 0.5 ? 'left' : 'right',
+          tooltips: []
+        }
+        for (const se of tooltip.chart.series) {
+          let i = 0
+          for (; i < 1000; i++) {
+            const value = se.data[index + i].y || se.data[index - i].y
+            if (se.data[index + i].x - x > 60 * 1000 && x - se.data[index - i].x > 60 * 1000) break
+            if (value !== null && value !== undefined) {
+              tooltips.value.tooltips.push({ color: se.color, name: se.name, value: formatVal(value, se.options.tooltip) })
+              break
+            }
+          }
+        }
+      }    
+    }
   })
 })
+
+function formatVal(val, { valueDecimals = 2, valueSuffix = '', valuePrefix = '' } = {}) {
+  return valuePrefix + val.toFixed(valueDecimals) + valueSuffix
+}
+
+const hideTooltip = _.debounce(() => tooltips.value = { tooltips: [] }, 5000)
 
 watch(() => [props.data, props.extremes], ([data, { min, max }]) => {
   getSeries(data).forEach((series, i) => chart.series[i].setData(series.data))
