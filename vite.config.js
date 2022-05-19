@@ -1,6 +1,6 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
-import styleImport from 'vite-plugin-style-import'
+import { createStyleImportPlugin, NutuiResolve } from 'vite-plugin-style-import'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -9,15 +9,9 @@ export default defineConfig({
   },
   plugins: [
     vue(),
-    styleImport({
-      libs: [
-        {
-          libraryName: '@nutui/nutui',
-          libraryNameChangeCase: 'pascalCase',
-          resolveStyle: (name) => {
-            return `@nutui/nutui/dist/packages/${name}/index.scss`
-          }
-        }
+    createStyleImportPlugin({
+      resolves: [
+        NutuiResolve()
       ]
     })
   ],
