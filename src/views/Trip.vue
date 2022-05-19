@@ -7,8 +7,18 @@
       :track="positions.map(({ latitude, longitude }) => [latitude, longitude])"
       :charges="positions.length > 0 && positions.length > 0 && tripStats.charges && tripStats.charges.map(({ latitude, longitude, mode }) => [latitude, longitude, mode]) || []"
     />
-    <range-soc-chart :data="positions" />
-    <line-chart title="海拔" :height="100" :data="positions" :fields="[['Elevation [m]']]" />
+    <line-chart title="" :height="220" :data="positions"
+      :fieldsName="fieldsName"
+      :yAxis="[
+        { name: '海拔', opposite: false, top: 10, height: 70, opposite: false },
+        { name: 'SOC', softMax: 100, min: 0, opposite: false, top: 90, height: 100 }, { name: '表显续航', min: 0, opposite: true, top: 90, height: 100 }
+      ]"
+      :fields="[
+        ['Elevation [m]'],
+        ['battery_level'], ['range']
+      ]"
+    />
+
   </cell-group>
   <charge-cell-group v-if="tripStats.charges && tripStats.charges.length > 0" :charges="tripStats.charges" />
   <drive-cell-group v-if="tripStats.drives && tripStats.drives.length > 0" :drives="tripStats.drives" />
@@ -30,6 +40,7 @@ import { ref, onActivated } from 'vue'
 import { useRoute, onBeforeRouteLeave } from 'vue-router'
 import { Navbar, CellGroup } from '@nutui/nutui'
 
+import fieldsName from '../fields'
 import { stats } from '../api/stats'
 import { getPositionsBig } from '../api/position'
 import DriveCellGroup from '../components/DriveCellGroup.vue'

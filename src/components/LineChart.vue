@@ -89,7 +89,7 @@ watch(() => container.value, () => {
         for (const se of tooltip.chart.series) {
           let i = 0
           for (; i < 1000; i++) {
-            const value = se.data[index + i].y || se.data[index - i].y
+            const value = (se.data[index + i] || {}).y || (se.data[index - i] || {}).y
             if (se.data[index + i].x - x > 60 * 1000 && x - se.data[index - i].x > 60 * 1000) break
             if (value !== null && value !== undefined) {
               tooltips.value.tooltips.push({ color: se.color, name: se.name, value: formatVal(value, se.options.tooltip) })
