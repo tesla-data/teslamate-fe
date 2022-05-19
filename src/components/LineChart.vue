@@ -12,11 +12,14 @@
 
 <script setup>
 import _ from 'lodash'
-import { ref, defineProps, watch, onUnmounted } from 'vue'
+import { ref, defineProps, watch, onUnmounted, defineEmits } from 'vue'
 
 import { getChart } from './Charts'
 
+const emit = defineEmits(['update:current'])
+
 const props = defineProps({
+  current: { type: Number, default: -1 },
   isTimeSeries: { type: Boolean, default: true },
   title: { type: String, default: '' },
   height: { type: Number, default: 150 },
@@ -42,7 +45,8 @@ function getSeries(data) {
     lineWidth: 1,
     yAxis: i,
     connectNulls: true,
-    data: data.map(({ [props.xField]: x, [k]: v }) => [x, v]),
+    turboThreshold: 0,
+    data: data.map(({ [props.xField]: x, [k]: y }, i) => ({ x, y, i })),
     tooltip: { valueDecimals: 0 },
     ...props.seriesOptions[i]
   }))).reduce((m, arr) => [...m, ...arr], [])
@@ -84,6 +88,7 @@ watch(() => container.value, () => {
       formatter(tooltip) {
         hideTooltip()
 
+        emit('update:current', this.points[0].point.options.i)
         const { x, points: [{ point: { index } }] } = this
         const { chart: { xAxis: [{ dataMax, dataMin }] } } = tooltip
         const durThreshold = (dataMax - dataMin) / container.value.clientWidth * 5
@@ -113,7 +118,10 @@ function formatVal(val, { valueDecimals = 2, valueSuffix = '', valuePrefix = '' 
   return valuePrefix + val.toFixed(valueDecimals) + valueSuffix
 }
 
-const hideTooltip = _.debounce(() => tooltips.value = { tooltips: [] }, 2000)
+const hideTooltip = _.debounce(() => {
+  tooltips.value = { tooltips: [] }
+  emit('update:current', -1)
+}, 2000)
 
 watch(() => [props.data, props.extremes], ([data, { min, max }]) => {
   getSeries(data).forEach((series, i) => chart.series[i].setData(series.data))

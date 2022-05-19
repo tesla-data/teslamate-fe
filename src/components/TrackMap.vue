@@ -4,10 +4,10 @@
 
 <script setup>
 import { ref, defineProps, watch, onBeforeUnmount } from 'vue'
-import { Map, LatLngBounds, TileLayer, Polyline, Marker, Icon } from 'leaflet'
+import { Map, LatLngBounds, TileLayer, Polyline, Marker, Icon, CircleMarker } from 'leaflet'
 
 const container = ref()
-const props = defineProps({ height: { type: Number, default: 400 }, track: { type: Array, default: () => [] }, charges: { type: Array, default: () => [] } })
+const props = defineProps({ highlight: { type: Number, default: -1 }, height: { type: Number, default: 400 }, track: { type: Array, default: () => [] }, charges: { type: Array, default: () => [] } })
 
 const icons = {
   ac: new Icon({
@@ -32,6 +32,15 @@ watch(() => [props.track, props.charges], ([track, charges]) => {
   drawPolyline()
   drawCharges()
   setCenterAndZoom()
+})
+
+watch(() => props.highlight, (highlight) => {
+  if (container.value.highlightLayer) {
+    container.value.highlightLayer.remove()
+    delete container.value.highlightLayer
+  }
+  const point = props.track[props.highlight]
+  if (point) container.value.highlightLayer = new CircleMarker(point, { radius: 3, fill: true, fillOpacity: 1 }).addTo(container.value.map)
 })
 
 function setCenterAndZoom() {

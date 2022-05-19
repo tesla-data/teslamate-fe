@@ -17,9 +17,10 @@
     />
   </cell-group>
   <cell-group title="">
-    <track-map v-if="positions" :track="positions.map(({ latitude, longitude }) => [latitude, longitude])" />
+    <track-map v-if="positions" :track="positions.map(({ latitude, longitude }) => [latitude, longitude])" :highlight="currentPointIndex" />
 
     <line-chart title="" :height="560" :data="positions"
+      v-model:current="currentPointIndex"
       :fieldsName="fieldsName"
       :yAxis="[
         { name: '功率', top: 0, opposite: true, top: 10, height: 200 }, { name: '速度', opposite: false, top: 10, height: 200 },
@@ -65,6 +66,7 @@ import LineChart from '../components/LineChart.vue'
 const route = useRoute()
 const drive = ref()
 const positions = ref()
+const currentPointIndex = ref()
 getDriveDetail(route.query.drive_id).then(async res => {
   const { start_date_ts, end_date_ts } = drive.value = res[0]
   positions.value = await getPositions(start_date_ts, end_date_ts)
