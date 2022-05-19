@@ -3,7 +3,7 @@
     <div v-if="tooltips.display" :style="{ position: 'absolute', 'z-index': 999, top: '10px', [tooltips.display]: '30px' }">
       <table style="border: 1px solid #888; background-color: rgba(255, 255, 255, 0.9); font-size: 11px;">
         <tr><td colspan="2">{{tooltips.title}}</td></tr>
-        <tr v-for="tt of tooltips.tooltips"><td><span :style="{ color: tt.color }">●</span> {{tt.name}}</td><td>{{tt.value}}</td></tr>
+        <tr v-for="tt of tooltips.tooltips"><td><span :style="{ color: tt.color }">●</span> {{tt.name}}</td><td style="text-align: right;">{{tt.value}}</td></tr>
       </table>
     </div>
     <div ref="container" :style="{ height: height + 'px' }" />

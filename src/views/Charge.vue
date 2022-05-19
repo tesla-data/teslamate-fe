@@ -3,15 +3,21 @@
 <div class="page">
   <cell-group title="">
     <track-map v-if="chargeDetail" :charges="position" />
-    <line-chart title="充电曲线" :height="250" :data="chargeDetail"
-      :fields="[['SOC [%]', 'Power [kW]', 'Battery heater'], ['Range [km]']]"
-      :yAxis="[{ softMax: 100, min: 0 }, { min: 0 }]"
+    <line-chart title="充电曲线" :height="360" :data="chargeDetail"
+      :fieldsName="fieldsName"
+      :yAxis="[
+        { name: '功率 & SOC[%]', softMax: 100, min: 0, top: 10, height: 250 }, { name: '表显续航', min: 0, top: 10, height: 250, opposite: true },
+        { name: '温度', top: 270, height: 50, opposite: false }
+      ]"
+      :fields="[
+        ['SOC [%]', 'Power [kW]', 'Battery heater'], ['Range [km]'],
+        ['Outdoor Temperature [°C]']
+      ]"
     />
     <line-chart v-if="chargeDetail && chargeDetail.find(c => c['Current [A]'])" title="电压电流" :height="150" :data="chargeDetail"
       :fields="[['Charging Voltage [V]'], ['Current [A]', 'Current (pilot) [A]']]"
       :yAxis="[{ tickAmount: 4, min: 0 }, { tickAmount: 4, min: 0 }]"
     />
-    <line-chart title="温度" :height="100" :data="chargeDetail" :fields="[['Outdoor Temperature [°C]']]" />
   </cell-group>
   <drive-cell-group title="本次充电后" :drives="drives"/>
 
@@ -29,6 +35,7 @@ import { useRoute } from 'vue-router'
 import { ref } from 'vue'
 import { Navbar, CellGroup } from '@nutui/nutui'
 
+import fieldsName from '../fields'
 import { getChargeDetail } from '../api/charge'
 import { getDrives } from '../api/drive'
 import TrackMap from '../components/TrackMap.vue'

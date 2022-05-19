@@ -8,5 +8,7 @@ export default {
   'is_climate_on': '空调状态',
   'fan_status': '风力',
   'battery_level': 'SOC(%)',
-  'range': '表显续航'
+  'range': '表显续航',
+  'Range [km]': '表显续航',
+  'Battery heater': '电池加热'
 }
