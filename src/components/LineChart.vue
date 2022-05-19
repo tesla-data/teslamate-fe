@@ -80,17 +80,20 @@ watch(() => container.value, () => {
       formatter(tooltip) {
         hideTooltip()
 
-        const { x, points: [{ point: { index } }] } = this        
+        const { x, points: [{ point: { index } }] } = this
+        const { chart: { xAxis: [{ dataMax, dataMin }] } } = tooltip
+        const durThreshold = (dataMax - dataMin) / container.value.clientWidth * 5
         tooltips.value = {
           title: tooltip.chart.xAxis[0].options.type === 'datetime' ? new Date(x).toLocaleString() : x,
           display: tooltip.now.x / container.value.clientWidth > 0.5 ? 'left' : 'right',
           tooltips: []
         }
+
         for (const se of tooltip.chart.series) {
           let i = 0
           for (; i < 1000; i++) {
             const value = (se.data[index + i] || {}).y || (se.data[index - i] || {}).y
-            if (se.data[index + i].x - x > 60 * 1000 && x - se.data[index - i].x > 60 * 1000) break
+            if ((se.data[index + i] || {}).x - x > durThreshold && x - (se.data[index - i] || {}).x > durThreshold) break
             if (value !== null && value !== undefined) {
               tooltips.value.tooltips.push({ color: se.color, name: se.name, value: formatVal(value, se.options.tooltip) })
               break
