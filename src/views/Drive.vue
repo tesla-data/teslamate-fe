@@ -17,7 +17,7 @@
     />
   </cell-group>
   <cell-group title="">
-    <track-map v-if="positions" :track="positions.map(({ latitude, longitude }) => [latitude, longitude])" :highlight="currentPointIndex" />
+    <track-map v-if="positions" :track="track" :highlight="currentPointIndex" />
 
     <line-chart title="" :height="560" :data="positions"
       v-model:current="currentPointIndex"
@@ -67,8 +67,10 @@ const route = useRoute()
 const drive = ref()
 const positions = ref()
 const currentPointIndex = ref()
+const track = ref()
 getDriveDetail(route.query.drive_id).then(async res => {
   const { start_date_ts, end_date_ts } = drive.value = res[0]
   positions.value = await getPositions(start_date_ts, end_date_ts)
+  track.value = positions.value.map(({ latitude, longitude }) => [latitude, longitude])
 })
 </script>
