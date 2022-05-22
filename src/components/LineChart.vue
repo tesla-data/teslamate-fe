@@ -1,5 +1,10 @@
 <template>
-  <div style="position: relative;">
+  <div
+    style="position: relative;"
+    @touchstart="touchstart = Date.now()"
+    @mousemove="touchstart = 0"
+    @touchmove="e => { if (Date.now() - touchstart > 100 && e.cancelable) e.preventDefault() }"
+  >
     <div v-if="tooltips.display" :style="{ position: 'absolute', 'z-index': 999, top: '10px', [tooltips.display]: '30px' }">
       <table style="border: 1px solid #888; background-color: rgba(255, 255, 255, 0.9); font-size: 11px;">
         <tr><td colspan="2">{{tooltips.title}}</td></tr>
@@ -33,6 +38,7 @@ const props = defineProps({
 })
 
 const container = ref()
+const touchstart = ref(0)
 const tooltips = ref({ tooltips: [] })
 let chart
 
