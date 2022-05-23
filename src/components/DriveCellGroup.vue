@@ -19,7 +19,7 @@
 </template>
 
 <script setup>
-import { defineProps, computed } from 'vue'
+import { computed } from 'vue'
 import { CellGroup, Cell } from '@nutui/nutui'
 import { duration } from '../filters'
 

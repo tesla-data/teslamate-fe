@@ -5,7 +5,7 @@
 </template>
 
 <script setup>
-import { ref, watch, defineProps } from 'vue'
+import { ref, watch } from 'vue'
 
 import Highcharts from 'highcharts'
 import xrange from 'highcharts/modules/xrange'

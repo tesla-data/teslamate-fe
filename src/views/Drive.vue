@@ -1,5 +1,5 @@
 <template>
-<navbar @on-click-back="$router.go(-1)" fixed title="行程详情" class="navbar" />
+<top-nav title="行程详情" :share="true" @share="share" />
 <div class="page">
   <cell-group v-if="drive"
     :title="`行驶了${drive.duration_min}分钟 ${drive.distance_km.toFixed(1)}km 能耗${drive.consumption_kwh_km && drive.consumption_kwh_km.toFixed(0)}Wh/km ${drive.efficiency ? '' : '(*)'}`"
@@ -60,6 +60,7 @@ import fieldsName from '../fields'
 import { getPositions } from '../api/position'
 import { getDriveDetail } from '../api/drive'
 
+import TopNav from '../components/TopNav.vue'
 import TrackMap from '../components/TrackMap.vue'
 import LineChart from '../components/LineChart.vue'
 
@@ -73,4 +74,8 @@ getDriveDetail(route.query.drive_id).then(async res => {
   positions.value = await getPositions(start_date_ts, end_date_ts)
   track.value = positions.value.map(({ latitude, longitude }) => [latitude, longitude])
 })
+
+function share() {
+  
+}
 </script>

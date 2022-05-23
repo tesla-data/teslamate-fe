@@ -3,7 +3,7 @@
 </template>
 
 <script setup>
-import { ref, defineProps, watch, onBeforeUnmount } from 'vue'
+import { ref, watch, onBeforeUnmount } from 'vue'
 import { Map, LatLngBounds, TileLayer, Polyline, Marker, Icon, CircleMarker } from 'leaflet'
 
 const container = ref()

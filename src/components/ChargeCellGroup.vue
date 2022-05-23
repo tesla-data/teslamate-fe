@@ -11,7 +11,6 @@
 </template>
 
 <script setup>
-import { defineProps } from 'vue'
 import { CellGroup, Cell } from '@nutui/nutui'
 import { duration } from '../filters'
 
