@@ -48,7 +48,7 @@
 </template>
 
 <script setup>
-import { ref, watch } from 'vue'
+import { ref, watch, onActivated, onDeactivated } from 'vue'
 import { useRouter, RouterLink } from 'vue-router'
 import { Cell, CellGroup } from '@nutui/nutui'
 
@@ -67,6 +67,7 @@ if (!urlBase.value) router.push('/settings')
 const currentVehicleState = ref(null)
 const currentVehicleStateHistory = ref([])
 
+let lastLoad = 0, refreshInterval
 const loading = ref(false)
 async function updateVehicleState () {
   if (loading.value) return
@@ -77,13 +78,23 @@ async function updateVehicleState () {
       vehicle.getState().then(v => currentVehicleState.value = v),
       vehicle.getStateHistory().then(v => currentVehicleStateHistory.value = v)
     ])
+    lastLoad = Date.now()
   } finally {
     loading.value = false
   }
 }
 
-updateVehicleState()
 watch(currentVehicle, updateVehicleState)
+onActivated(() => {
+  if (refreshInterval) clearInterval(refreshInterval)
+  if (Date.now() - lastLoad > 30 * 1000) updateVehicleState()
+  refreshInterval = setInterval(updateVehicleState, 30 * 1000)
+})
+
+onDeactivated(() => {
+  if (refreshInterval) clearInterval(refreshInterval)
+  refreshInterval = null
+})
 </script>
 
 <style lang="scss">
