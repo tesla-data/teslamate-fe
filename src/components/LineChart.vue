@@ -17,7 +17,7 @@
 
 <script setup>
 import _ from 'lodash'
-import { ref, defineProps, watch, onUnmounted, defineEmits } from 'vue'
+import { ref, watch, onUnmounted } from 'vue'
 
 import { getChart } from './Charts'
 
