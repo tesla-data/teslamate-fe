@@ -74,10 +74,9 @@ async function updateVehicleState () {
 
   loading.value = true
   try {
-    await Promise.all([
-      vehicle.getState().then(v => currentVehicleState.value = v),
-      vehicle.getStateHistory().then(v => currentVehicleStateHistory.value = v)
-    ])
+    const { state, stateHistory } = await vehicle.getHomeData()
+    currentVehicleState.value = state
+    currentVehicleStateHistory.value = stateHistory
     lastLoad = Date.now()
   } finally {
     loading.value = false

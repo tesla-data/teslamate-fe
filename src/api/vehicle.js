@@ -20,6 +20,10 @@ getVehicles()
 export default {
   getVehicles,
 
+  async getHomeData() {
+    return currentVehicle.value.id && await requestApi('/home_data', { car_id: currentVehicle.value.id })
+  },
+
   async getState() {
     return currentVehicle.value && await teslamate.getVehicleState(currentVehicle.value.id)
   },
