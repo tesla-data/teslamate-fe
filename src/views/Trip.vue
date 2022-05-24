@@ -42,13 +42,13 @@ import { useRoute, onBeforeRouteLeave, onBeforeRouteUpdate } from 'vue-router'
 import { Navbar, CellGroup } from '@nutui/nutui'
 
 import fieldsName from '../fields'
-import { stats } from '../api/stats'
+import { statsDetail } from '../api/stats'
 import { getPositionsBig } from '../api/position'
 import DriveCellGroup from '../components/DriveCellGroup.vue'
 import ChargeCellGroup from '../components/ChargeCellGroup.vue'
 import TrackMap from '../components/TrackMap.vue'
 import LineChart from '../components/LineChart.vue'
-import RangeSocChart from '../components/RangeSocChart.vue'
+// import RangeSocChart from '../components/RangeSocChart.vue'
 
 const route = useRoute()
 
@@ -63,7 +63,7 @@ onActivated(() => {
   const now = Date.now()
   const { from, to } = route.query
   if (from && to && !isKeepalive) {
-    stats(from, to).then(res => {
+    statsDetail(from, to).then(res => {
       if (now > lastLeave) {
         tripStats.value = res
         charges.value = res.charges.map(({ latitude, longitude, mode }) => [latitude, longitude, mode])
