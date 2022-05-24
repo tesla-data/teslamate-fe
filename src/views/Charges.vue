@@ -9,12 +9,12 @@
 import { ref, onActivated } from 'vue'
 import { Navbar } from '@nutui/nutui'
 
-import api from '../api/vehicle'
+import { getCharges } from '../api/charge'
 import ChargeCellGroup from '../components/ChargeCellGroup.vue'
 
 const charges = ref()
 onActivated(() => {
-  api.getCharges().then(res => charges.value = res.reduceRight((arr, c, i) => {
+  getCharges().then(res => charges.value = res.reduceRight((arr, c, i) => {
     if (i > 0) c.distance = res[i - 1].distance
     else delete c.distance
 
