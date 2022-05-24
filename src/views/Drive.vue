@@ -54,7 +54,7 @@ export default {
 <script setup>
 import { useRoute } from 'vue-router'
 import { ref } from 'vue'
-import { Navbar, CellGroup, Cell } from '@nutui/nutui'
+import { CellGroup, Cell } from '@nutui/nutui'
 
 import fieldsName from '../fields'
 import { getPositions } from '../api/position'
