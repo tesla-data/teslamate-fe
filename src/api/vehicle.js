@@ -24,20 +24,8 @@ export default {
     return currentVehicle.value.id && await requestApi('/home_data', { car_id: currentVehicle.value.id })
   },
 
-  async getState() {
-    return currentVehicle.value && await teslamate.getVehicleState(currentVehicle.value.id)
-  },
-
-  async getStateHistory() {
-    return currentVehicle.value && await teslamate.getVehicleStateHistory(currentVehicle.value.id)
-  },
-
   async getStats() {
     return currentVehicle.value && await teslamate.getVehicleStats(currentVehicle.value.id)
-  },
-
-  async getDrives() {
-    return currentVehicle.value && await teslamate.getVehicleDrives(currentVehicle.value.id)
   },
 
   async getProjectedRange() {
