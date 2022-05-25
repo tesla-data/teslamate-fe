@@ -13,8 +13,9 @@ export default {
 </script>
 
 <script setup>
-import { useRoute } from 'vue-router'
 import { ref } from 'vue'
+import { useRoute } from 'vue-router'
+import { Dialog } from '@nutui/nutui'
 
 import { getChargeDetail } from '../api/charge'
 import { getDrives } from '../api/drive'
@@ -36,6 +37,6 @@ getChargeDetail(route.query.id, route.query.from, route.query.to).then(async ([c
 
 async function share() {
   const { hash, id } = await shareCharge(route.query.id)
-  console.log(hash, id)
+  Dialog({ content: `分享成功，<a target="_blank" href="/trip.html#/charge?id=${id}&hash=${hash}">点此查看</a>`, noCancelBtn: true })
 }
 </script>

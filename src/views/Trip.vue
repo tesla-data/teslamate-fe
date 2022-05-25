@@ -1,5 +1,5 @@
 <template>
-  <top-nav :title="`${route.query.display}行程`" :share="share" />
+  <top-nav :title="`${route.query.display}行程`" :share="timeRange < 86400 * 1000 * 7 ? share : null" />
   <div class="page">
     <trip-detail :drives="tripStats.drives" :charges="tripStats.charges" :positions="positions" :track="track" :chargeMarkers="charges" />
   </div>
@@ -13,7 +13,8 @@ export default {
 
 <script setup>
 import { ref, onActivated } from 'vue'
-import { useRoute, onBeforeRouteLeave, onBeforeRouteUpdate } from 'vue-router'
+import { useRoute, onBeforeRouteLeave } from 'vue-router'
+import { Dialog } from '@nutui/nutui'
 
 import { statsDetail } from '../api/stats'
 import { getPositionsBig } from '../api/position'
@@ -29,10 +30,13 @@ const tripStats = ref({})
 const positions = ref([])
 const track = ref([])
 const charges = ref([])
+const timeRange = ref(0)
 
 onActivated(() => {
   const now = Date.now()
   const { from, to } = route.query
+  timeRange.value = to - from
+
   if (from && to && !isKeepalive) {
     statsDetail(from, to).then(res => {
       if (now > lastLeave) {
@@ -68,6 +72,6 @@ onBeforeRouteLeave(function (to) {
 
 async function share() {
   const { hash, id } = await shareTrip(route.query.from, route.query.to)
-  console.log(hash, id)
+  Dialog({ content: `分享成功，<a target="_blank" href="/trip.html#/?id=${id}&hash=${hash}&display=${route.query.display}">点此查看</a>`, noCancelBtn: true })
 }
 </script>

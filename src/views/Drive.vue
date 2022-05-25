@@ -12,8 +12,9 @@ export default {
 </script>
 
 <script setup>
-import { useRoute } from 'vue-router'
 import { ref } from 'vue'
+import { useRoute } from 'vue-router'
+import { Dialog } from '@nutui/nutui'
 
 import { getPositions } from '../api/position'
 import { getDriveDetail } from '../api/drive'
@@ -34,6 +35,6 @@ getDriveDetail(route.query.drive_id).then(async res => {
 
 async function share() {
   const { hash, id } = await shareDrive(route.query.drive_id)
-  console.log(hash, id)
+  Dialog({ content: `分享成功，<a target="_blank" href="/trip.html#/drive?id=${id}&hash=${hash}">点此查看</a>`, noCancelBtn: true })
 }
 </script>

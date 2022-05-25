@@ -1,5 +1,5 @@
 <template>
-<top-nav :title="`${route.query.display || ''}行程详情`" :disable-back="true" />
+<top-nav :title="`${route.query.display || ''}行程`" :disable-back="true" />
 <div class="page">
   <trip-detail :drives="drives" :charges="charges" :positions="positions" :track="track" :chargeMarkers="chargeMarkers" />
 </div>
