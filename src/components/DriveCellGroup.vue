@@ -10,7 +10,7 @@
   </template>
   <cell
     v-for="d of drives" :title="d.start_address"
-    :to="{ name: 'Drive', query: { drive_id: d.drive_id }, params: d }"
+    :to="{ name: 'Drive', query: $route.query.hash ? { id: d.drive_id, hash: $route.query.hash, href: 'Home' } : { drive_id: d.drive_id }, params: d }"
     :desc="`${d.duration_min}分钟 | ${d.distance_km.toFixed(0)}km`"
     :sub-title="`温度${d.outside_temp_c}℃ 能耗${d.consumption_kwh_km && d.consumption_kwh_km.toFixed(0)}Wh/km ${d.efficiency ? '' : '(*)'}`"
     is-link
