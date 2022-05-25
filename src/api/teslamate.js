@@ -1,8 +1,8 @@
 import { ref } from 'vue'
 import axios from 'axios'
 
-// const apiUrl = 'https://service-a0j9syyt-1303929337.bj.apigw.tencentcs.com/release'
-const apiUrl = 'http://localhost:9000'
+const apiUrl = 'https://service-a0j9syyt-1303929337.bj.apigw.tencentcs.com/release'
+// const apiUrl = 'http://localhost:9000'
 
 const urlBaseKey = 'teslamate_api_urlbase'
 export const urlBase = ref(localStorage.getItem(urlBaseKey) || '')
