@@ -1,33 +1,8 @@
 <template>
   <top-nav :title="`${route.query.display}行程`" :share="true" @share="share" />
   <div class="page">
-  <cell-group>
-    <track-map
-      v-if="positions.length > 0"
-      :highlight="currentPointIndex"
-      :track="track"
-      :charges="charges"
-    />
-    <line-chart title="" :height="220" :data="positions" v-model:current="currentPointIndex"
-      :fieldsName="fieldsName"
-      :yAxis="[
-        { name: '海拔', opposite: false, top: 10, height: 70, opposite: false },
-        { name: 'SOC', softMax: 100, min: 0, opposite: false, top: 90, height: 100 }, { name: '表显续航', min: 0, opposite: true, top: 90, height: 100 }
-      ]"
-      :fields="[
-        ['Elevation [m]'],
-        ['battery_level'], ['range']
-      ]"
-    />
-
-  </cell-group>
-  <charge-cell-group v-if="tripStats.charges && tripStats.charges.length > 0" :charges="tripStats.charges" />
-  <drive-cell-group v-if="tripStats.drives && tripStats.drives.length > 0" :drives="tripStats.drives" />
-  <!-- <div v-if="tripStats.charges && tripStats.drives">
-    {{tripStats.drives[0]}}<br/>
-    {{tripStats.charges[0]}}
-  </div> -->
-</div>
+    <trip-detail :drives="tripStats.drives" :charges="tripStats.charges" :positions="positions" :track="track" :chargeMarkers="charges" />
+  </div>
 </template>
 
 <script>
@@ -39,19 +14,13 @@ export default {
 <script setup>
 import { ref, onActivated } from 'vue'
 import { useRoute, onBeforeRouteLeave, onBeforeRouteUpdate } from 'vue-router'
-import { CellGroup } from '@nutui/nutui'
 
-import fieldsName from '../fields'
 import { statsDetail } from '../api/stats'
 import { getPositionsBig } from '../api/position'
 import { trip as shareTrip } from '../api/share'
 
 import TopNav from '../components/TopNav.vue'
-import DriveCellGroup from '../components/DriveCellGroup.vue'
-import ChargeCellGroup from '../components/ChargeCellGroup.vue'
-import TrackMap from '../components/TrackMap.vue'
-import LineChart from '../components/LineChart.vue'
-// import RangeSocChart from '../components/RangeSocChart.vue'
+import TripDetail from '../components/TripDetail.vue'
 
 const route = useRoute()
 
@@ -60,7 +29,6 @@ const tripStats = ref({})
 const positions = ref([])
 const track = ref([])
 const charges = ref([])
-const currentPointIndex = ref()
 
 onActivated(() => {
   const now = Date.now()
