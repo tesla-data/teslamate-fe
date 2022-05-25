@@ -1,5 +1,5 @@
 <template>
-<navbar @on-click-back="$router.go(-1)" fixed :title="`${route.query.display}行程`" class="navbar" />
+  <top-nav :title="`${route.query.display}行程`" :share="true" @share="share" />
   <div class="page">
   <cell-group>
     <track-map
@@ -39,11 +39,14 @@ export default {
 <script setup>
 import { ref, onActivated } from 'vue'
 import { useRoute, onBeforeRouteLeave, onBeforeRouteUpdate } from 'vue-router'
-import { Navbar, CellGroup } from '@nutui/nutui'
+import { CellGroup } from '@nutui/nutui'
 
 import fieldsName from '../fields'
 import { statsDetail } from '../api/stats'
 import { getPositionsBig } from '../api/position'
+import { trip as shareTrip } from '../api/share'
+
+import TopNav from '../components/TopNav.vue'
 import DriveCellGroup from '../components/DriveCellGroup.vue'
 import ChargeCellGroup from '../components/ChargeCellGroup.vue'
 import TrackMap from '../components/TrackMap.vue'
@@ -94,4 +97,9 @@ onBeforeRouteLeave(function (to) {
     isKeepalive = true
   }
 })
+
+async function share() {
+  const { hash, id } = await shareTrip(route.query.from, route.query.to)
+  console.log(hash, id)
+}
 </script>

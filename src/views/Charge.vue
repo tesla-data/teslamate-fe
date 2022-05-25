@@ -35,7 +35,7 @@ getChargeDetail(route.query.id, route.query.from, route.query.to).then(async ([c
 })
 
 async function share() {
-  const { hash, id } = shareCharge(route.query.id)
-  console.log({ hash, id })
+  const { hash, id } = await shareCharge(route.query.id)
+  console.log(hash, id)
 }
 </script>
