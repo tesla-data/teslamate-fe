@@ -8,3 +8,7 @@ export function get(path, hash, id) {
 export function drive(drive_id) {
   return requestApi('/share/drive', { drive_id })
 }
+
+export function charge(charge_id) {
+  return requestApi('/share/charge', { car_id: currentVehicle.value.id, charge_id })
+}

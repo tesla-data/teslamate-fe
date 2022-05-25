@@ -1,5 +1,5 @@
 <template>
-<navbar @on-click-back="$router.go(-1)" fixed title="充电详情" class="navbar" />
+<top-nav title="充电详情" :share="true" @share="share" />
 <div class="page">
   <cell-group title="">
     <track-map v-if="chargeDetail" :charges="position" />
@@ -34,11 +34,14 @@ export default {
 <script setup>
 import { useRoute } from 'vue-router'
 import { ref } from 'vue'
-import { Navbar, CellGroup } from '@nutui/nutui'
+import { CellGroup } from '@nutui/nutui'
 
 import fieldsName from '../fields'
 import { getChargeDetail } from '../api/charge'
 import { getDrives } from '../api/drive'
+import { charge as shareCharge } from '../api/share'
+
+import TopNav from '../components/TopNav.vue'
 import TrackMap from '../components/TrackMap.vue'
 import LineChart from '../components/LineChart.vue'
 import DriveCellGroup from '../components/DriveCellGroup.vue'
@@ -52,4 +55,9 @@ getChargeDetail(route.query.id, route.query.from, route.query.to).then(async ([c
   chargeDetail.value = cd
   drives.value = await getDrives(route.query.to, nextChargeTs)
 })
+
+async function share() {
+  const { hash, id } = shareCharge(route.query.id)
+  console.log({ hash, id })
+}
 </script>
