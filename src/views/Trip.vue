@@ -1,5 +1,5 @@
 <template>
-  <top-nav :title="`${route.query.display}行程`" :share="true" @share="share" />
+  <top-nav :title="`${route.query.display}行程`" :share="share" />
   <div class="page">
     <trip-detail :drives="tripStats.drives" :charges="tripStats.charges" :positions="positions" :track="track" :chargeMarkers="charges" />
   </div>

@@ -1,5 +1,5 @@
 <template>
-<top-nav title="行程详情" :share="true" @share="share" />
+<top-nav title="行程详情" :share="share" />
 <div class="page">
   <drive-detail :drive="drive" :positions="positions" :track="track" />
 </div>

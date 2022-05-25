@@ -1,5 +1,5 @@
 <template>
-<top-nav title="充电详情" :share="true" @share="share" />
+<top-nav title="充电详情" :share="share" />
 <div class="page">
   <charge-detail :detail="chargeDetail" :position="position" />
   <drive-cell-group title="本次充电后" :drives="drives"/>
