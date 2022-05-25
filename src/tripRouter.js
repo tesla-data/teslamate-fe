@@ -15,11 +15,6 @@ const routes = [
     name: 'Charge',
     component: Charge
   },
-  // {
-  //   path: '/stats',
-  //   name: 'Stats',
-  //   component: Stats
-  // },
   {
     path: '/drive',
     name: 'Drive',
