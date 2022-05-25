@@ -20,6 +20,11 @@ export function updateSettings() {
   localStorage.setItem(apikeyKey, apikey.value)
 }
 
+export async function requestPublicApi(path, params) {
+  const { data } = await axios.get(apiUrl + path, { params })
+  return data
+}
+
 export async function requestApi(path, params) {
   if (!urlBase.value || !apikey.value) return
   const { data } = await axios.get(apiUrl + path, { params: { url: urlBase.value, ...params }, headers: { Authorization: `Bearer ${apikey.value}` } })
