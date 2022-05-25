@@ -59,6 +59,7 @@ import { CellGroup, Cell } from '@nutui/nutui'
 import fieldsName from '../fields'
 import { getPositions } from '../api/position'
 import { getDriveDetail } from '../api/drive'
+import { drive as shareDrive } from '../api/share'
 
 import TopNav from '../components/TopNav.vue'
 import TrackMap from '../components/TrackMap.vue'
@@ -75,7 +76,8 @@ getDriveDetail(route.query.drive_id).then(async res => {
   track.value = positions.value.map(({ latitude, longitude }) => [latitude, longitude])
 })
 
-function share() {
-  
+async function share() {
+  const { hash, id } = await shareDrive(route.query.drive_id)
+  console.log(hash, id)
 }
 </script>
