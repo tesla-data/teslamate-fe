@@ -1,5 +1,5 @@
 <template>
-<top-nav title="行程详情" />
+<top-nav title="行程详情" :disableBack="!route.query.href" />
 <div class="page">
   <drive-detail :drive="drive" :positions="positions" :track="track" />
 </div>

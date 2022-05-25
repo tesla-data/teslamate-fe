@@ -3,11 +3,12 @@ import { RouterView } from 'vue-router'
 </script>
 
 <template>
-<router-view v-slot="{ Component }">
+<router-view />
+<!-- <router-view v-slot="{ Component }">
   <keep-alive :exclude="['Charge', 'Drive']">
     <component :is="Component" />
   </keep-alive>
-</router-view>
+</router-view> -->
 </template>
 
 <style lang="scss">
