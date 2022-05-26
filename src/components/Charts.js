@@ -1,4 +1,4 @@
-import Highcharts from 'highcharts'
+import Highcharts from 'highcharts/highstock'
 Highcharts.setOptions({ time: { timezoneOffset: new Date().getTimezoneOffset() }, credits: { enabled: false } })
 
 export const getChartOptions = ({ tooltip, title, xAxis, yAxis = [{ title: { text: null }, alignTicks: false }], series }) => ({

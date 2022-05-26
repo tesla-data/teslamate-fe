@@ -6,7 +6,7 @@
       :track="track"
       :charges="chargeMarkers"
     />
-    <line-chart title="" :height="220" :data="positions" v-model:current="currentPointIndex"
+    <line-chart :x-axis="{ ordinal: true }" title="" :height="220" :data="positions" v-model:current="currentPointIndex"
       :fieldsName="fieldsName"
       :yAxis="[
         { name: '海拔', opposite: false, top: 10, height: 70, opposite: false },
@@ -35,6 +35,10 @@ import LineChart from './LineChart.vue'
 import fieldsName from '../fields'
 
 const currentPointIndex = ref()
+
+function isOrdinal(positions) {
+  return positions.length > 0 && (positions[positions.length - 1].time - positions[0].time > 1000)
+}
 
 defineProps({
   drives: { type: Array, default: () => [] },

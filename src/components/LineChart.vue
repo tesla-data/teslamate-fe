@@ -32,6 +32,7 @@ const props = defineProps({
   xField: { type: String, default: 'time' },
   fields: { type: Array, default: () => [] },
   fieldsName: { type: Object, default: () => ({}) },
+  xAxis: { type: Object, default: () => ({}) },
   yAxis: { type: Array, default: () => [] },
   seriesOptions: { type: Array, default: () => [] },
   extremes: { type: Object, default: () => ({}) }
@@ -78,6 +79,7 @@ watch(() => container.value, () => {
     title: props.title,
     xAxis: {
       type: props.isTimeSeries ? 'datetime' : 'linear',
+      ...props.xAxis,
       ...props.extremes
     },
     yAxis,
