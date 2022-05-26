@@ -25,15 +25,16 @@ export default defineConfig({
       ]
     }),
     importToCDN({
+      prodUrl: 'https://npm.elemecdn.com/{name}@{version}/{path}',
       modules: [
         autoComplete('vue'),
         autoComplete('axios'),
         autoComplete('lodash'),
-        {
-          name: 'vue-router',
-          var: 'VueRouter',
-          path: 'dist/vue-router.global.min.js'
-        },
+        // {
+        //   name: 'vue-router',
+        //   var: 'VueRouter',
+        //   path: 'dist/vue-router.global.min.js'
+        // },
         {
           name: 'highcharts',
           var: 'Highcharts',
@@ -42,7 +43,7 @@ export default defineConfig({
         {
           name: 'leaflet',
           var: 'leaflet',
-          path: 'dist/leaflet-src.min.js',
+          path: 'dist/leaflet.js',
           css: 'dist/leaflet.css'
         },
         {
