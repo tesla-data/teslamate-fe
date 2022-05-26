@@ -37,7 +37,7 @@ export default defineConfig({
         {
           name: 'highcharts',
           var: 'Highcharts',
-          path: 'highcharts.min.js'
+          path: 'highstock.js'
         },
         {
           name: 'leaflet',
