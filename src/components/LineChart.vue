@@ -97,7 +97,7 @@ watch(() => container.value, () => {
         emit('update:current', this.points[0].point.options.i)
         const { x, points: [{ point: { index } }] } = this
         const { chart: { xAxis: [{ dataMax, dataMin }] } } = tooltip
-        const durThreshold = (dataMax - dataMin) / container.value.clientWidth * 5
+        const durThreshold = Math.max(30 * 1000, (dataMax - dataMin) / container.value.clientWidth * 5)
         tooltips.value = {
           title: tooltip.chart.xAxis[0].options.type === 'datetime' ? new Date(x).toLocaleString() : x,
           display: tooltips.value.display,
