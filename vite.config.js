@@ -42,7 +42,8 @@ export default defineConfig({
         {
           name: 'leaflet',
           var: 'leaflet',
-          path: 'dist/leaflet-src.min.js'
+          path: 'dist/leaflet-src.min.js',
+          css: 'dist/leaflet.css'
         },
         {
           name: '@nutui/nutui',
