@@ -25,10 +25,22 @@ export async function requestPublicApi(path, params) {
   return data
 }
 
+function parseGrafanaResults(results) {
+  const ret = Object.keys(results).map(refId => {
+    if (results[refId].tables) {
+      return results[refId].tables[0].rows.map(r => r.reduce((m, v, i) => { m[results[refId].tables[0].columns[i].text] = v; return m }, {}));
+    } else {
+      return results[refId].frames[0].data.values[0].map((_, i) => results[refId].frames[0].schema.fields.reduce((m, v, fi) => { m[v.name] = results[refId].frames[0].data.values[fi][i]; return m }, {}));
+    }
+  })
+
+  return ret.length === 1 ? ret[0] : ret
+}
+
 export async function requestApi(path, params) {
   if (!urlBase.value || !apikey.value) return
   const { data } = await axios.get(apiUrl + path, { params: { url: urlBase.value, ...params }, headers: { Authorization: `Bearer ${apikey.value}` } })
-  return data
+  return data.results ? parseGrafanaResults(data.results) : data
 }
 
 export async function query(queries, from, to) {
@@ -40,15 +52,7 @@ export async function query(queries, from, to) {
   const payload = { from, to, queries: queries.map(({ refId, rawSql }) => ({ refId, datasourceId: 1, rawSql, format: 'table' })) }
   const { data: { results } } = await axios.post(url, payload, { params: { url: urlBase.value }, headers: { Authorization: `Bearer ${apikey.value}` } })
 
-  const ret = queries.map(({ refId }) => {
-    if (results[refId].tables) {
-      return results[refId].tables[0].rows.map(r => r.reduce((m, v, i) => { m[results[refId].tables[0].columns[i].text] = v; return m }, {}));
-    } else {
-      return results[refId].frames[0].data.values[0].map((_, i) => results[refId].frames[0].schema.fields.reduce((m, v, fi) => { m[v.name] = results[refId].frames[0].data.values[fi][i]; return m }, {}));
-    }
-  })
-
-  return ret.length === 1 ? ret[0] : ret
+  return parseGrafanaResults(results)
 }
 
 export async function listVehicles() {
