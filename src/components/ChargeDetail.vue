@@ -12,7 +12,7 @@
         ['Outdoor Temperature [°C]']
       ]"
     />
-    <line-chart v-if="detail && detail.find(c => c['Current [A]'])" title="电压电流" :height="150" :data="detail"
+    <line-chart v-if="detail && detail.find(c => c['Current [A]'])" title="电压电流" :height="120" :data="detail"
       :fieldsName="fieldsName"
       :fields="[['Charging Voltage [V]'], ['Current [A]', 'Current (pilot) [A]']]"
       :yAxis="[{ tickAmount: 4, min: 0 }, { tickAmount: 4, min: 0 }]"
