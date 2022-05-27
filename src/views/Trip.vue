@@ -17,7 +17,7 @@ import { useRoute, onBeforeRouteLeave } from 'vue-router'
 import { Dialog } from '@nutui/nutui'
 
 import { statsDetail } from '../api/stats'
-import { getPositionsBig } from '../api/position'
+import { getPositions } from '../api/position'
 import { trip as shareTrip } from '../api/share'
 
 import TopNav from '../components/TopNav.vue'
@@ -45,7 +45,7 @@ onActivated(() => {
       }
     })
 
-    getPositionsBig(from, to).then(res => {
+    getPositions(from, to).then(res => {
       if (now > lastLeave) {
         positions.value = res
         track.value = res.map(({ latitude, longitude }) => [latitude, longitude])

@@ -17,17 +17,22 @@
   <cell-group title="">
     <track-map v-if="track" :track="track" :highlight="currentPointIndex" />
 
-    <line-chart title="" :height="560" :data="positions"
+    <line-chart title="" :height="505" :data="positions"
       v-model:current="currentPointIndex"
       :fieldsName="fieldsName"
+      :series-options="[, { zIndex: 1 }, { type: 'area' }, { type: 'area' }]"
       :yAxis="[
-        { name: '功率', top: 0, opposite: true, top: 10, height: 200 }, { name: '速度', opposite: false, top: 10, height: 200 },
-        { name: '海拔', opposite: false, top: 230, height: 75 },
-        { name: '温度', opposite: false, top: 325, height: 75 },
-        { name: 'SOC', opposite: false, top: 420, height: 100 }, { name: '表显续航', opposite: true, top: 420, height: 100 }
+        { name: '速度', opposite: false, top: 10, height: 80 },
+        { name: '能耗', top: 0, opposite: false, top: 100, height: 80 }, 
+        { name: '功率', top: 0, opposite: true, top: 100, height: 80 }, 
+        { name: '海拔', opposite: false, top: 190, height: 75 },
+        { name: '温度', opposite: false, top: 280, height: 75 },
+        { name: 'SOC', opposite: false, top: 370, height: 90 }, { name: '表显续航', opposite: true, top: 370, height: 90 }
       ]"
       :fields="[
-        ['Power [kW]'], ['Speed [km/h]'],
+        ['Speed [km/h]'],
+        ['consumption'],
+        ['Power [kW]'],
         ['Elevation [m]'],
         [
           'Outside Temperature [°C]',
