@@ -8,7 +8,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onActivated } from 'vue'
 import { Navbar as NutNavbar } from '@nutui/nutui'
 
 const props = defineProps({
@@ -16,6 +16,9 @@ const props = defineProps({
   title: { type: String, default: '' },
   share: { type: Function, default: null }
 })
+
+document.title = props.title
+onActivated(() => document.title = props.title)
 
 const loading = ref(false)
 async function onShare() {

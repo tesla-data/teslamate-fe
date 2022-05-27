@@ -1,5 +1,5 @@
 <template>
-<navbar @on-click-back="$router.go(-1)" fixed title="充电" class="navbar" />
+<top-nav title="充电" />
 <div class="page">
   <charge-cell-group v-for="cg of charges" :title="cg.month" :charges="cg.charges" />
 </div>
@@ -7,7 +7,7 @@
 
 <script setup>
 import { ref, onActivated } from 'vue'
-import { Navbar } from '@nutui/nutui'
+import TopNav from '../components/TopNav.vue'
 
 import { getCharges } from '../api/charge'
 import ChargeCellGroup from '../components/ChargeCellGroup.vue'

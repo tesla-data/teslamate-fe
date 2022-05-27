@@ -1,5 +1,5 @@
 <template>
-<navbar @on-click-back="$router.go(-1)" fixed title="软件版本" class="navbar" />
+<top-nav title="软件版本" />
 <div class="page">
   <cell-group title="统计结果">
     <cell
@@ -13,9 +13,11 @@
 
 <script setup>
 import { ref, onActivated } from 'vue'
-import { Navbar, CellGroup, Cell } from '@nutui/nutui'
-import { days } from '../filters'
+import { CellGroup, Cell } from '@nutui/nutui'
 
+import TopNav from '../components/TopNav.vue'
+
+import { days } from '../filters'
 import api from '../api/vehicle'
 
 const updates = ref()

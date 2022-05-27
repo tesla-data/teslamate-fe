@@ -1,5 +1,5 @@
 <template>
-<navbar @on-click-back="$router.go(-1)" fixed title="统计" class="navbar" />
+<top-nav title="统计" />
 <div class="page">
   <cell-group :title="`${st.year} 行驶了${st.stats.reduce((m, s) => m + s.sum_distance_km, 0)}km`" v-for="st of stats">
     <template v-slot:title>
@@ -23,8 +23,9 @@
 
 <script setup>
 import { ref, onActivated } from 'vue'
-import { Navbar, CellGroup, Cell } from '@nutui/nutui'
+import { CellGroup, Cell } from '@nutui/nutui'
 
+import TopNav from '../components/TopNav.vue'
 import { stats as getStats } from '../api/stats'
 
 const stats = ref()

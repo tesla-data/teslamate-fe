@@ -85,6 +85,8 @@ async function updateVehicleState () {
 
 watch(currentVehicle, updateVehicleState)
 onActivated(() => {
+  document.title = `车辆首页 - ${currentVehicle.value.name || ''}`
+
   if (refreshInterval) clearInterval(refreshInterval)
   if (Date.now() - lastLoad > 30 * 1000) updateVehicleState()
   refreshInterval = setInterval(updateVehicleState, 30 * 1000)

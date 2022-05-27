@@ -1,5 +1,5 @@
 <template>
-<navbar @on-click-back="$router.go(-1)" fixed title="Teslafi Firmware统计" class="navbar" />
+<top-nav title="Teslafi Firmware统计" />
 <div class="page" style="padding-top: 80px; overflow: scroll;">
   <table v-if="teslafi">
     <thead>
@@ -22,7 +22,7 @@
 
 <script setup>
 import { ref, onActivated } from 'vue'
-import { Navbar } from '@nutui/nutui'
+import TopNav from '../components/TopNav.vue'
 import { getTeslafi } from '../api/teslamate'
 
 const teslafi = ref()

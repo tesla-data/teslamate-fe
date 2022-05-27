@@ -1,5 +1,5 @@
 <template>
-<navbar @on-click-back="$router.go(-1)" fixed title="设置" class="navbar" />
+<top-nav title="设置" />
 <div class="page">
   <cell-group title="设置">
     <cell title="隐藏完整车辆识别码">
@@ -24,7 +24,8 @@ import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { urlBase, apikey, updateSettings } from '../api/teslamate'
 import { getVehicles } from '../api/vehicle'
-import { Navbar, CellGroup, Input as NutInput, Button as NutButton, Cell, Switch as NutSwitch } from '@nutui/nutui'
+import { CellGroup, Input as NutInput, Button as NutButton, Cell, Switch as NutSwitch } from '@nutui/nutui'
+import TopNav from '../components/TopNav.vue'
 import { hideFullVin } from '../settings'
 
 const router = useRouter()

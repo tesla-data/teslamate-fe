@@ -1,5 +1,5 @@
 <template>
-<navbar @on-click-back="$router.go(-1)" fixed title="行程" class="navbar" />
+<top-nav title="行程" />
 <div class="page">
   <drive-cell-group v-for="dg of drivesGroups" :title="dg.date" :drives="dg.drives"/>
 </div>
@@ -7,7 +7,7 @@
 
 <script setup>
 import { ref, onActivated } from 'vue'
-import { Navbar } from '@nutui/nutui'
+import TopNav from '../components/TopNav.vue'
 
 import DriveCellGroup from '../components/DriveCellGroup.vue'
 import { getDrives } from '../api/drive'
