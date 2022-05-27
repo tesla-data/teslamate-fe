@@ -23,8 +23,8 @@
       :series-options="[, { zIndex: 1 }, { type: 'area' }, { type: 'area' }]"
       :yAxis="[
         { name: '速度', opposite: false, top: 10, height: 80 },
-        { name: '能耗', top: 0, opposite: false, top: 100, height: 80 }, 
-        { name: '功率', top: 0, opposite: true, top: 100, height: 80 }, 
+        { name: '能耗', top: 0, opposite: true, top: 100, height: 80, startOnTick: false }, 
+        { name: '功率', top: 0, opposite: false, top: 100, height: 80 }, 
         { name: '海拔', opposite: false, top: 190, height: 75 },
         { name: '温度', opposite: false, top: 280, height: 75 },
         { name: 'SOC', opposite: false, top: 370, height: 90 }, { name: '表显续航', opposite: true, top: 370, height: 90 }
