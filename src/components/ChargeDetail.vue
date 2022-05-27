@@ -1,11 +1,11 @@
 <template>
   <cell-group title="">
     <track-map v-if="position" :charges="position" :height="300" />
-    <line-chart title="充电曲线" :height="340" :data="detail"
+    <line-chart title="充电曲线" :height="310" :data="detail"
       :fieldsName="fieldsName"
       :yAxis="[
-        { name: '功率 & SOC[%]', softMax: 100, min: 0, top: 10, height: 230 }, { name: '表显续航', min: 0, top: 10, height: 250, opposite: true },
-        { name: '温度', top: 250, height: 50, opposite: false }
+        { name: '功率 & SOC[%]', softMax: 100, min: 0, top: 10, height: 200 }, { name: '表显续航', min: 0, top: 10, height: 200, opposite: true },
+        { name: '温度', top: 220, height: 50, opposite: false }
       ]"
       :fields="[
         ['SOC [%]', 'Power [kW]', 'Battery heater'], ['Range [km]'],
