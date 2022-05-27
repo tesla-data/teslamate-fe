@@ -6,11 +6,12 @@
       :track="track"
       :charges="chargeMarkers"
     />
-    <line-chart :x-axis="{ ordinal: true }" title="" :height="220" :data="positions" v-model:current="currentPointIndex"
+    <line-chart :x-axis="{ ordinal: true }" title="" :height="210" :data="positions" v-model:current="currentPointIndex"
       :fieldsName="fieldsName"
+      :series-options="[{ type: 'area' }]"
       :yAxis="[
         { name: '海拔', opposite: false, top: 10, height: 70, opposite: false },
-        { name: 'SOC', softMax: 100, min: 0, opposite: false, top: 90, height: 100 }, { name: '表显续航', min: 0, opposite: true, top: 90, height: 100 }
+        { name: 'SOC', softMax: 100, min: 0, opposite: false, top: 90, height: 90 }, { name: '表显续航', min: 0, opposite: true, top: 90, height: 90 }
       ]"
       :fields="[
         ['Elevation [m]'],
