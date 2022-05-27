@@ -12,7 +12,7 @@ export default {
 </script>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onActivated } from 'vue'
 import { useRoute } from 'vue-router'
 
 import TopNav from '../components/TopNav.vue'
@@ -32,5 +32,9 @@ get('/share/trip', route.query.hash, route.query.id).then(({ drives: d, charges:
   positions.value = p
   track.value = p.map(({ latitude, longitude }) => [latitude, longitude])
   chargeMarkers.value = c.map(({ latitude, longitude, mode }) => [latitude, longitude, mode])
+})
+
+onActivated(() => {
+  if (chargeMarkers.value) chargeMarkers.value = [...chargeMarkers.value]
 })
 </script>
