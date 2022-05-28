@@ -1,4 +1,5 @@
 export default {
+  'avgSpeed': '均速',
   'consumption': '能耗',
   'Power [kW]': '功率',
   'Speed [km/h]': '速度',

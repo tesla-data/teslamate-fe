@@ -44,6 +44,7 @@ const tooltips = ref({ tooltips: [] })
 let chart
 
 function getSeries(data) {
+  let dataIdx = 0
   return props.fields.map((fields, i) => fields.map(k =>({
     name: props.fieldsName[k] || k,
     states: { hover: { enabled: false }, inactive: { enabled: false } },
@@ -55,7 +56,7 @@ function getSeries(data) {
     turboThreshold: 0,
     data: data.map(({ [props.xField]: x, [k]: y }, i) => ({ x, y, i })),
     tooltip: { valueDecimals: 0 },
-    ...props.seriesOptions[i]
+    ...props.seriesOptions[dataIdx++]
   }))).reduce((m, arr) => [...m, ...arr], [])
 }
 

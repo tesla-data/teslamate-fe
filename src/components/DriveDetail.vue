@@ -20,7 +20,7 @@
     <line-chart title="" :height="505" :data="positions"
       v-model:current="currentPointIndex"
       :fieldsName="fieldsName"
-      :series-options="[, { zIndex: 1 }, { type: 'area' }, { type: 'area' }]"
+      :series-options="[{}, {}, { zIndex: 1 }, { type: 'area' }, { type: 'area' }]"
       :yAxis="[
         { name: '速度', opposite: false, top: 10, height: 80 },
         { name: '能耗', top: 0, opposite: true, top: 100, height: 80, startOnTick: false }, 
@@ -30,7 +30,7 @@
         { name: 'SOC', opposite: false, top: 370, height: 90 }, { name: '表显续航', opposite: true, top: 370, height: 90 }
       ]"
       :fields="[
-        ['Speed [km/h]'],
+        ['Speed [km/h]', 'avgSpeed'],
         ['consumption'],
         ['Power [kW]'],
         ['Elevation [m]'],
