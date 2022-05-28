@@ -1,6 +1,6 @@
 <template>
   <cell-group v-if="drive"
-    :title="`行驶了${drive.duration_min}分钟 ${drive.distance_km.toFixed(1)}km 能耗${drive.consumption_kwh_km && drive.consumption_kwh_km.toFixed(0)}Wh/km ${drive.efficiency ? '' : '(*)'}`"
+    :title="`行驶了${duration(drive.duration_min * 60 * 1000)} ${drive.distance_km.toFixed(1)}km 能耗${drive.consumption_kwh_km && drive.consumption_kwh_km.toFixed(0)}Wh/km ${drive.efficiency ? '' : '(*)'}`"
     :desc="`最大功率${drive.power_max}Kw 里程表: ${drive.start_km.toFixed(0)} - ${drive.end_km.toFixed(0)}km`"
   >
     <cell
@@ -54,6 +54,7 @@ import { CellGroup, Cell } from '@nutui/nutui'
 import TrackMap from '../components/TrackMap.vue'
 import LineChart from '../components/LineChart.vue'
 
+import { duration } from '../filters'
 import fieldsName from '../fields'
 
 const currentPointIndex = ref()
