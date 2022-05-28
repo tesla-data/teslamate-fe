@@ -7,7 +7,7 @@ export async function getPositions(from, to) {
   positions.forEach((p, i) => {
     if (p.odometer - p0.odometer > 1 && p.range) {
       p.avgSpeed = (p.odometer - p0.odometer) / (p.time - p0.time) * 3600 * 1000
-      p.consumption = (p0.range - p.range) / (p.odometer - p0.odometer) * 144
+      if (currentVehicle.value.efficiency) p.consumption = (p0.range - p.range) / (p.odometer - p0.odometer) * currentVehicle.value.efficiency * 1000
     }
   })
   return positions
