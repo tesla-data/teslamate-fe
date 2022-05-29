@@ -9,7 +9,7 @@
         { name: '温度', top: 220, height: 50, opposite: false }
       ]"
       :fields="[
-        ['SOC [%]', 'Power [kW]', 'Battery heater'], ['Range [km]'],
+        ['SOC [%]', 'Power [kW]', 'avgPower', 'Battery heater'], ['Range [km]'],
         ['Outdoor Temperature [°C]']
       ]"
     />

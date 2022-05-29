@@ -20,7 +20,7 @@
         </tr>
         <tr v-if="showOffset === 'charge' && tooltips.offset.time > 0">
           <td colspan="2">
-            <span v-if="tooltips.offset.data.kwAdded > 0">+{{tooltips.offset.data.kwAdded.toFixed(0)}}Kwh</span>
+            <span v-if="tooltips.offset.data.kwhAdded > 0">+{{tooltips.offset.data.kwhAdded.toFixed(0)}}Kwh</span>
             +{{tooltips.offset.data.rangeAdded.toFixed(0)}}km
           </td>
         </tr>
