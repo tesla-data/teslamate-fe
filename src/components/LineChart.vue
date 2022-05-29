@@ -8,7 +8,22 @@
     <div v-if="tooltips.display" :style="{ position: 'absolute', 'z-index': 999, top: '10px', [tooltips.display]: '30px' }">
       <table style="border: 1px solid #888; background-color: rgba(255, 255, 255, 0.9); font-size: 11px;">
         <tr><td colspan="2">{{tooltips.title}}</td></tr>
-        <tr v-if="showOffset"><td colspan="2">行驶{{duration(tooltips.offset.time)}} {{tooltips.offset.odometer.toFixed(0)}}km</td></tr>
+        <tr v-if="showOffset === 'drive'">
+          <td colspan="2">
+            行驶{{duration(tooltips.offset.time)}} {{tooltips.offset.odometer.toFixed(0)}}km
+          </td>
+        </tr>
+        <tr v-if="showOffset === 'charge' && tooltips.offset.time > 0">
+          <td colspan="2">
+            充电{{duration(tooltips.offset.time)}}
+          </td>
+        </tr>
+        <tr v-if="showOffset === 'charge' && tooltips.offset.time > 0">
+          <td colspan="2">
+            <span v-if="tooltips.offset.data.kwAdded > 0">+{{tooltips.offset.data.kwAdded.toFixed(0)}}Kwh</span>
+            +{{tooltips.offset.data.rangeAdded.toFixed(0)}}km
+          </td>
+        </tr>
         <tr v-for="tt of tooltips.tooltips"><td><span :style="{ color: tt.color }">●</span> {{tt.name}}</td><td style="text-align: right;">{{tt.value}}</td></tr>
       </table>
     </div>
@@ -26,7 +41,7 @@ import { getChart } from './Charts'
 const emit = defineEmits(['update:current'])
 
 const props = defineProps({
-  showOffset: { type: Boolean, default: false },
+  showOffset: { type: String, default: '' },
   current: { type: Number, default: -1 },
   isTimeSeries: { type: Boolean, default: true },
   title: { type: String, default: '' },
@@ -92,7 +107,7 @@ watch(() => container.value, () => {
       shared: true,
       crosshairs: true,
       animation: false,
-      style: { opacity: 0 },
+      style: { display: 'none' },
       positioner(_, __, { plotX }) {
         tooltips.value.display = plotX / container.value.clientWidth > 0.5 ? 'left' : 'right'
         return { plotX, y: 0 }
@@ -108,7 +123,8 @@ watch(() => container.value, () => {
           title: tooltip.chart.xAxis[0].options.type === 'datetime' ? new Date(x).toLocaleString() : x,
           display: tooltips.value.display,
           tooltips: [],
-          offset: {
+          offset: props.showOffset && {
+            data: props.data[this.points[0].point.options.i],
             time: this.points[0].point.options.x - tooltip.chart.series[0].data[0].x,
             odometer: props.data[this.points[0].point.options.i].odometer - props.data[0].odometer
           }

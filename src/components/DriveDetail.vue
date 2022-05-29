@@ -17,7 +17,7 @@
   <cell-group title="">
     <track-map v-if="track" :track="track" :highlight="currentPointIndex" />
 
-    <line-chart title="" :height="505" :data="positions" :show-offset="true"
+    <line-chart title="" :height="505" :data="positions" show-offset="drive"
       v-model:current="currentPointIndex"
       :fieldsName="fieldsName"
       :series-options="[{ zIndex: 1 }, {}, { zIndex: 1 }, { type: 'area' }, { type: 'area' }]"
