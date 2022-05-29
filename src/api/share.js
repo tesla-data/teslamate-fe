@@ -15,6 +15,21 @@ export async function get(path, hash, id) {
     })
   }
 
+  const { charge, detail } = result
+  if (charge && detail) {
+    const r0 = detail[0]['Range [km]']
+    const t0 = detail[0].time
+    let maxPow = detail[0]['Power [kW]']
+    detail.forEach((c, i) => {
+      maxPow = Math.max(maxPow, c['Power [kW]'])
+      c.rangeAdded = c['Range [km]'] - r0
+      if (currentVehicle.value.efficiency) {
+        c.kwhAdded = c.rangeAdded * currentVehicle.value.efficiency
+        if (c.time > t0) c.avgPower = Math.min(maxPow, c.kwhAdded / (c.time - t0) * 3600 * 1000)
+      }
+    })
+  }
+
   return result
 }
 
