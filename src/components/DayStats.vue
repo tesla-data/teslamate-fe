@@ -29,6 +29,7 @@ const show = ref(false)
 const data = ref([])
 watch(() => [props.from, props.to, props.r], async ([from, to]) => {
   if (from > 0 && to > 0) {
+    data.value = []
     show.value = true
     data.value = await stats('day', from, to)
   } else {
