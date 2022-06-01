@@ -10,7 +10,7 @@ import { ref, onActivated } from 'vue'
 import TopNav from '../components/TopNav.vue'
 
 import DriveCellGroup from '../components/DriveCellGroup.vue'
-import { getDrives } from '../api/drive'
+import { getDrives, groupDrives } from '../api/drive'
 
 let drives = []
 const drivesGroups = ref([])
@@ -22,19 +22,7 @@ onActivated(() => {
     if (res.length === 0) return
 
     drives = [...res, ...drives]
-    drivesGroups.value = drives.reduce((arr, drive) => {
-      const date = new Date(drive.start_date_ts).toLocaleDateString()
-      if (arr.length > 0 && arr[arr.length - 1].date === date) {
-        arr[arr.length - 1].drives.push(drive)
-      } else {
-        arr.push({
-          date,
-          drives: [drive]
-        })
-      }
-
-      return arr
-    }, [])
+    drivesGroups.value = groupDrives(drives).groups
   })
 })
 
