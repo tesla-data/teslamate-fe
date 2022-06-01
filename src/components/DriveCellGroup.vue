@@ -8,7 +8,7 @@
     </router-link>
     <div v-else  class="nut-cell-group__title">{{`${title || ''} 行驶${sumDistance(drives)}Km 消耗${sumComsuption(drives)}度电`}}</div>
   </template>
-  <cell
+  <cell center
     v-for="d of drives" :title="d.start_address"
     :to="{ name: 'Drive', query: $route.query.hash ? { id: d.drive_id, hash: $route.query.hash, href: 'Home' } : { drive_id: d.drive_id }, params: d }"
     :desc="`${d.duration_min}分钟 | ${d.distance_km.toFixed(0)}km`"
