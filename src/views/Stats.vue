@@ -10,7 +10,7 @@
       </router-link>
     </template>
 
-    <cell
+    <cell center
       v-for="s of st.stats" :title="s.display"
       :desc="`${(s.sum_duration_h / 60).toFixed(0)}分钟 | ${s.sum_distance_km}km`"
       :sub-title="`气温${s.avg_outside_temp_c.toFixed(1)}℃ 能耗${(145 / s.efficiency).toFixed(0)}Wh/km`"
