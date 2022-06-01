@@ -1,6 +1,6 @@
 <template>
 <top-nav title="Teslafi Firmware统计" />
-<div class="page" style="padding-top: 80px; overflow: scroll;">
+<div class="page" style="overflow: scroll;">
   <table v-if="teslafi">
     <thead>
       <tr><th v-for="h of teslafi.latestUpdates.head">{{h || '⇩'}}</th></tr>
