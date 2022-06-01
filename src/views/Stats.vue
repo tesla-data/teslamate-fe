@@ -1,6 +1,7 @@
 <template>
 <top-nav title="统计" />
 <div class="page">
+  <day-stats :title="current.title" :from="current.from" :to="current.to" :r="current.r" />
   <cell-group :title="`${st.year} 行驶了${st.stats.reduce((m, s) => m + s.sum_distance_km, 0)}km`" v-for="st of stats">
     <template v-slot:title>
       <router-link class="nut-cell-group__title" style="text-decoration: none;"
@@ -14,19 +15,38 @@
       v-for="s of st.stats" :title="s.display"
       :desc="`${(s.sum_duration_h / 60).toFixed(0)}分钟 | ${s.sum_distance_km}km`"
       :sub-title="`气温${s.avg_outside_temp_c.toFixed(1)}℃ 能耗${(145 / s.efficiency).toFixed(0)}Wh/km`"
-      :to="{ name: 'Trip', query: { display: s.display, from: s.date_from, to: s.date_to }, params: s }"
+      @click="navTo(s)"
       is-link
-    />
+    >
+      <template v-slot:icon>
+        <div @click.stop="showDays(s)">
+          <nut-icon name="left" />&nbsp;
+        </div>
+      </template>
+    </cell>
   </cell-group>
 </div>
 </template>
 
 <script setup>
 import { ref, onActivated } from 'vue'
+import { useRouter } from 'vue-router'
 import { CellGroup, Cell } from '@nutui/nutui'
 
 import TopNav from '../components/TopNav.vue'
+import DayStats from '../components/DayStats.vue'
 import { stats as getStats } from '../api/stats'
+
+const router = useRouter()
+
+function navTo(s) {
+  router.push({ name: 'Trip', query: { display: s.display, from: s.date_from, to: s.date_to }, params: s })
+}
+
+const current = ref({})
+function showDays({ display: title, date_from: from, date_to: to }) {
+  current.value = { title, from, to, r: Date.now() }
+}
 
 const stats = ref()
 onActivated(() => {

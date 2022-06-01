@@ -1,8 +1,8 @@
 import { requestApi } from './teslamate'
 import { currentVehicle } from '../settings'
 
-export function stats() {
-  return requestApi('/stats', { car_id: currentVehicle.value.id })
+export function stats(period, from, to) {
+  return requestApi('/stats', { car_id: currentVehicle.value.id, period, from, to })
 }
 
 export function statsDetail(from, to) {
