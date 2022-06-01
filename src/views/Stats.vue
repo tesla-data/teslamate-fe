@@ -30,7 +30,7 @@
 
 <script setup>
 import { ref, onActivated } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRouter, onBeforeRouteLeave } from 'vue-router'
 import { CellGroup, Cell } from '@nutui/nutui'
 
 import TopNav from '../components/TopNav.vue'
@@ -63,5 +63,11 @@ onActivated(() => {
 
     return arr
   }, []))
+})
+
+onBeforeRouteLeave((to) => {
+  if (to.name === 'Home') {
+    current.value = {}
+  }
 })
 </script>

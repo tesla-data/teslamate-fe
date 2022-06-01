@@ -28,7 +28,11 @@ const props = defineProps({
 const show = ref(false)
 const data = ref([])
 watch(() => [props.from, props.to, props.r], async ([from, to]) => {
-  show.value = true
-  data.value = await stats('day', from, to)
+  if (from > 0 && to > 0) {
+    show.value = true
+    data.value = await stats('day', from, to)
+  } else {
+    show.value = false
+  }
 })
 </script>
