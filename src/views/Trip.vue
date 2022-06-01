@@ -1,7 +1,7 @@
 <template>
   <top-nav :title="`${route.query.display}行程`" :share="timeRange < 86400 * 1000 * 7 ? share : null" />
   <div class="page">
-    <trip-detail :drives="tripStats.drives" :charges="tripStats.charges" :positions="positions" :track="track" :chargeMarkers="charges" />
+    <trip-detail :group="true" :drives="tripStats.drives" :charges="tripStats.charges" :positions="positions" :track="track" :chargeMarkers="charges" />
   </div>
 </template>
 

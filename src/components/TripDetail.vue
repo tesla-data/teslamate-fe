@@ -27,7 +27,7 @@
     :title="`累计行驶${km(drivesGroups.totalDistance)} 消耗${drivesGroups.totalComsuption.toFixed(1)}度电`"
     :desc="`累计用时${duration(drivesGroups.totalDuration * 60 * 1000)} 均速${km(drivesGroups.avgSpeed)}/h 能耗${drivesGroups.comsumption.toFixed(0)}Wh/km`"
   />
-  <drive-cell-group class="dg" v-if="group && drivesGroups.groups.length > 1" v-for="dg of drivesGroups.groups" :title="dg.date" :drives="dg.drives" />
+  <drive-cell-group class="dg" v-if="group && drivesGroups.groups.length > 1" v-for="dg of drivesGroups.groups" :title="dg.date.replace(/^20/, '')" :drives="dg.drives" />
 </template>
 
 <script setup>
