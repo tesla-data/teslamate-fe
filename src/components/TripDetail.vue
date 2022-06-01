@@ -21,11 +21,17 @@
   </cell-group>
 
   <charge-cell-group :charges="charges" />
-  <drive-cell-group :drives="drives" />
+
+  <drive-cell-group v-if="!group || drivesGroups.groups.length === 1" :drives="drives" />
+  <cell-group class="stats" v-if="group && drivesGroups.groups.length > 1"
+    :title="`累计行驶${km(drivesGroups.totalDistance)} 消耗${drivesGroups.totalComsuption.toFixed(1)}度电`"
+    :desc="`累计用时${duration(drivesGroups.totalDuration * 60 * 1000)} 均速${km(drivesGroups.avgSpeed)}/h 能耗${drivesGroups.comsumption.toFixed(0)}Wh/km`"
+  />
+  <drive-cell-group class="dg" v-if="group && drivesGroups.groups.length > 1" v-for="dg of drivesGroups.groups" :title="dg.date" :drives="dg.drives" />
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { CellGroup } from '@nutui/nutui'
 
 import DriveCellGroup from './DriveCellGroup.vue'
@@ -33,19 +39,30 @@ import ChargeCellGroup from './ChargeCellGroup.vue'
 import TrackMap from './TrackMap.vue'
 import LineChart from './LineChart.vue'
 
+import { groupDrives } from '../api/drive'
+import { km, duration } from '../filters'
 import fieldsName from '../fields'
 
 const currentPointIndex = ref()
 
-function isOrdinal(positions) {
-  return positions.length > 0 && (positions[positions.length - 1].time - positions[0].time > 1000)
-}
-
-defineProps({
+const props = defineProps({
+  group: { type: Boolean, default: false },
   drives: { type: Array, default: () => [] },
   charges: { type: Array, default: () => [] },
   positions: { type: Array, default: () => [] },
   track: { type: Array, default: () => [] },
   chargeMarkers: { type: Array, default: () => [] },
 })
+
+const drivesGroups = computed(() => groupDrives(props.drives))
 </script>
+
+<style  scoped>
+.stats :deep(.nut-cell-group__title) {
+  font-size: 16px;
+}
+
+.dg :deep(.nut-cell-group__title) {
+  margin-top: 10px;
+}
+</style>

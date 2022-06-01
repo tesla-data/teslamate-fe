@@ -155,9 +155,14 @@ const hideTooltip = _.debounce(() => {
   emit('update:current', -1)
 }, 2000)
 
-watch(() => [props.data, props.extremes], ([data, { min, max }]) => {
+function setData(data, min, max) {
   getSeries(data).forEach((series, i) => chart.series[i].setData(series.data))
   if (min || max) chart.xAxis[0].setExtremes(min, max)
+}
+
+watch(() => [props.data, props.extremes], ([data, { min, max }]) => {
+  if (data.length > 1024) setTimeout(() => setData(data, min, max), 10)
+  else setData(data, min, max)
 })
 
 onUnmounted(() => chart.destroy())
