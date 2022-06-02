@@ -30,7 +30,7 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   if (window._hmt) {
     if (to.path) {
-      window._hmt.push(['_trackPageview', to.fullPath])
+      window._hmt.push(['_trackPageview', '/trip.html#' + to.fullPath])
     }
   }
   next()
