@@ -30,16 +30,26 @@ html, body {
 }
 
 .navbar {
-  padding-top: 26px!important;
-  padding-bottom: 26px!important;
-  z-index: 9999;
+  height: 72px;
+
+  .nut-navbar--fixed {
+    padding-top: 26px!important;
+    padding-bottom: 26px!important;
+    z-index: 9999!important;
+  }
 
   .nut-navbar__title .title {
     width: inherit;
   }
 
   + .page {
-    padding-top: 45px;
+    margin-top: 0;
+
+    .nut-cell-group:first-child {
+      .nut-cell-group__title {
+        margin-top: 0;
+      }
+    }
   }
 }
 </style>
