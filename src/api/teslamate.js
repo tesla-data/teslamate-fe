@@ -1,5 +1,6 @@
 import { ref } from 'vue'
 import axios from 'axios'
+import { Notify } from '@nutui/nutui'
 
 const apiUrl = 'https://service-a0j9syyt-1303929337.bj.apigw.tencentcs.com/release'
 // const apiUrl = 'http://localhost:9000'
@@ -11,8 +12,7 @@ const apikeyKey = 'teslamate_apikey'
 export const apikey = ref(localStorage.getItem(apikeyKey) || '')
 
 export async function getTeslafi() {
-  const { data } = await axios.get(apiUrl + '/teslafi')
-  return data
+  return await requestPublicApi('/teslafi')
 }
 
 export function updateSettings() {
@@ -21,8 +21,12 @@ export function updateSettings() {
 }
 
 export async function requestPublicApi(path, params) {
-  const { data } = await axios.get(apiUrl + path, { params })
-  return data
+  try {
+    const { data } = await axios.get(apiUrl + path, { params })
+    return data
+  } catch (e) {
+    Notify.danger('网络错误' + e.message)
+  }
 }
 
 function parseGrafanaResults(results) {
@@ -38,23 +42,27 @@ function parseGrafanaResults(results) {
 }
 
 export async function requestApi(path, params) {
-  if (!urlBase.value || !apikey.value) return
-  const { data } = await axios.get(apiUrl + path, { params: { url: urlBase.value, ...params }, headers: { Authorization: `Bearer ${apikey.value}` } })
-  return data.results ? parseGrafanaResults(data.results) : data
+  try {
+    if (!urlBase.value || !apikey.value) return
+    const { data } = await axios.get(apiUrl + path, { params: { url: urlBase.value, ...params }, headers: { Authorization: `Bearer ${apikey.value}` } })
+    return data.results ? parseGrafanaResults(data.results) : data
+  } catch(e) {
+    Notify.danger('网络错误' + e.message)
+  }
 }
 
-export async function query(queries, from, to) {
-  if (!urlBase.value || !apikey.value) return
-  if (from) from = from.toString()
-  if (to) to = to.toString()
+// export async function query(queries, from, to) {
+//   if (!urlBase.value || !apikey.value) return
+//   if (from) from = from.toString()
+//   if (to) to = to.toString()
 
-  const url = apiUrl + '/query';
-  const payload = { from, to, queries: queries.map(({ refId, rawSql }) => ({ refId, datasourceId: 1, rawSql, format: 'table' })) }
-  const { data: { results } } = await axios.post(url, payload, { params: { url: urlBase.value }, headers: { Authorization: `Bearer ${apikey.value}` } })
+//   const url = apiUrl + '/query';
+//   const payload = { from, to, queries: queries.map(({ refId, rawSql }) => ({ refId, datasourceId: 1, rawSql, format: 'table' })) }
+//   const { data: { results } } = await axios.post(url, payload, { params: { url: urlBase.value }, headers: { Authorization: `Bearer ${apikey.value}` } })
 
-  return parseGrafanaResults(results)
-}
+//   return parseGrafanaResults(results)
+// }
 
 export async function listVehicles() {
-  return await query([{ refId: 'car_id', rawSql: 'SELECT * FROM cars ORDER BY display_priority ASC, name ASC;' }])
+  return await requestApi('/list_vehicles')
 }
