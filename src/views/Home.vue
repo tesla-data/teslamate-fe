@@ -12,7 +12,12 @@
         <span v-if="currentVehicleState.battery_heater" style="color: red;">⌇</span>
         <span>{{currentVehicleState.battery_level}}%</span>
         <span v-if="currentVehicleState.battery_level - currentVehicleState.usable_battery_level > 0">(<span style="font-size: 15px;">❄️</span>{{currentVehicleState.battery_level - currentVehicleState.usable_battery_level}}%)</span>
-        <span style="margin-left: 10px;">{{currentVehicleState.ideal_battery_range_km.toFixed(0)}}/{{km(currentVehicleState.ideal_battery_range_km * 100 / currentVehicleState.usable_battery_level)}}</span>
+        <span style="margin-left: 10px;" v-if="currentVehicleState.battery_level > 0">
+          {{currentVehicleState.ideal_battery_range_km.toFixed(0)}}/{{km(currentVehicleState.ideal_battery_range_km * 100 / currentVehicleState.usable_battery_level)}}
+        </span>
+        <span style="margin-left: 10px;" v-else>
+          {{currentVehicleState.ideal_battery_range_km.toFixed(0)}}km
+        </span>
       </div>
     </div>
     <div v-if="currentVehicleState && currentVehicleState.charge">

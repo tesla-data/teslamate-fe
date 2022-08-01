@@ -25,7 +25,8 @@ export default defineConfig({
       ]
     }),
     importToCDN({
-      prodUrl: 'https://npm.elemecdn.com/{name}@{version}/{path}',
+      //prodUrl: 'https://npm.elemecdn.com/{name}@{version}/{path}',
+      prodUrl: '//unpkg.com/{name}@{version}/{path}',
       modules: [
         autoComplete('vue'),
         autoComplete('axios'),
