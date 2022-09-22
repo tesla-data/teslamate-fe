@@ -7,7 +7,7 @@
         <nut-switch v-model="hideFullVin" />
       </template>
     </cell>
-    <cell :title="currentVehicle.name" desc="切换车辆" @click="() => { showPicker = true;}" />
+    <cell :title="'当前车辆: ' + currentVehicle.name" desc="切换" @click="() => { showPicker = true;}" />
     <nut-picker
       v-model:visible="showPicker"
       title="选择车辆"
