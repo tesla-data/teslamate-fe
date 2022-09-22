@@ -7,6 +7,13 @@
         <nut-switch v-model="hideFullVin" />
       </template>
     </cell>
+    <cell :title="currentVehicle.name" desc="切换车辆" @click="() => { showPicker = true;}" />
+    <nut-picker
+      v-model:visible="showPicker"
+      title="选择车辆"
+      :columns="vehiclesColumns"
+      @confirm="vehicleChange"
+    />
   </cell-group>
 
   <cell-group title="TeslaMate设置">
@@ -20,19 +27,26 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { urlBase, apikey, updateSettings } from '../api/teslamate'
 import { getVehicles } from '../api/vehicle'
 import { CellGroup, Input as NutInput, Button as NutButton, Cell, Switch as NutSwitch } from '@nutui/nutui'
 import TopNav from '../components/TopNav.vue'
-import { hideFullVin } from '../settings'
+import { hideFullVin, currentVehicle, vehicles } from '../settings'
 
 const router = useRouter()
 
+const showPicker = ref(false)
 const loading = ref(false)
 const urlBaseValue = ref(urlBase.value)
 const apikeyValue = ref(apikey.value)
+
+const vehiclesColumns = computed(() => vehicles.value.map(v => ({ text: v.name, value: v.id })))
+const vehicleChange = ({ selectedValue }) => {
+  const vehicle = vehicles.value.find(v => v.id == selectedValue)
+  if (vehicle) currentVehicle.value = vehicle
+}
 
 async function saveSettings () {
   try {

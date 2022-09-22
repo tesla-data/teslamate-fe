@@ -43,3 +43,4 @@ class Setting {
 
 export const hideFullVin = new Setting('hideFullVin', Boolean, false).ref
 export const currentVehicle = new Setting('currentVehicle', Object, {}).ref
+export const vehicles = new Setting('vehicles', Object, []).ref
