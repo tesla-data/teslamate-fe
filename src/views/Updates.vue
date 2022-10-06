@@ -2,6 +2,7 @@
 <top-nav title="软件版本" />
 <div class="page">
   <cell-group title="统计结果">
+    <cell v-if="!updates || updates.length === 0"  title="尚无软件升级数据" />
     <cell
       v-for="(u, i) of updates" :title="u.version"
       :desc="`平均续航${(u.avg_ideal_range_km || 0).toFixed(0)}km`"
