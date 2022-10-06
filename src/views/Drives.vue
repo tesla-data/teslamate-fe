@@ -1,12 +1,14 @@
 <template>
 <top-nav title="行程" />
 <div class="page">
+  <cell v-if="drivesGroups.length === 0" title="所选时间范围内无行驶记录" />
   <drive-cell-group v-for="dg of drivesGroups" :title="dg.date" :drives="dg.drives"/>
 </div>
 </template>
 
 <script setup>
 import { ref, onActivated } from 'vue'
+import { Cell } from '@nutui/nutui'
 import TopNav from '../components/TopNav.vue'
 
 import { currentVehicle } from '../settings'
