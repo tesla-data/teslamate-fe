@@ -37,8 +37,8 @@ export function drive(drive_id) {
   return requestApi('/share/drive', { drive_id })
 }
 
-export function charge(charge_id) {
-  return requestApi('/share/charge', { car_id: currentVehicle.value.id, charge_id })
+export function charge(charge_id, from, to) {
+  return requestApi('/share/charge', { car_id: currentVehicle.value.id, charge_id, from, to })
 }
 
 export function trip(from, to) {

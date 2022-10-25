@@ -36,7 +36,7 @@ getChargeDetail(route.query.id, route.query.car_id, route.query.from, route.quer
 })
 
 async function share() {
-  const { hash, id } = await shareCharge(route.query.id)
+  const { hash, id } = await shareCharge(route.query.id, route.query.from, route.query.to)
   Dialog({ content: `分享成功，<a target="_blank" href="/trip.html#/charge?id=${id}&hash=${hash}">点此查看</a>`, noCancelBtn: true })
 }
 </script>
