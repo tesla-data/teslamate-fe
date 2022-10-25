@@ -2,8 +2,7 @@ import _ from 'lodash'
 import { requestApi } from './teslamate'
 import { currentVehicle } from '../settings'
 
-export async function getCharges(from, to) {
-  const charges = await requestApi('/charges', { car_id: currentVehicle.value.id, from, to })
+export function mergeCharges(charges) {
   return charges.reduce((arr, v) => {
     const last = _.last(arr)
     if (last &&
@@ -20,6 +19,11 @@ export async function getCharges(from, to) {
     }
     return arr
   }, [])
+}
+
+export async function getCharges(from, to) {
+  const charges = await requestApi('/charges', { car_id: currentVehicle.value.id, from, to })
+  return mergeCharges(charges)
 }
 
 export async function getChargeDetail(charge_id, car_id, from, to) {
