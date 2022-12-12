@@ -4,7 +4,7 @@
 
 <script setup>
 import { ref, watch, onBeforeUnmount } from 'vue'
-import { Map, LatLngBounds, TileLayer, Polyline, Marker, Icon, CircleMarker } from 'leaflet'
+import { Browser, Map, LatLngBounds, TileLayer, Polyline, Marker, Icon, CircleMarker } from 'leaflet'
 
 const container = ref()
 const props = defineProps({ highlight: { type: Number, default: -1 }, height: { type: Number, default: 400 }, track: { type: Array, default: () => [] }, charges: { type: Array, default: () => [] } })
@@ -22,7 +22,7 @@ const icons = {
 
 watch(() => container.value, lmap => {
   //container.value.map = new Map(lmap, { center: [0, 0], zoom: 0, layers: new TileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png') })
-  container.value.map = new Map(lmap, { center: [0, 0], zoom: 0, layers: new TileLayer('https://maps.omniscale.net/v2/teslamateapp-5a5627a2/style.default/{z}/{x}/{y}.png?hq={hq}') })
+  container.value.map = new Map(lmap, { center: [0, 0], zoom: 0, layers: new TileLayer(`https://maps.omniscale.net/v2/teslamateapp-5a5627a2/style.default/{z}/{x}/{y}.png?hq=${Browser.retina}`) })
   drawPolyline()
   drawCharges()
   setCenterAndZoom()
