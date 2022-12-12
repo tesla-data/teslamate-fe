@@ -21,7 +21,8 @@ const icons = {
 }
 
 watch(() => container.value, lmap => {
-  container.value.map = new Map(lmap, { center: [0, 0], zoom: 0, layers: new TileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png') })
+  //container.value.map = new Map(lmap, { center: [0, 0], zoom: 0, layers: new TileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png') })
+  container.value.map = new Map(lmap, { center: [0, 0], zoom: 0, layers: new TileLayer('https://maps.omniscale.net/v2/teslamateapp-5a5627a2/style.default/{z}/{x}/{y}.png?hq={hq}') })
   drawPolyline()
   drawCharges()
   setCenterAndZoom()
