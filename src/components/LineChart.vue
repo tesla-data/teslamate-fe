@@ -110,7 +110,7 @@ watch(() => container.value, () => {
       style: { display: 'none' },
       positioner(_, __, { plotX }) {
         tooltips.value.display = plotX / container.value.clientWidth > 0.5 ? 'left' : 'right'
-        return { plotX, y: 0 }
+        return { x: 0, y: 0, plotX }
       },
       formatter(tooltip) {
         hideTooltip()
@@ -141,7 +141,7 @@ watch(() => container.value, () => {
             }
           }
         }
-      }    
+      }
     }
   })
 })

@@ -9,15 +9,15 @@
     "deploy": "gh-pages -f -d dist"
   },
   "dependencies": {
-    "@nutui/nutui": "^3.1.21",
-    "axios": "^0.27.0",
-    "highcharts": "^10.1.0",
-    "leaflet": "^1.8.0",
-    "vue": "^3.2.34",
-    "vue-router": "^4.0.15"
+    "@nutui/nutui": "^3.3.1",
+    "axios": "^1.2.1",
+    "highcharts": "^10.3.2",
+    "leaflet": "^1.9.3",
+    "vue": "^3.2.45",
+    "vue-router": "^4.1.6"
   },
   "devDependencies": {
-    "@types/leaflet": "^1.7.10",
+    "@types/leaflet": "^1.9.0",
     "@vitejs/plugin-vue": "^2.3.3",
     "consola": "^2.15.3",
     "gh-pages": "^4.0.0",
