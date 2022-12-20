@@ -1,7 +1,7 @@
 <template>
 <top-nav title="设置" />
 <div class="page">
-  <cell-group title="设置">
+  <cell-group title="设置" v-if="vehicles.length > 0">
     <cell title="隐藏完整车辆识别码">
       <template v-slot:link>
         <nut-switch v-model="hideFullVin" />
