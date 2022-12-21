@@ -98,6 +98,9 @@ watch(stateChart, async () => {
       series: {
         borderRadius: 0,
         animation: false
+      },
+      xrange: {
+        borderWidth: 1e-4
       }
     },
 
