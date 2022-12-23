@@ -1,8 +1,18 @@
 import { defineConfig } from 'vite'
 import { resolve } from 'path'
 import vue from '@vitejs/plugin-vue'
-import { createStyleImportPlugin, NutuiResolve } from 'vite-plugin-style-import'
+import { createStyleImportPlugin } from 'vite-plugin-style-import'
 import importToCDN, { autoComplete } from 'vite-plugin-cdn-import'
+
+function NutuiResolve() {
+  return {
+    libraryName: '@nutui/nutui',
+    libraryNameChangeCase: 'noCase',
+    resolveStyle: (name) => {
+      return `@nutui/nutui/dist/packages/${name.replace(' ', '')}/index.scss`
+    },
+  }
+}
 
 // https://vitejs.dev/config/
 export default defineConfig({
