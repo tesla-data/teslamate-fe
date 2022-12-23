@@ -7,6 +7,7 @@
       :charges="chargeMarkers"
     />
     <line-chart :x-axis="{ ordinal: true }" title="" :height="210" :data="positions" v-model:current="currentPointIndex"
+      show-offset="stats"
       :fieldsName="fieldsName"
       :series-options="[{ type: 'area' }]"
       :yAxis="[
