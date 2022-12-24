@@ -28,6 +28,12 @@
 </div>
 </template>
 
+<style lang="scss" scoped>
+.page  {
+  margin-top: -25px;
+}
+</style>
+
 <script setup>
 import { ref, onActivated } from 'vue'
 import { useRouter, onBeforeRouteLeave } from 'vue-router'
