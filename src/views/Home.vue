@@ -43,7 +43,7 @@
     <cell title="软件版本" icon="top" to="/updates" is-link />
     <cell title="Teslafi版本统计" icon="more-x" to="/teslafi" is-link />
   </cell-group>
-  <div v-if="currentVehicle" class="home-footer">
+  <div v-if="currentVehicle" class="home-footer" @click="copyVin">
     <p>Model {{currentVehicle.model}} {{currentVehicle.trim_badging}}</p>
     <p>{{hideFullVin ? currentVehicle.vin.replace(/.{6}$/, '******') : currentVehicle.vin}}</p>
     <p v-if="currentVehicleState">{{currentVehicleState.update.version}}</p>
@@ -55,7 +55,7 @@
 <script setup>
 import { ref, watch, onActivated, onDeactivated } from 'vue'
 import { useRouter, RouterLink } from 'vue-router'
-import { Cell, CellGroup } from '@nutui/nutui'
+import { Cell, CellGroup, Toast } from '@nutui/nutui'
 
 import { hideFullVin } from '../settings'
 import Battery from '../components/Battery.vue'
@@ -86,6 +86,11 @@ async function updateVehicleState () {
   } finally {
     loading.value = false
   }
+}
+
+async function copyVin() {
+  await navigator.clipboard.writeText(currentVehicle.value.vin)
+  Toast.text(`车辆vin已复制`)
 }
 
 watch(currentVehicle, updateVehicleState)
