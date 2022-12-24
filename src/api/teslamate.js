@@ -2,7 +2,7 @@ import { ref } from 'vue'
 import axios from 'axios'
 import { Notify } from '@nutui/nutui'
 
-const apiUrl = 'https://service-a0j9syyt-1303929337.bj.apigw.tencentcs.com/release'
+const apiUrl = 'https://teslamate-proxy-teslamate-proxy-drgkzdyqcg.cn-beijing.fcapp.run'
 // const apiUrl = 'http://localhost:9000'
 
 const urlBaseKey = 'teslamate_api_urlbase'
