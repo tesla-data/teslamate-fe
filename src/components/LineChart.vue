@@ -1,7 +1,7 @@
 <template>
   <div
     style="position: relative;"
-    @touchstart="touchstart = Date.now()"
+    @touchstart="e => { touchstart = Date.now(), e.stopPropagation() }"
     @mousemove="touchstart = 0"
     @touchmove="e => { if (Date.now() - touchstart > 100 && e.cancelable) e.preventDefault() }"
   >
