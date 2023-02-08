@@ -29,6 +29,9 @@
             +{{tooltips.offset.data.rangeAdded.toFixed(0)}}km
           </td>
         </tr>
+        <tr v-if="showOffset === 'battery' && currentVehicle.efficiency">
+          <td colspan="2">电池包容量{{ batteryKwh(tooltips.offset.data.projected_range) }}</td>
+        </tr>
         <tr v-for="tt of tooltips.tooltips"><td><span :style="{ color: tt.color }">●</span> {{tt.name}}</td><td style="text-align: right;">{{tt.value}}</td></tr>
       </table>
     </div>
@@ -38,6 +41,7 @@
 
 <script setup>
 import _ from 'lodash'
+import { currentVehicle } from '../settings'
 import { ref, watch, onUnmounted } from 'vue'
 
 import { duration } from '../filters'
@@ -65,6 +69,10 @@ const container = ref()
 const touchstart = ref(0)
 const tooltips = ref({ tooltips: [] })
 let chart
+
+function batteryKwh(v) {
+  return (v * currentVehicle.value.efficiency).toFixed(1) + 'kwh'
+}
 
 function getSeries(data) {
   let dataIdx = 0
