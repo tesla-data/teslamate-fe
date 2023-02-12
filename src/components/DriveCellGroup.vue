@@ -9,7 +9,7 @@
     <div v-else  class="nut-cell-group__title">{{`${title || ''} 行驶${sumDistance(drives)}Km 消耗${sumComsuption(drives)}度电`}}</div>
   </template>
   <cell center
-    v-for="d of drives" :title="d.start_address"
+    v-for="d of drives" :title="d.start_address || '未知地点'"
     :to="{ name: 'Drive', query: $route.query.hash ? { id: d.drive_id, hash: $route.query.hash, href: 'Home' } : { drive_id: d.drive_id }, params: d }"
     :desc="`${d.duration_min}分钟 | ${d.distance_km.toFixed(0)}km`"
     :sub-title="`温度${d.outside_temp_c}℃ 能耗${d.consumption_kwh_km && d.consumption_kwh_km.toFixed(0)}Wh/km ${d.is_sufficiently_precise ? '' : '(*)'}`"
