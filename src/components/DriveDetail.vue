@@ -4,12 +4,12 @@
     :desc="`最大功率${drive.power_max}Kw 里程表: ${drive.start_km.toFixed(0)} - ${drive.end_km.toFixed(0)}km`"
   >
     <cell
-      :title="drive.start_address"
+      :title="drive.start_address || '-'"
       :desc="`电量: ${drive['% Start']}% ${drive.start_ideal_range_km.toFixed(0)}km `"
       :sub-title="`${new Date(drive.start_date_ts).toLocaleString()}`"
     />
     <cell
-      :title="drive.end_address"
+      :title="drive.end_address || '-'"
       :desc="`电量: ${drive['% End']}% ${drive.end_ideal_range_km.toFixed(0)}km`"
       :sub-title="`${new Date(drive.end_date_ts).toLocaleString()}`"
     />
