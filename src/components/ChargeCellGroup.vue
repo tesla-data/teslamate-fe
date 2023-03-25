@@ -1,10 +1,11 @@
 <template>
 <cell-group v-if="charges && charges.length > 0" :title="`${title || ''} 充电${charges.length}次 ${sum(charges)}度`" :desc="`${sumDc(charges, 'dc')}${sumDcTime(charges)} ${sumAc(charges, 'ac')}`">
   <cell center
-    v-for="(c, i) of charges" :title="c.address"
+    v-for="(c, i) of charges" :title="`${c.address}`"
+    :class="{ full: c.end_battery_level === 100 }"
     :to="{ name: 'Charge', query: $route.query.hash ? { id: c.id, hash: $route.query.hash, href: 'Home' } : { id: c.id, car_id: c.car_id, mode: c.mode, lat: c.latitude, lng: c.longitude, from: c.start_date_ts, to: c.end_date_ts }, params: c }"
-    :desc="c.charge_energy_added !== null ? `${c.end_battery_level === 100 ? '⚡' : ''}充入${c.charge_energy_added.toFixed(1)}kwh` : '进行中'"
-    :sub-title="`${new Date(c.start_date_ts).toLocaleDateString()} 用时${duration(c.duration_min * 60 * 1000 || 0)} ${c.distance && ('行驶' + Math.round(c.distance) + 'km') || ''}`"
+    :desc="c.charge_energy_added !== null ? `${c.mode === 'dc' ? '⚡' : ''}充入${c.charge_energy_added.toFixed(1)}kwh` : '进行中'"
+    :sub-title="`${new Date(c.start_date_ts).toLocaleDateString()} 用时${duration(c.duration_min * 60 * 1000 || 0)} ${c.end_battery_level === 100 ? '(已充满)' : ''} ${c.distance && ('行驶' + Math.round(c.distance) + 'km') || ''}`"
     is-link
   />
 </cell-group>
