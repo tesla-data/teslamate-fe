@@ -1,7 +1,7 @@
 <template>
   <cell-group v-if="drive"
     :title="`行驶了${duration(drive.duration_min * 60 * 1000)} ${drive.distance_km.toFixed(1)}km 能耗${drive.consumption_kwh_km && drive.consumption_kwh_km.toFixed(0)}Wh/km ${drive.is_sufficiently_precise ? '' : '(*)'}`"
-    :desc="`最大功率${drive.power_max}Kw 里程表: ${drive.start_km.toFixed(0)} - ${drive.end_km.toFixed(0)}km`"
+    :desc="`最大功率${drive.power_max}Kw 均速${(drive.distance_km / drive.duration_min * 60).toFixed(0)}km/h 里程表: ${drive.start_km.toFixed(0)} - ${drive.end_km.toFixed(0)}km`"
   >
     <cell
       :title="drive.start_address || '-'"
