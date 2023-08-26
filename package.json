@@ -6,7 +6,8 @@
     "build": "vite build",
     "serve": "vite preview",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -f -d dist"
+    "deploy": "gh-pages -f -d dist",
+    "dev-cf": "npx wrangler pages dev ."
   },
   "dependencies": {
     "@nutui/nutui": "^3.3.1",
