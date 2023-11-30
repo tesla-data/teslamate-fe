@@ -30,7 +30,8 @@ const chargeDetail = ref()
 const position = ref(route.query.lat && route.query.lng && [[route.query.lat * 1, route.query.lng * 1, route.query.mode]])
 const drives = ref()
 
-getChargeDetail(route.query.id, route.query.car_id, route.query.from, route.query.to).then(async ([cd, [{ start_date: nextChargeTs = Date.now() } = {}]]) => {
+getChargeDetail(route.query.id, route.query.car_id, route.query.from, route.query.to).then(async ([cd, info]) => {
+  const nextChargeTs = info?.[0]?.start_date || Date.now()
   chargeDetail.value = cd
   drives.value = await getDrives(route.query.to, nextChargeTs)
 })
