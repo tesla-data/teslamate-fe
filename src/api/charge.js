@@ -3,7 +3,7 @@ import { requestApi } from './teslamate'
 import { currentVehicle } from '../settings'
 
 export function mergeCharges(charges) {
-  return charges.reduce((arr, v) => {
+  return charges?.reduce((arr, v) => {
     const last = _.last(arr)
     if (last &&
         last.address === v.address && last.car_id === v.car_id && last.mode === v.mode &&
@@ -18,7 +18,7 @@ export function mergeCharges(charges) {
       arr.push(v)
     }
     return arr
-  }, [])
+  }, []) || []
 }
 
 export async function getCharges(from, to) {
