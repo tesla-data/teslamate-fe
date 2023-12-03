@@ -39,7 +39,6 @@ export default defineConfig({
       //prodUrl: '//unpkg.com/{name}@{version}/{path}',
       modules: [
         autoComplete('vue'),
-        autoComplete('axios'),
         autoComplete('lodash'),
         // {
         //   name: 'vue-router',
