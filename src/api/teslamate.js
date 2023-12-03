@@ -1,5 +1,4 @@
 import { ref } from 'vue'
-import axios from 'axios'
 import { Notify } from '@nutui/nutui'
 
 const apiUrl = 'https://teslamate-proxy-teslamate-proxy-drgkzdyqcg.cn-beijing.fcapp.run'
@@ -20,10 +19,15 @@ export function updateSettings() {
   localStorage.setItem(apikeyKey, apikey.value)
 }
 
+function toUrlSearch(params) {
+  params = params && Object.keys(params).reduce((m, k) => { if (params[k] !== undefined) m[k] = params[k]; return m }, {})
+  return params && Object.keys(params).length > 0 ? '?' + new URLSearchParams(params).toString() : '' 
+}
+
 export async function requestPublicApi(path, params) {
   try {
-    const { data } = await axios.get(apiUrl + path, { params })
-    return data
+    const res = await fetch(`${apiUrl}${path}?${toUrlSearch(params)}`)
+    return await res.json()
   } catch (e) {
     Notify.danger('网络错误' + e.message)
   }
@@ -44,7 +48,8 @@ function parseGrafanaResults(results) {
 export async function requestApi(path, params) {
   try {
     if (!urlBase.value || !apikey.value) return
-    const { data } = await axios.get(apiUrl + path, { params: { url: urlBase.value, ...params }, headers: { Authorization: `Bearer ${apikey.value}` } })
+    const res = await fetch(`${apiUrl}${path}${toUrlSearch({ url: urlBase.value, ...params })}`, { headers: { Authorization: `Bearer ${apikey.value}` } })
+    const data = await res.json()
     return data.results ? parseGrafanaResults(data.results) : data
   } catch(e) {
     Notify.danger('网络错误' + e.message)
