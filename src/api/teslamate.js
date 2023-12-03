@@ -26,7 +26,7 @@ function toUrlSearch(params) {
 
 export async function requestPublicApi(path, params) {
   try {
-    const res = await fetch(`${apiUrl}${path}?${toUrlSearch(params)}`)
+    const res = await fetch(`${apiUrl}${path}${toUrlSearch(params)}`)
     return await res.json()
   } catch (e) {
     Notify.danger('网络错误' + e.message)
