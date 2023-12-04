@@ -33,7 +33,7 @@ function convertStateHistory(stateHistory) {
   return {
     // borderColor: 'gray',
     pointWidth: 40,
-    data: stateHistory.map(({ time, state }, i) => ({
+    data: stateHistory?.map(({ time, state }, i) => ({
       x: time,
       x2: (stateHistory[i + 1] || { time: Date.now() }).time,
       y: 0,
