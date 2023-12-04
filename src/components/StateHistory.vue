@@ -38,7 +38,7 @@ function convertStateHistory(stateHistory) {
       x2: (stateHistory[i + 1] || { time: Date.now() }).time,
       y: 0,
       ...stateDesc[state]
-    })),
+    })) || [],
     dataLabels: {
       enabled: true
     }
@@ -47,7 +47,7 @@ function convertStateHistory(stateHistory) {
 
 const rangeHistoryRef = ref(props.history[1] || [])
 watch(() => props.history, ([stateHistory, rangeHistory]) => {
-  rangeHistoryRef.value = rangeHistory
+  rangeHistoryRef.value = rangeHistory || []
   stateChart.value.chart.series[0].setData(convertStateHistory(stateHistory).data)
 
   const min = Date.now() - 86400 * 1000
