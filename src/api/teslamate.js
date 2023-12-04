@@ -49,7 +49,8 @@ export async function requestApi(path, params, isRetry) {
   try {
     if (!urlBase.value || !apikey.value) return
     const res = await fetch(`${apiUrl}${path}${toUrlSearch({ url: urlBase.value, ...params })}`, { headers: { Authorization: `Bearer ${apikey.value}` } })
-    if (res.code !== 200) throw new Error('Status code: ' + res.code)
+    if (res.status !== 200) throw new Error('Status code: ' + res.status)
+    
     const data = await res.json()
     return data.results ? parseGrafanaResults(data.results) : data
   } catch(e) {
