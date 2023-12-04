@@ -45,14 +45,20 @@ function parseGrafanaResults(results) {
   return ret.length === 1 ? ret[0] : ret
 }
 
-export async function requestApi(path, params) {
+export async function requestApi(path, params, isRetry) {
   try {
     if (!urlBase.value || !apikey.value) return
     const res = await fetch(`${apiUrl}${path}${toUrlSearch({ url: urlBase.value, ...params })}`, { headers: { Authorization: `Bearer ${apikey.value}` } })
+    if (res.status !== 200) throw new Error('Status code: ' + res.status)
+    
     const data = await res.json()
     return data.results ? parseGrafanaResults(data.results) : data
   } catch(e) {
-    Notify.danger('网络错误' + e.message)
+    if (isRetry) {
+      Notify.danger('网络错误' + e.message)
+    } else {
+      return await requestApi(path, params, true)
+    }
   }
 }
 
