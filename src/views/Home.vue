@@ -32,7 +32,7 @@
     </div>
   </div>
 
-  <state-history v-if="currentVehicleStateHistory && currentVehicleStateHistory.length > 0" :history="currentVehicleStateHistory" />
+  <state-history v-if="currentVehicleStateHistory?.[0]" :history="currentVehicleStateHistory" />
 
   <cell-group v-if="currentVehicle">
     <cell v-if="currentVehicleState" title="温度" :sub-title="currentVehicleState.is_climate_on && `空调设置${currentVehicleState.driver_temp_setting}℃` || ''" :desc="`外部:${currentVehicleState.outside_temp}℃ 内部:${currentVehicleState.inside_temp}℃`" />
